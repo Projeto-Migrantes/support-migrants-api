@@ -1,0 +1,81 @@
+const { DataTypes } = require('sequelize');
+
+const connection = require('../config/database');
+const UsuarioRI = require('./UsuarioRI');
+const EstadoCivil = require('./EstadoCivil');
+const Nacionalidade = require('./Nacionalidade');
+const Formulario = require('./Formulario');
+
+const Migrante = connection.define('migrante', { 
+      id: { 
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false
+      }, 
+      nome: {
+        type: DataTypes.STRING(100),
+        allowNull: false
+      },
+      identificacao: {
+        type: DataTypes.STRING(30),
+        allowNull: true
+      },
+      email: {
+        type: DataTypes.STRING(100),
+        unique: true,
+        allowNull: true
+      },
+      registro_migrante: {
+        type: DataTypes.INTEGER,
+        unique: true,
+        allowNull: false
+      },
+      data_nascimento: {
+        type: DataTypes.DATE,
+        allowNull: false
+      },
+      genero: {
+        type: DataTypes.ENUM('Masculino', 'Feminino', 'Outro'),
+        allowNull: false
+      },
+      profissao: {
+        type: DataTypes.STRING(50),
+        allowNull: true
+      },
+      senha: {
+        type: DataTypes.STRING(12),
+        allowNull: false
+      },
+      estado_civil_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      nacionalidade_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+}, {
+    tableName: 'migrante',
+}); 
+
+// Migrante pertence a um Usuário RI
+Migrante.belongsTo(UsuarioRI, { foreignKey: 'usuario_ri_id' });
+
+// Usuario possue muitos Migrantes
+UsuarioRI.hasMany(Migrante, { foreignKey: 'usuario_ri_id' });
+
+//Migrante tem uma nacionalidade
+Migrante.belongsTo(Nacionalidade, { foreignKey: 'nacionalidade_id' });
+
+// Nacionalidade possue muitos Migrantes
+Nacionalidade.hasMany(Migrante, { foreignKey: 'nacionalidade_id' });
+
+// Migrante tem um estado civil
+Migrante.belongsTo(EstadoCivil, { foreignKey: 'estado_civil_id' });
+
+// Estado Civil possue muitos Migrantes
+EstadoCivil.hasMany(Migrante, { foreignKey: 'estado_civil_id' });
+
+module.exports = Migrante;
+

@@ -1,24 +1,19 @@
 const { DataTypes } = require('sequelize');
 const connection = require('../config/database');
 
-const Admin = connection.define('admin', {
+const Nacionalidade = connection.define('nacionalidade', {
     id: { 
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
         allowNull: false
       }, 
-      email: {
-        type: DataTypes.STRING(100),
-        unique: true,
+      descricao: {
+        type: DataTypes.STRING(45),
         allowNull: false
       },
-      senha: {
-        type: DataTypes.STRING(12),
-        allowNull: false
-      },
-}, {
-    tableName: 'admin',
+},{
+    tableName: 'nacionalidade',
 });
 
-module.exports = Admin;
+module.exports = Nacionalidade;
