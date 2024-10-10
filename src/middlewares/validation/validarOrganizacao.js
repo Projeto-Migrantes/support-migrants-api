@@ -78,25 +78,25 @@ const organizacaoEsquema = Joi.object({
 
     // Validando Telefone principal
     telefonePrincipal: Joi.string().custom((value, helpers) => {
-        const phoneNumber = parsePhoneNumberFromString(value, 'BR');
+        const numeroTelefone = parsePhoneNumberFromString(value, 'BR');
 
-        if (!phoneNumber || !phoneNumber.isValid()) {
+        if (!numeroTelefone || !numeroTelefone.isValid()) {
             return helpers.error('any.invalid'); 
         }
 
-        return phoneNumber.number; 
+        return numeroTelefone.number; 
     }).required().messages(mensagens.telefonePrincipal),
 
     // Validando Telefone opcional
     telefoneSecundario: Joi.string().custom((value, helpers) => {
         if (value) {
-            const phoneNumber = parsePhoneNumberFromString(value, 'BR');
+            const numeroTelefone = parsePhoneNumberFromString(value, 'BR');
 
-            if (!phoneNumber || !phoneNumber.isValid()) {
+            if (!numeroTelefone || !numeroTelefone.isValid()) {
                 return helpers.error('any.invalid'); 
             }
 
-            return phoneNumber.number; 
+            return numeroTelefone.number; 
         }
         return value;
     }).messages(mensagens.telefoneSecundario),
