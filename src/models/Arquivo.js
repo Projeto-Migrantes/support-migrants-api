@@ -2,6 +2,7 @@ const { DataTypes } = require('sequelize');
 const connection = require('../config/database');
 const UsuarioRI = require('./UsuarioRI');
 
+// Definir um modelo para o DB
 const Arquivo = connection.define('arquivo', {
     id: { 
         type: DataTypes.INTEGER,
@@ -29,7 +30,7 @@ const Arquivo = connection.define('arquivo', {
     tableName: 'arquivo',
 });
 
-// Arquivo pertence a um usuário
+// Arquivo possui um usuário
 Arquivo.belongsTo(UsuarioRI, { foreignKey: 'usuario_ri_id' });
 
 // Usuario possue vários arquivos

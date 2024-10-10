@@ -1,11 +1,9 @@
-import Joi from "joi";
-import { validate } from "cnpj";
+const Joi = require('joi');
+const validate = require('cnpj');
+const { parsePhoneNumberFromString } = require('libphonenumber-js');
 
 // Função para remover formatação do CNPJ
 const removerFormatacaoCNPJ = (cnpj) => cnpj.replace(/[^\d]/g, '');
-
-// Função para remover formatação do telefone
-const removerFormatacaoTelefone = (telefone) => telefone.replace(/[\s()-]/g, '');
 
 // Mensagens de erro padrão
 const mensagens = {
@@ -28,14 +26,14 @@ const mensagens = {
         'string.empty': "CNPJ não pode estar vazio.",
         'any.required': "CNPJ é obrigatório.",
     },
-    telefoneObrigatorio: {
-        'string.min': "O telefone obrigatório deve ter pelo menos {#limit} dígitos.",
-        'any.required': "O telefone obrigatório é necessário.",
-        'string.empty': "O telefone obrigatório não pode estar vazio."
+    telefonePrincipal: {
+        'string.min': "O telefone principal deve ter pelo menos {#limit} dígitos.",
+        'any.required': "O telefone principal é necessário.",
+        'string.empty': "O telefone principal não pode estar vazio."
     },
-    telefoneOpcional: {
-        'string.min': "O telefone opcional deve ter pelo menos {#limit} dígitos.",
-        'string.empty': "O telefone opcional não pode estar vazio se fornecido."
+    telefoneSecundario: {
+        'string.min': "O telefone secundário deve ter pelo menos {#limit} dígitos.",
+        'string.empty': "O telefone secundário não pode estar vazio se fornecido."
     },
     email: {
         'string.email': "O e-mail deve ser válido.",
@@ -62,10 +60,14 @@ const mensagens = {
 
 // Esquema de validação
 const organizacaoEsquema = Joi.object({
+
+    //Validando Razão Social
     razaoSocial: Joi.string().min(3).max(200).required().messages(mensagens.razaoSocial),
     
+    // Validando Nome fantasia
     nomeFantasia: Joi.string().min(3).max(150).required().messages(mensagens.nomeFantasia),
 
+    // Validando CNPJ
     cnpj: Joi.string().custom((value, helpers) => {
         const cnpjSemFormatacao = removerFormatacaoCNPJ(value);
         if (!validate(cnpjSemFormatacao)) {
@@ -74,39 +76,51 @@ const organizacaoEsquema = Joi.object({
         return cnpjSemFormatacao;
     }).required().messages(mensagens.cnpj),
 
-    telefoneObrigatorio: Joi.string().custom((value, helpers) => {
-        const telefoneSemFormatacao = removerFormatacaoTelefone(value);
-        if (telefoneSemFormatacao.length < 10) {
-            return helpers.error('string.min');
-        }
-        return telefoneSemFormatacao;
+    // Validando Telefone principal
+    telefonePrincipal: Joi.string().custom((value, helpers) => {
+        const phoneNumber = parsePhoneNumberFromString(value, 'BR');
 
-    }).required().messages(mensagens.telefoneObrigatorio),
-    telefoneOpcional: Joi.string().custom((value, helpers) => {
+        if (!phoneNumber || !phoneNumber.isValid()) {
+            return helpers.error('any.invalid'); 
+        }
+
+        return phoneNumber.number; 
+    }).required().messages(mensagens.telefonePrincipal),
+
+    // Validando Telefone opcional
+    telefoneSecundario: Joi.string().custom((value, helpers) => {
         if (value) {
-            const telefoneSemFormatacao = removerFormatacaoTelefone(value);
-            if (telefoneSemFormatacao.length < 10) {
-                return helpers.error('string.min');
+            const phoneNumber = parsePhoneNumberFromString(value, 'BR');
+
+            if (!phoneNumber || !phoneNumber.isValid()) {
+                return helpers.error('any.invalid'); 
             }
-            return telefoneSemFormatacao;
+
+            return phoneNumber.number; 
         }
         return value;
-    }).messages(mensagens.telefoneOpcional),
+    }).messages(mensagens.telefoneSecundario),
 
+    // Validando Email
     email: Joi.string().email().min(10).max(100).required().messages(mensagens.email),
 
+    // Validando Instagram
     usuarioInstagram: Joi.string().optional().pattern(/^@?[a-zA-Z0-9_]{1,30}$/).messages(mensagens.usuarioInstagram),
 
+    // Validando Complemento
     complemento: Joi.string().min(15).max(150).optional(),
 
+    // Validando Número do Endereço
     numeroEndereco: Joi.string().min(1).max(10).required().messages(mensagens.numeroEndereco),
 
+    // Validando Site
     site: Joi.string().optional().uri().messages(mensagens.site),
 
+    // Validando Descrição (Português, Francês, Inglês e Espanhol)
     descricaoPt: Joi.string().min(20).max(255).required().messages({ ...mensagens.descricao, 'string.empty': "A descrição em português não pode estar vazia." }),
     descricaoFr: Joi.string().min(20).max(255).required().messages({ ...mensagens.descricao, 'string.empty': "A descrição em francês não pode estar vazia." }),
     descricaoEn: Joi.string().min(20).max(255).required().messages({ ...mensagens.descricao, 'string.empty': "A descrição em inglês não pode estar vazia." }),
     descricaoEs: Joi.string().min(20).max(255).required().messages({ ...mensagens.descricao, 'string.empty': "A descrição em espanhol não pode estar vazia." }),
 });
 
-export default organizacaoEsquema;
+module.exports = organizacaoEsquema;

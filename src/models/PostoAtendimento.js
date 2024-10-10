@@ -2,33 +2,41 @@ const { DataTypes } = require('sequelize');
 const connection = require('../config/database');
 const Endereco = require('./Endereco');
 
+// Definir um modelo para o DB
 const PostoAtendimento = connection.define('posto_atendimento', {
-    id: { 
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-        allowNull: false
-      }, 
-      nome: {
-        type: DataTypes.STRING(150),
-        allowNull: false
-      },
-      mensagem: {
-        type: DataTypes.STRING(700),
-        allowNull: false
-      },
-      telefone: {
-        type: DataTypes.STRING(20),
-        allowNull: false
-      },
-      nome: {
-        type: DataTypes.STRING(100),
-        allowNull: false
-      },
-      email: {
-        type: DataTypes.STRING(100),
-        allowNull: false
-      }
+  id: { 
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+    allowNull: false
+  }, 
+  nome: {
+    type: DataTypes.STRING(200),
+    allowNull: false,
+    unique: true
+  },
+  telefone_principal: {
+    type: DataTypes.STRING(15),
+    allowNull: false,
+    unique: true
+  },
+  telefone_secundario: {
+    type: DataTypes.STRING(15),
+    allowNull: true,
+    unique: true
+  },
+  instagram: {
+    type: DataTypes.STRING(30),
+    allowNull: true
+  },
+  numero_endereco: {
+    type: DataTypes.STRING(10),
+    allowNull: false
+  },
+  complemento_endereco: {
+    type: DataTypes.STRING(150),
+    allowNull: true
+  },
 }, {
     tableName: 'posto_atendimento',
 });

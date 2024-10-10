@@ -2,6 +2,7 @@ const { DataTypes } = require('sequelize');
 const connection = require('../config/database');
 const Migrante = require('./Migrante');
 
+// Definir um modelo para o DB
 const Formulario = connection.define('formulario', {
     id: { 
         type: DataTypes.INTEGER,

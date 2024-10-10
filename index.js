@@ -18,6 +18,8 @@ const UsuarioRI = require('./src/models/UsuarioRI');
 
 
 const app = express();
+app.use(limitador);
+app.use(express.json());
 
 connection.authenticate().then(() => {
     console.log('Conexão feita com sucesso!');
@@ -27,7 +29,6 @@ connection.authenticate().then(() => {
 
 connection.sync({ force: true });
 
-app.use(limitador);
 
 
 app.listen(3000, console.log('Rodando'));

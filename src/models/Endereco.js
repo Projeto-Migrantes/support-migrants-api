@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const connection = require('../config/database');
 
+// Definir um modelo para o DB
 const Endereco = connection.define('endereco', {
     id: { 
         type: DataTypes.INTEGER,

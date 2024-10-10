@@ -3,6 +3,7 @@ const connection = require('../config/database');
 const Endereco = require('./Endereco');
 const Categoria = require('./Categoria');
 
+// Definir um modelo para o DB
 const Organizacao = connection.define('organizacao', { 
       id: { 
         type: DataTypes.INTEGER,

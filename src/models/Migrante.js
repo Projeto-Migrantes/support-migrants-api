@@ -6,6 +6,7 @@ const EstadoCivil = require('./EstadoCivil');
 const Nacionalidade = require('./Nacionalidade');
 const Formulario = require('./Formulario');
 
+// Definir um modelo para o DB
 const Migrante = connection.define('migrante', { 
       id: { 
         type: DataTypes.INTEGER,
@@ -59,19 +60,19 @@ const Migrante = connection.define('migrante', {
     tableName: 'migrante',
 }); 
 
-// Migrante pertence a um Usuário RI
+// Migrante possue um Usuário RI
 Migrante.belongsTo(UsuarioRI, { foreignKey: 'usuario_ri_id' });
 
-// Usuario possue muitos Migrantes
+// Usuário possue muitos Migrantes
 UsuarioRI.hasMany(Migrante, { foreignKey: 'usuario_ri_id' });
 
-//Migrante tem uma nacionalidade
+//Migrante possue uma nacionalidade
 Migrante.belongsTo(Nacionalidade, { foreignKey: 'nacionalidade_id' });
 
 // Nacionalidade possue muitos Migrantes
 Nacionalidade.hasMany(Migrante, { foreignKey: 'nacionalidade_id' });
 
-// Migrante tem um estado civil
+// Migrante possue um estado civil
 Migrante.belongsTo(EstadoCivil, { foreignKey: 'estado_civil_id' });
 
 // Estado Civil possue muitos Migrantes
