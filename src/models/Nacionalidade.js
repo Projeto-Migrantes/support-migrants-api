@@ -1,5 +1,5 @@
-const { DataTypes } = require('sequelize');
-const connection = require('../config/database');
+import { DataTypes } from 'sequelize';
+import connection from '../config/database.js';
 
 // Definir um modelo para o DB
 const Nacionalidade = connection.define('nacionalidade', {
@@ -17,4 +17,4 @@ const Nacionalidade = connection.define('nacionalidade', {
     tableName: 'nacionalidade',
 });
 
-module.exports = Nacionalidade;
+export default Nacionalidade;

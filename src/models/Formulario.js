@@ -1,6 +1,6 @@
-const { DataTypes } = require('sequelize');
-const connection = require('../config/database');
-const Migrante = require('./Migrante');
+import { DataTypes } from 'sequelize';
+import connection from '../config/database.js';
+import Migrante from './Migrante.js';
 
 // Definir um modelo para o DB
 const Formulario = connection.define('formulario', {
@@ -40,4 +40,4 @@ Formulario.belongsTo(Migrante, { foreignKey: 'migrante_id' });
 // Migrante possue vários formulários
 Migrante.hasMany(Formulario, { foreignKey: 'migrante_id' });
 
-module.exports = Formulario;
+export default Formulario;

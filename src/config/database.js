@@ -1,7 +1,8 @@
-const Sequelize = require('sequelize');
+import Sequelize from 'sequelize';
 
 // Carregar variáveis de ambiente
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 // Criar a conexão com o banco de dados
 const connection = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PWD, {
@@ -11,4 +12,4 @@ const connection = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proce
     timezone: process.env.DB_TZ,
 });
 
-module.exports = connection;
+export default connection;

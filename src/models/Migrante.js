@@ -1,10 +1,8 @@
-const { DataTypes } = require('sequelize');
-
-const connection = require('../config/database');
-const UsuarioRI = require('./UsuarioRI');
-const EstadoCivil = require('./EstadoCivil');
-const Nacionalidade = require('./Nacionalidade');
-const Formulario = require('./Formulario');
+import { DataTypes } from 'sequelize';
+import connection from '../config/database.js';
+import UsuarioRI from './UsuarioRI.js';
+import EstadoCivil from './EstadoCivil.js';
+import Nacionalidade from './Nacionalidade.js';
 
 // Definir um modelo para o DB
 const Migrante = connection.define('migrante', { 
@@ -78,5 +76,4 @@ Migrante.belongsTo(EstadoCivil, { foreignKey: 'estado_civil_id' });
 // Estado Civil possue muitos Migrantes
 EstadoCivil.hasMany(Migrante, { foreignKey: 'estado_civil_id' });
 
-module.exports = Migrante;
-
+export default Migrante;

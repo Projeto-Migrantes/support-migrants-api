@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "API RESTful para conectar migrantes com organizações comunitárias e instituições",
   "main": "index.js",
+  "type": "module",
   "directories": {
     "test": "tests"
   },
@@ -39,7 +40,7 @@
     "generate-password": "^1.7.1",
     "joi": "^17.13.3",
     "json-web-token": "^3.2.0",
-    "libphonenumber": "^0.0.10",
+    "libphonenumber": "^0.0.9",
     "mocha": "^10.7.3",
     "pg": "^8.13.0",
     "sequelize": "^6.37.4"

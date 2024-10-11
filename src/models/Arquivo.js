@@ -1,6 +1,6 @@
-const { DataTypes } = require('sequelize');
-const connection = require('../config/database');
-const UsuarioRI = require('./UsuarioRI');
+import { DataTypes } from 'sequelize';
+import connection from '../config/database.js';
+import UsuarioRI from './UsuarioRI.js';
 
 // Definir um modelo para o DB
 const Arquivo = connection.define('arquivo', {
@@ -36,4 +36,4 @@ Arquivo.belongsTo(UsuarioRI, { foreignKey: 'usuario_ri_id' });
 // Usuario possue vários arquivos
 UsuarioRI.hasMany(Arquivo, { foreignKey: 'usuario_ri_id' });
 
-module.exports = Arquivo;
+export default Arquivo;

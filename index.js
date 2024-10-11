@@ -1,34 +1,42 @@
-'use strict' //Para normalizar o código
+'use strict';
 
-const express = require('express');
-const limitador = require('./src/middlewares/rateLimiter');
-const connection = require('./src/config/database');
+import express from 'express';
+import limitador from './src/middlewares/rateLimiter.js';
+import connection from './src/config/database.js';
 
-const EstadoCivil = require('./src/models/EstadoCivil');
-const Admin = require('./src/models/Admin');
-const Arquivo = require('./src/models/Arquivo');
-const Categoria = require('./src/models/Categoria');
-const Endereco = require('./src/models/Endereco');
-const Formulario = require('./src/models/Formulario');
-const Migrante = require('./src/models/Migrante');
-const Nacionalidade = require('./src/models/Nacionalidade');
-const Organizacao = require('./src/models/Organizacao');
-const PostoAtendimento = require('./src/models/PostoAtendimento');
-const UsuarioRI = require('./src/models/UsuarioRI');
+import EstadoCivil from './src/models/EstadoCivil.js';
+import Admin from './src/models/Admin.js';
+import Arquivo from './src/models/Arquivo.js';
+import Categoria from './src/models/Categoria.js';
+import Endereco from './src/models/Endereco.js';
+import Formulario from './src/models/Formulario.js';
+import Migrante from './src/models/Migrante.js';
+import Nacionalidade from './src/models/Nacionalidade.js';
+import Organizacao from './src/models/Organizacao.js';
+import PostoAtendimento from './src/models/PostoAtendimento.js';
+import UsuarioRI from './src/models/UsuarioRI.js';
 
+import validarOrganizacao from './src/middlewares/validation/validarOrganizacao.js';
+import organizacaoEsquema from './src/schemas/organizacaoSchema.js';
 
 const app = express();
 app.use(limitador);
 app.use(express.json());
 
-connection.authenticate().then(() => {
-    console.log('Conexão feita com sucesso!');
-}).catch(err => {
-    console.log('Conexão falhou', err)
+app.post('/organizacao', validarOrganizacao, (req, res) => {
+    res.status(200).json({ mensagem: 'Organizacao válida!' });
 });
+
+connection.authenticate()
+    .then(() => {
+        console.log('Conexão feita com sucesso!');
+    })
+    .catch(err => {
+        console.log('Conexão falhou', err);
+    });
 
 connection.sync({ force: true });
 
-
-
-app.listen(3000, console.log('Rodando'));
+app.listen(3000, () => {
+    console.log('Rodando');
+});

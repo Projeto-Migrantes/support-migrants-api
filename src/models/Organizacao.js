@@ -1,7 +1,7 @@
-const { DataTypes } = require('sequelize');
-const connection = require('../config/database');
-const Endereco = require('./Endereco');
-const Categoria = require('./Categoria');
+import { DataTypes } from 'sequelize';
+import connection from '../config/database.js';
+import Endereco from './Endereco.js';
+import Categoria from './Categoria.js';
 
 // Definir um modelo para o DB
 const Organizacao = connection.define('organizacao', { 
@@ -88,4 +88,4 @@ Organizacao.belongsTo(Categoria, { foreignKey: 'categoria_id' });
 Categoria.hasMany(Organizacao, { foreignKey: 'categoria_id' });
 
 
-module.exports = Organizacao;
+export default Organizacao;

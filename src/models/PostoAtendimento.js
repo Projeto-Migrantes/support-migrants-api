@@ -1,6 +1,6 @@
-const { DataTypes } = require('sequelize');
-const connection = require('../config/database');
-const Endereco = require('./Endereco');
+import { DataTypes } from 'sequelize';
+import connection from '../config/database.js';
+import Endereco from './Endereco.js';
 
 // Definir um modelo para o DB
 const PostoAtendimento = connection.define('posto_atendimento', {
@@ -47,4 +47,4 @@ PostoAtendimento.belongsTo(Endereco, { foreignKey: 'endereco_id' });
 // Endereco possue várias postos de endereço
 Endereco.hasMany(PostoAtendimento, { foreignKey: 'endereco_id' });
 
-module.exports = PostoAtendimento;
+export default PostoAtendimento;
