@@ -1,9 +1,10 @@
 import { rateLimit } from 'express-rate-limit';
 
-const limitador = rateLimit({
-    windowMs: 15 * 60 * 1000, //15 minutos
-    max: 100, //limite de 100 requisições por IP
-    message: 'Você fez muitas requisições, por favor, tente novamente mais tarde.',
+// Request limiter in 15 minutes for 100 requests per IP
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, 
+    max: 100, 
+    message: 'You have made too many requests, please try again later.',
 });
 
-export default limitador;
+export default limiter;

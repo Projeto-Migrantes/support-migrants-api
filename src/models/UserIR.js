@@ -1,14 +1,18 @@
 import { DataTypes } from 'sequelize';
 import connection from '../config/database.js';
 
-// Define an admin template for the database
-const Admin = connection.define('admin', {
-    id: { 
+// Define an international relations user template for the database
+const UserRI = connection.define('user_ir', { 
+      id: { 
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
         allowNull: false
       }, 
+      name: {
+        type: DataTypes.STRING(100),
+        allowNull: false
+      },
       email: {
         type: DataTypes.STRING(100),
         unique: true,
@@ -19,7 +23,7 @@ const Admin = connection.define('admin', {
         allowNull: false
       },
 }, {
-    tableName: 'admin',
-});
+    tableName: 'user_ir',
+}); 
 
-export default Admin;
+export default UserRI;
