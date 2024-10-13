@@ -44,7 +44,11 @@ const createOrganization = async (req, res) => {
 };
 
 app.post('/organization', validateOrganization, createOrganization);
-
+app.get('/organization', (req, res) => {
+    Organization.findAll().then(organizations => {
+        res.status(200).json({organizations});
+    });
+});
 
 connection.authenticate()
     .then(() => {
