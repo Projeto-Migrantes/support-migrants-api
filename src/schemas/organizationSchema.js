@@ -1,5 +1,6 @@
 import Joi from 'joi';
 import addressSchema from './addressSchema.js';
+import categorySchema from './categorySchema.js';
 
 // Standard error messages
 const messages = {
@@ -63,6 +64,9 @@ const messages = {
         'string.min': `"Complemento do Endereço" deve ter pelo menos {#limit} caracteres.`,
         'string.max': `"Complemento do Endereço" deve ter no máximo {#limit} caracteres.`,
         'any.required': `"Complemento do Endereço" é opcional, mas se fornecido, deve seguir as regras de validação.`
+    },
+    category: {
+        'any.required': `"Endereço" é obrigatório.`
     }
 };
 
@@ -70,19 +74,19 @@ const messages = {
 const organizationSchema = Joi.object({
 
     // Validating company name
-    companyName: Joi.string().min(10).max(200).required().messages(messages.companyName),
+    company_name: Joi.string().min(10).max(200).required().messages(messages.companyName),
     
     // Validating trade name
-    tradeName: Joi.string().min(2).max(150).required().messages(messages.tradeName),
+    trade_name: Joi.string().min(2).max(150).required().messages(messages.tradeName),
 
     // Validating CNPJ
     cnpj: Joi.string().pattern(/^\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2}$/).required().messages(messages.cnpj),
 
     // Validating main phone
-    mainPhone: Joi.string().pattern(/^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})\-?(\d{4}))$/).required().messages(messages.mainPhone),
+    main_phone: Joi.string().pattern(/^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})\-?(\d{4}))$/).required().messages(messages.mainPhone),
 
     // Validating optional Phone
-    secondaryPhone: Joi.string().pattern(/^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})\-?(\d{4}))$/).optional().messages(messages.secondaryPhone),
+    secondary_phone: Joi.string().pattern(/^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})\-?(\d{4}))$/).optional().messages(messages.secondaryPhone),
 
     // Validating email
     email: Joi.string().email().min(10).max(100).required().messages(messages.email),
@@ -91,23 +95,25 @@ const organizationSchema = Joi.object({
     instagram: Joi.string().optional().pattern(/^@?[a-zA-Z0-9_]{1,30}$/).messages(messages.instagram),
 
     // Validating address complement
-    addressComplement: Joi.string().min(15).max(150).optional().messages(messages.addressComplement),
+    address_complement: Joi.string().min(15).max(150).optional().messages(messages.addressComplement),
 
     // Validating address number
-    numberAddress: Joi.string().min(1).max(10).optional().messages(messages.numberAddress),
+    number_address: Joi.string().min(1).max(10).optional().messages(messages.numberAddress),
 
     // Validating site
     site: Joi.string().max(1000).pattern(/^www\.[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/).optional().messages(messages.site),
 
     // Validating description (Portuguese, French, English and Spanish)
-    descriptionPt: Joi.string().min(20).max(255).required().messages({ ...messages.description, 'string.empty': "A descrição em português não pode estar vazia." }),
-    descriptionFr: Joi.string().min(20).max(255).required().messages({ ...messages.description, 'string.empty': "A descrição em francês não pode estar vazia." }),
-    descriptionEn: Joi.string().min(20).max(255).required().messages({ ...messages.description, 'string.empty': "A descrição em inglês não pode estar vazia." }),
-    descriptionEs: Joi.string().min(20).max(255).required().messages({ ...messages.description, 'string.empty': "A descrição em espanhol não pode estar vazia." }),
+    description_pt: Joi.string().min(20).max(255).required().messages({ ...messages.description, 'string.empty': "A descrição em português não pode estar vazia." }),
+    description_fr: Joi.string().min(20).max(255).required().messages({ ...messages.description, 'string.empty': "A descrição em francês não pode estar vazia." }),
+    description_en: Joi.string().min(20).max(255).required().messages({ ...messages.description, 'string.empty': "A descrição em inglês não pode estar vazia." }),
+    description_es: Joi.string().min(20).max(255).required().messages({ ...messages.description, 'string.empty': "A descrição em espanhol não pode estar vazia." }),
 
     // Validating address
-    address: addressSchema.required().messages(messages.address)
+    address: addressSchema.required().messages(messages.address),
 
+    // Validating category
+    category: categorySchema.required().messages(messages.category),
 });
 
 export default organizationSchema;

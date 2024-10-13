@@ -18,7 +18,7 @@ const Address = connection.define('address', {
         allowNull: false
       },
       state: {
-        type: DataTypes.STRING(5),
+        type: DataTypes.STRING(100),
         allowNull: false
       },
       neighborhood: {

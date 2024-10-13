@@ -7,10 +7,15 @@ import createDatabase from './src/createDatabase.js';
 
 import addressRoutes from './src/routes/addressRoutes.js';
 import validateOrganization from './src/middlewares/validation/validateOrganization.js';
-import organizationSchema from './src/schemas/organizationSchema.js';
+
+
+import Organization from './src/models/Organization.js';
+import Address from './src/models/Address.js';
+import Category from './src/models/Category.js';
+
 
 // Create Tables in DB
-//createDatabase("migrantes_db_dev");
+// createDatabase("migrantes_db_dev");
 
 
 const app = express();
@@ -20,9 +25,25 @@ app.use(express.json());
 
 app.use(addressRoutes);
 
-app.post('/organization', validateOrganization, (req, res) => {
-    res.status(200).json(req.body);
-});
+const createOrganization = async (req, res) => {
+  try {
+    const address = await Address.create(req.body.address);
+    const category = await Category.create(req.body.category);
+
+    const organization = await Organization.create({
+        ...req.body,
+        address_id: address.id,
+        category_id: category.id
+    });
+
+    return res.status(201).json({ message: "Organização criada com sucesso!", organization });
+
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }  
+};
+
+app.post('/organization', validateOrganization, createOrganization);
 
 
 connection.authenticate()

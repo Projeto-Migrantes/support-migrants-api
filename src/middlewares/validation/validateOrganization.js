@@ -8,11 +8,14 @@ const validate = (req, res, next) => {
         return res.status(400).json( {errors: errorsDetails} );
     }
 
-    // Removes formatting from phones 
-    req.body.mainPhone = req.body.mainPhone.replace(/[^\d]/g, ''); 
+    // Removes formatting from CEP
+    req.body.address.cep = req.body.address.cep.replace(/[^\d]/g, '');
 
-    if (req.body.secondaryPhone) {
-        req.body.secondaryPhone = req.body.secondaryPhone.replace(/[^\d]/g, '');
+    // Removes formatting from phones 
+    req.body.main_phone = req.body.main_phone.replace(/[^\d]/g, ''); 
+
+    if (req.body.secondary_phone) {
+        req.body.secondary_phone = req.body.secondary_phone.replace(/[^\d]/g, '');
     }
     
     // Removes CNPJ formatting 
