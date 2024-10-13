@@ -1,8 +1,5 @@
 import Joi from 'joi';
-import { validate } from 'cnpj';
-
-// Function to remove CNPJ formatting
-const removeCNPJFormatting = (cnpj) => cnpj.replace(/[^\d]/g, '');
+import addressSchema from './addressSchema.js';
 
 // Standard error messages
 const messages = {
@@ -21,18 +18,19 @@ const messages = {
         'any.required': "Nome fantasia é obrigatório",
     },
     cnpj: {
-        'any.invalid': "CNPJ inválido.",
-        'string.empty': "CNPJ não pode estar vazio.",
-        'any.required': "CNPJ é obrigatório.",
+        'string.pattern.base': 'O CNPJ fornecido é inválido.',
+        'string.empty': 'O campo CNPJ não pode estar vazio.',
+        'any.required': 'O CNPJ é obrigatório e deve ser informado.',
+
     },
     mainPhone: {
-        'string.pattern.base': "O telefone principal deve ser um número válido.",
-        'any.required': "O telefone principal é necessário.",
-        'string.empty': "O telefone principal não pode estar vazio."
+        'string.pattern.base': "O primeiro telefone deve ser um número válido.",
+        'any.required': "O primeiro telefone é necessário.",
+        'string.empty': "O primeirotelefone não pode estar vazio."
     },
     secondaryPhone: {
-        'string.pattern.base': "O telefone secundário deve ser um número válido.",
-        'string.empty': "O telefone secundário não pode estar vazio se fornecido."
+        'string.pattern.base': "O segundo telefone deve ser um número válido.",
+        'string.empty': "O segundo telefone não pode estar vazio se fornecido."
     },
     email: {
         'string.email': "O e-mail deve ser válido.",
@@ -40,20 +38,31 @@ const messages = {
         'string.empty': "O e-mail não pode estar vazio."
     },
     instagram: {
-        'string.pattern.base': "O usuário do Instagram deve ser um nome de usuário válido (sem espaços e caracteres especiais)."
+        'string.pattern.base': "O usuário do Instagram deve ser um nome de usuário válido."
     },
     numberAddress: {
         'any.required': "O número do endereço é obrigatório.",
-        'number.base': "O número do endereço deve ser um número válido."
+        'number.base': "O número do endereço deve ser um número válido.",
     },
     site: {
-        'string.uri': "O site deve ser uma URL válida."
+        'string.pattern.base': 'A URL deve começar com "www." e ser uma URL válida.',
+        'string.empty': 'A URL não pode estar vazia.'
     },
     description: {
         'string.min': "A descrição deve ter no mínimo {#limit} caracteres.",
         'string.max': "A descrição deve ter no máximo {#limit} caracteres.",
         'any.required': "A descrição é obrigatória.",
         'string.empty': "A descrição não pode estar vazia."
+    },
+    address: {
+        'any.required': `"Endereço" é obrigatório.`
+    },
+    addressComplement: {
+        'string.base': `"Complemento do Endereço" deve ser um texto.`,
+        'string.empty': `"Complemento do Endereço" não pode estar vazio.`,
+        'string.min': `"Complemento do Endereço" deve ter pelo menos {#limit} caracteres.`,
+        'string.max': `"Complemento do Endereço" deve ter no máximo {#limit} caracteres.`,
+        'any.required': `"Complemento do Endereço" é opcional, mas se fornecido, deve seguir as regras de validação.`
     }
 };
 
@@ -61,25 +70,19 @@ const messages = {
 const organizationSchema = Joi.object({
 
     // Validating company name
-    companyName: Joi.string().min(3).max(200).required().messages(messages.companyName),
+    companyName: Joi.string().min(10).max(200).required().messages(messages.companyName),
     
     // Validating trade name
-    tradeName: Joi.string().min(3).max(150).required().messages(messages.tradeName),
+    tradeName: Joi.string().min(2).max(150).required().messages(messages.tradeName),
 
     // Validating CNPJ
-    cnpj: Joi.string().custom((value, helpers) => {
-        const cnpjUnformatted = removeCNPJFormatting(value);
-        if (!validate(cnpjUnformatted)) {
-            return helpers.error('any.invalid');
-        }
-        return cnpjUnformatted;
-    }).required().messages(messages.cnpj),
+    cnpj: Joi.string().pattern(/^\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2}$/).required().messages(messages.cnpj),
 
     // Validating main phone
-    mainPhone: Joi.string().pattern(/^\(\d{2}\) \d{5}-\d{4}$/).required().messages(messages.mainPhone),
+    mainPhone: Joi.string().pattern(/^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})\-?(\d{4}))$/).required().messages(messages.mainPhone),
 
     // Validating optional Phone
-    secondaryPhone: Joi.string().pattern(/^\(\d{2}\) \d{5}-\d{4}$/).optional().messages(messages.secondaryPhone),
+    secondaryPhone: Joi.string().pattern(/^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})\-?(\d{4}))$/).optional().messages(messages.secondaryPhone),
 
     // Validating email
     email: Joi.string().email().min(10).max(100).required().messages(messages.email),
@@ -88,19 +91,23 @@ const organizationSchema = Joi.object({
     instagram: Joi.string().optional().pattern(/^@?[a-zA-Z0-9_]{1,30}$/).messages(messages.instagram),
 
     // Validating address complement
-    addressComplement: Joi.string().min(15).max(150).optional(),
+    addressComplement: Joi.string().min(15).max(150).optional().messages(messages.addressComplement),
 
     // Validating address number
-    numberAddress: Joi.string().min(1).max(10).required().messages(messages.numberAddress),
+    numberAddress: Joi.string().min(1).max(10).optional().messages(messages.numberAddress),
 
     // Validating site
-    site: Joi.string().optional().uri().messages(messages.site),
+    site: Joi.string().max(1000).pattern(/^www\.[a-zA-Z0-9-]+\.[a-zA-Z]{2,}.*$/).optional().messages(messages.site),
 
-    // // Validating description (Portuguese, French, English and Spanish)
-    descriptionPt: Joi.string().min(20).max(255).required().messages({ ...messages.descricao, 'string.empty': "A descrição em português não pode estar vazia." }),
-    descriptionFr: Joi.string().min(20).max(255).required().messages({ ...messages.descricao, 'string.empty': "A descrição em francês não pode estar vazia." }),
-    descriptionEn: Joi.string().min(20).max(255).required().messages({ ...messages.descricao, 'string.empty': "A descrição em inglês não pode estar vazia." }),
-    descriptionEs: Joi.string().min(20).max(255).required().messages({ ...messages.descricao, 'string.empty': "A descrição em espanhol não pode estar vazia." }),
+    // Validating description (Portuguese, French, English and Spanish)
+    descriptionPt: Joi.string().min(20).max(255).required().messages({ ...messages.description, 'string.empty': "A descrição em português não pode estar vazia." }),
+    descriptionFr: Joi.string().min(20).max(255).required().messages({ ...messages.description, 'string.empty': "A descrição em francês não pode estar vazia." }),
+    descriptionEn: Joi.string().min(20).max(255).required().messages({ ...messages.description, 'string.empty': "A descrição em inglês não pode estar vazia." }),
+    descriptionEs: Joi.string().min(20).max(255).required().messages({ ...messages.description, 'string.empty': "A descrição em espanhol não pode estar vazia." }),
+
+    // Validating address
+    address: addressSchema.required().messages(messages.address)
+
 });
 
 export default organizationSchema;

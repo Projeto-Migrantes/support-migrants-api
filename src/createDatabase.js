@@ -28,7 +28,6 @@ const create = async (dbName) => {
 
 const syncDatabase = async (nameDb) => {
     // Wait for the database to be created
-    
     await create(nameDb);
 
     try {

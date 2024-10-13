@@ -1,8 +1,8 @@
-const express = require('express');
-const enderecoController = require('../controllers/enderecoController');
+import express from 'express';
+import fetchAddressByCEP from '../controllers/addressController.js';
 
 const router = express.Router();
 
-router.get("/:cep", enderecoController.buscarEnderecoPorCEP);
+router.get("/cep/:cep", fetchAddressByCEP);
 
-module.exports = router;
+export default router;

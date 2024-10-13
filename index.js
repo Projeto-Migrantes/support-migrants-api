@@ -5,19 +5,25 @@ import limiter from './src/middlewares/rateLimiter.js';
 import connection from './src/config/database.js';
 import createDatabase from './src/createDatabase.js';
 
-// Create Tables in DB
-createDatabase("migrantes_db_dev");
-
+import addressRoutes from './src/routes/addressRoutes.js';
 import validateOrganization from './src/middlewares/validation/validateOrganization.js';
+import organizationSchema from './src/schemas/organizationSchema.js';
+
+// Create Tables in DB
+//createDatabase("migrantes_db_dev");
+
 
 const app = express();
 
 app.use(limiter);
 app.use(express.json());
 
+app.use(addressRoutes);
+
 app.post('/organization', validateOrganization, (req, res) => {
-    res.status(200).json({ mensagem: 'Organizacao válida!' });
+    res.status(200).json(req.body);
 });
+
 
 connection.authenticate()
     .then(() => {
