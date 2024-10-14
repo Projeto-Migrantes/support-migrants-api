@@ -70,6 +70,10 @@ const Organization = connection.define('organization', {
       site: {
         type: DataTypes.STRING(100),
         allowNull: true
+      },
+      link_maps: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
       }
 }, {
     tableName: 'organization',
