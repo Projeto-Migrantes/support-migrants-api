@@ -19,15 +19,15 @@ const messages = {
         'any.required': "Nome fantasia é obrigatório",
     },
     cnpj: {
-        'string.pattern.base': 'O CNPJ fornecido é inválido.',
-        'string.empty': 'O campo CNPJ não pode estar vazio.',
-        'any.required': 'O CNPJ é obrigatório e deve ser informado.',
+        'string.pattern.base': "O CNPJ fornecido é inválido.",
+        'string.empty': "O campo CNPJ não pode estar vazio.",
+        'any.required': "O CNPJ é obrigatório e deve ser informado.",
 
     },
     mainPhone: {
         'string.pattern.base': "O primeiro telefone deve ser um número válido.",
         'any.required': "O primeiro telefone é necessário.",
-        'string.empty': "O primeirotelefone não pode estar vazio."
+        'string.empty': "O primeiro telefone não pode estar vazio."
     },
     secondaryPhone: {
         'string.pattern.base': "O segundo telefone deve ser um número válido.",
@@ -56,17 +56,23 @@ const messages = {
         'string.empty': "A descrição não pode estar vazia."
     },
     address: {
-        'any.required': `"Endereço" é obrigatório.`
+        'any.required': `Endereço é obrigatório.`
     },
     addressComplement: {
-        'string.base': `"Complemento do Endereço" deve ser um texto.`,
-        'string.empty': `"Complemento do Endereço" não pode estar vazio.`,
-        'string.min': `"Complemento do Endereço" deve ter pelo menos {#limit} caracteres.`,
-        'string.max': `"Complemento do Endereço" deve ter no máximo {#limit} caracteres.`,
-        'any.required': `"Complemento do Endereço" é opcional, mas se fornecido, deve seguir as regras de validação.`
+        'string.base': `Complemento do Endereço deve ser um texto.`,
+        'string.empty': `Complemento do Endereço não pode estar vazio.`,
+        'string.min': `Complemento do Endereço deve ter pelo menos {#limit} caracteres.`,
+        'string.max': `Complemento do Endereço deve ter no máximo {#limit} caracteres.`,
+        'any.required': `Complemento inválido.`
     },
     category: {
-        'any.required': `"Endereço" é obrigatório.`
+        'any.required': `Cateogoria é obrigatória.`
+    },
+    link_maps: {
+        'string.base': `O link deve ser um texto.`,
+        'string.min': `O link deve ter pelo menos {#limit} caracteres.`,
+        'string.max': `O link deve ter no máximo {#limit} caracteres.`,
+        'any.required': `Link inválido.`
     }
 };
 
@@ -109,11 +115,15 @@ const organizationSchema = Joi.object({
     description_en: Joi.string().min(20).max(255).required().messages({ ...messages.description, 'string.empty': "A descrição em inglês não pode estar vazia." }),
     description_es: Joi.string().min(20).max(255).required().messages({ ...messages.description, 'string.empty': "A descrição em espanhol não pode estar vazia." }),
 
+    // Validating link maps
+    link_maps: Joi.string().min(5).max(255).optional().messages(messages.link_maps),
+
     // Validating address
     address: addressSchema.required().messages(messages.address),
 
     // Validating category
     category: categorySchema.required().messages(messages.category),
+
 });
 
 export default organizationSchema;
