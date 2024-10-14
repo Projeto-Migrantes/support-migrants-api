@@ -10,7 +10,15 @@ const fetchAddressByCEP = async (cep) => {
             return { message: 'CEP não encontrado.' };
         }
 
-        return response.data;
+        const dataUtil = {
+            cep: response.data.cep,
+            logradouro: response.data.logradouro,
+            bairro: response.data.bairro,
+            cidade: response.data.localidade,
+            estado: response.data.estado,
+        };
+
+        return dataUtil;
 
     } catch (error) {
         // Returns error message
