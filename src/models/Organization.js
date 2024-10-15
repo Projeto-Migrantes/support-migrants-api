@@ -57,7 +57,7 @@ const Organization = connection.define('organization', {
       },
       instagram: {
         type: DataTypes.STRING(30),
-        allowNull: true
+        allowNull: true,
       },
       number_address: {
         type: DataTypes.STRING(10),
@@ -77,6 +77,7 @@ const Organization = connection.define('organization', {
       }
 }, {
     tableName: 'organization',
+    timestamps: false,
 }); 
 
 // Organization has a address

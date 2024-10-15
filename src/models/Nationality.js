@@ -15,6 +15,7 @@ const Nationality = connection.define('nationality', {
       },
 },{
     tableName: 'nationality',
+    timestamps: false,
 });
 
 export default Nationality;

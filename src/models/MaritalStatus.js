@@ -15,6 +15,7 @@ const MaritalStatus = connection.define('marital_status', {
     }
 }, {
     tableName: 'marital_status',
+    timestamps: false,
 });
 
 export default MaritalStatus;

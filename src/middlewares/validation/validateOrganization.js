@@ -8,9 +8,6 @@ const validate = (req, res, next) => {
         return res.status(400).json( {errors: errorsDetails} );
     }
 
-    // Removes formatting from CEP
-    req.body.address.cep = req.body.address.cep.replace(/[^\d]/g, '');
-
     // Removes formatting from phones 
     req.body.main_phone = req.body.main_phone.replace(/[^\d]/g, ''); 
 

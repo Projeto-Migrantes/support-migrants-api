@@ -39,6 +39,7 @@ const serviceStation = connection.define('service_station', {
   },
 }, {
     tableName: 'service_station',
+    timestamps: false,
 });
 
 // Service station has a address

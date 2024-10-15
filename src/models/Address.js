@@ -31,6 +31,7 @@ const Address = connection.define('address', {
       }
 },{
     tableName: 'address',
+    timestamps: false,
 });
 
 export default Address;

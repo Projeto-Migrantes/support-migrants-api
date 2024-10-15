@@ -119,10 +119,10 @@ const organizationSchema = Joi.object({
     link_maps: Joi.string().min(5).max(255).optional().messages(messages.link_maps),
 
     // Validating address
-    address: addressSchema.required().messages(messages.address),
+    address_id: Joi.number().min(1).max(255).required().messages(messages.address),
 
     // Validating category
-    category: categorySchema.required().messages(messages.category),
+    category_id: Joi.number().min(1).max(255).required().messages(messages.category)
 
 });
 

@@ -1,4 +1,5 @@
 import connection from './config/database.js';
+import runSeeders from './seeders.js';
 import Address from './models/Address.js';
 import Category from './models/Category.js';
 import Admin from './models/Admin.js';
@@ -31,7 +32,8 @@ const syncDatabase = async (nameDb) => {
     await create(nameDb);
 
     try {
-        await connection.sync({ force: false }); 
+        await connection.sync({ force: true }); 
+        await runSeeders();
         console.log("Database synchronized successfully!");
     } catch (error) {
         console.error("Error synchronizing database:", error);
