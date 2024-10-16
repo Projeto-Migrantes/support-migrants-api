@@ -1,7 +1,7 @@
-import mainSchema from "../../schemas/organizationAndAdressSchema.js";
+import schemaOrganizationWithAddress  from "../../schemas/organizationWithAddressSchema.js"
 
 const validate = (req, res, next) => {
-    const { error, value } = mainSchema.validate(req.body, { abortEarly: false });
+    const { error, value } = schemaOrganizationWithAddress .validate(req.body, { abortEarly: false });
 
     if(error){
         const errorsDetails = error.details.map(detail => detail.message);
