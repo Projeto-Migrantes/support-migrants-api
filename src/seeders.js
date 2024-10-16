@@ -75,7 +75,7 @@ const runSeeders = async () => {
                     description_fr: "ONG qui œuvre pour la protection et la défense des droits.",
                     description_en: "NGO working for the protection and defense of rights.",
                     description_es: "ONG que trabaja por la protección y defensa de derechos.",
-                    address_id: 1, 
+                    address_id: 2, 
                     category_id: 1
                 },
                 {
@@ -94,7 +94,7 @@ const runSeeders = async () => {
                     description_fr: "Fondation dédiée au soutien des enfants et des adolescents.",
                     description_en: "Foundation focused on supporting children and adolescents.",
                     description_es: "Fundación dedicada al apoyo a niños y adolescentes.",
-                    address_id: 2, // Alterado aqui
+                    address_id: 1, 
                     category_id: 2
                 },
                 {
@@ -109,7 +109,7 @@ const runSeeders = async () => {
                     description_fr: "Centre de soutien à la communauté et aux projets sociaux.",
                     description_en: "Community support center and social projects.",
                     description_es: "Centro de apoio a la comunidad y proyectos sociales.",
-                    address_id: 3, // Alterado aqui
+                    address_id: 5, 
                     category_id: 1
                 },
                 {
@@ -128,7 +128,7 @@ const runSeeders = async () => {
                     description_fr: "Institut qui promeut l'inclusion des jeunes en situation de vulnérabilité.",
                     description_en: "Institute promoting the inclusion of vulnerable youth.",
                     description_es: "Instituto que promueve la inclusión de jóvenes en situación de vulnerabilidad.",
-                    address_id: 4, // Alterado aqui
+                    address_id: 2, 
                     category_id: 2
                 },
                 {
@@ -147,7 +147,7 @@ const runSeeders = async () => {
                     description_fr: "Réseau de soutien aux familles en situation de vulnérabilité sociale.",
                     description_en: "Network supporting families in social vulnerability.",
                     description_es: "Red de apoyo a familias en situación de vulnerabilidad social.",
-                    address_id: 5, // Alterado aqui
+                    address_id: 3, 
                     category_id: 1
                 }
             ]);

@@ -13,7 +13,7 @@ const findAllOrganizations = async () => {
 
 const findOrganizationById = async (id) => {
     return await Organization.findByPk(id, {
-      include: [{model: Category}]
+      include: [{model: Category}, {model: Address}]
     });
 };
 
