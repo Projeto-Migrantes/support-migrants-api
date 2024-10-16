@@ -1,4 +1,5 @@
 import organizationService from '../services/organizationService.js';
+import addressController from './addressController.js';
 
 const findAll = async (req, res) => {
     try {
@@ -27,12 +28,13 @@ const findById = async (req, res) => {
 
 const create = async (req, res) => {
     try {
-        const dataOrganization = req.body;
-        console.log(dataOrganization);
-        const  createdOrganization = await organizationService.createOrganization(dataOrganization);
+        const addressId = await addressController.existAddress(req, res);
+
+        const createdOrganization = await organizationService.createOrganization(req.body.organization, addressId);
+        
         return res.status(201).json( {message: 'Organização criada com sucesso', createdOrganization} );
     } catch (error) {
-        console.error(error);
+        console.log(error);
         return res.status(500).json( {error: 'Erro interno do servidor '} );
     }
 }

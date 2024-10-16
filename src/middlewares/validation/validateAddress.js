@@ -1,3 +1,5 @@
+import addressSchema from "../../schemas/addressSchema.js";
+
 const validateCEP = (req, res, next) => {
     
     const cepRegex = /^\d{5}-?\d{3}$/;
@@ -8,6 +10,18 @@ const validateCEP = (req, res, next) => {
     next();
 };
 
+const validate = (req, res, next) => {
+    const { error, value} = addressSchema.validate(req.body, { abortEarly: false });
+
+    if(error){
+        const errosDetails = error.details.map(detail => detail.message);
+        return res.status(400).json( {erros: errosDetails} );
+    }
+
+    next();
+};
+
 export default {
-    validateCEP
+    validateCEP,
+    validate
 };

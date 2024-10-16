@@ -1,6 +1,5 @@
 import Joi from 'joi';
 import addressSchema from './addressSchema.js';
-import categorySchema from './categorySchema.js';
 
 // Standard error messages
 const messages = {
@@ -118,11 +117,8 @@ const organizationSchema = Joi.object({
     // Validating link maps
     link_maps: Joi.string().min(5).max(255).optional().messages(messages.link_maps),
 
-    // Validating address
-    address_id: Joi.number().min(1).max(255).required().messages(messages.address),
-
     // Validating category
-    category_id: Joi.number().min(1).max(255).required().messages(messages.category)
+    category_id: Joi.number().min(1).max(255).required().messages(messages.category),
 
 });
 

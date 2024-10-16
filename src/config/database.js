@@ -10,7 +10,6 @@ const connection = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proce
     dialect: process.env.DB_DIALECT,
     port: process.env.DB_PORT,
     timezone: process.env.DB_TZ,
-    logging: false
 });
 
 export default connection;

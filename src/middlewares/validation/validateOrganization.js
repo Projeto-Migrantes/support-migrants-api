@@ -1,7 +1,7 @@
-import organizationSchema from '../../schemas/organizationSchema.js';
+import mainSchema from "../../schemas/organizationAndAdressSchema.js";
 
 const validate = (req, res, next) => {
-    const { error, value } = organizationSchema.validate(req.body, { abortEarly: false });
+    const { error, value } = mainSchema.validate(req.body, { abortEarly: false });
 
     if(error){
         const errorsDetails = error.details.map(detail => detail.message);
@@ -9,14 +9,14 @@ const validate = (req, res, next) => {
     }
 
     // Removes formatting from phones 
-    req.body.main_phone = req.body.main_phone.replace(/[^\d]/g, ''); 
+    req.body.organization.main_phone = req.body.organization.main_phone.replace(/[^\d]/g, ''); 
 
-    if (req.body.secondary_phone) {
-        req.body.secondary_phone = req.body.secondary_phone.replace(/[^\d]/g, '');
+    if (req.body.organization.secondary_phone) {
+        req.body.organization.secondary_phone = req.body.organization.secondary_phone.replace(/[^\d]/g, '');
     }
     
     // Removes CNPJ formatting 
-    req.body.cnpj = req.body.cnpj.replace(/[^\d]/g, '');
+    req.body.organization.cnpj = req.body.organization.cnpj.replace(/[^\d]/g, '');
     next();
 };
 

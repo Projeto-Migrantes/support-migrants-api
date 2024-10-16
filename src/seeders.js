@@ -13,35 +13,35 @@ const runSeeders = async () => {
         if (addressCount === 0) {
             await Address.bulkCreate([
                 {
-                    cep: "40390-675",
+                    cep: "40390675",
                     city: "Salvador",
                     state: "Bahia",
                     neighborhood: "São Caetano",
                     street: "Rua Professor Francisco Góes Calmon"
                 },
                 {
-                    cep: "01001-000",
+                    cep: "01001000",
                     city: "São Paulo",
                     state: "São Paulo",
                     neighborhood: "Sé",
                     street: "Praça da Sé"
                 },
                 {
-                    cep: "20010-000",
+                    cep: "20010000",
                     city: "Rio de Janeiro",
                     state: "Rio de Janeiro",
                     neighborhood: "Centro",
                     street: "Rua Primeiro de Março"
                 },
                 {
-                    cep: "30130-000",
+                    cep: "30130000",
                     city: "Belo Horizonte",
                     state: "Minas Gerais",
                     neighborhood: "Centro",
                     street: "Avenida Afonso Pena"
                 },
                 {
-                    cep: "88015-120",
+                    cep: "88015120",
                     city: "Florianópolis",
                     state: "Santa Catarina",
                     neighborhood: "Centro",
@@ -75,7 +75,7 @@ const runSeeders = async () => {
                     description_fr: "ONG qui œuvre pour la protection et la défense des droits.",
                     description_en: "NGO working for the protection and defense of rights.",
                     description_es: "ONG que trabaja por la protección y defensa de derechos.",
-                    address_id: 1, // Alterado aqui
+                    address_id: 1, 
                     category_id: 1
                 },
                 {

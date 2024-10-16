@@ -9,9 +9,14 @@ const existsAddress = async (cep) => {
     return await Address.findOne({where: {cep}});
 };
 
+const createAddress = async (address) => {
+    return await Address.create({...address});
+}
+
 export default {
     findAddressByCEP,
-    existsAddress
+    existsAddress,
+    createAddress,
 };
 
 

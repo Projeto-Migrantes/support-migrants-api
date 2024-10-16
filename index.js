@@ -15,11 +15,8 @@ import { errorHandler, notFoundHandler } from './src/middlewares/errorHandler.js
 createDatabase("migrantes_db_dev");
 
 const app = express();
-
-app.use(limiter);
-
-
 app.use(express.json());
+app.use(limiter);
 
 app.use('/api', addressRoutes);
 app.use('/api', organizationRoutes);

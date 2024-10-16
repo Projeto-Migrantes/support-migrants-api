@@ -13,4 +13,32 @@ const fetchAddressByCEP = async (req, res) => {
     }
 };
 
-export default fetchAddressByCEP;
+const create = async (req, res) => {
+    try {
+        const createdAddress = await addressService.createAddress();
+        return res.status(201).json( {message: 'Endereço criado com sucesso', createdAddress} );
+    } catch (error) {
+        return res.status(500).json( {error: 'Erro interno do servidor '} );
+    }
+};
+
+const existAddress = async (req, res) => {
+    const cep = req.body.address.cep;
+    try {
+        const existCEP = await addressService.existsAddress(cep);
+        if(!existCEP){
+            const createdAddress = await addressService.createAddress(req.body.address);
+            return createdAddress.id;
+        }        
+        return existCEP.id;
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Erro interno do servidor' });
+    };
+}
+
+export default {
+    fetchAddressByCEP,
+    existAddress,
+    create
+};

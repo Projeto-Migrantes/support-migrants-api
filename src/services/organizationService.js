@@ -4,7 +4,10 @@ import Address from "../models/Address.js";
 
 const findAllOrganizations = async () => {
     return await Organization.findAll({
-        include: [{model: Category}, {model: Address}]
+        order:[ 
+            ['id', 'DESC']
+        ],
+        include: [{model: Category}, {model: Address}],
     });
 };
 
@@ -14,8 +17,11 @@ const findOrganizationById = async (id) => {
     });
 };
 
-const createOrganization = async (req, res) => {
-    return await Organization.create(req.body);
+const createOrganization = async (organization, addressId) => {
+    return await Organization.create({
+        ...organization,
+        address_id: addressId
+    });
 };
 
 export default {
