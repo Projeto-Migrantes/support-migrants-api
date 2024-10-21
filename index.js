@@ -7,6 +7,7 @@ import createDatabase from './src/createDatabase.js';
 
 import addressRoutes from './src/routes/addressRoutes.js';
 import institutionRoutes from './src/routes/institutionRoutes.js';
+import categoryRoutes from './src/routes/categoryRoutes.js';
 
 import { errorHandler, notFoundHandler } from './src/middlewares/errorHandler.js';
 import validateInstitution from './src/middlewares/validation/validateInstitution.js';
@@ -27,6 +28,7 @@ app.use('/api-docs/en', swaggerUi.serve, swaggerUi.setup(swaggerDocsEN));
 
 app.use('/api', addressRoutes);
 app.use('/api', institutionRoutes);
+app.use('/api', categoryRoutes);
 
 // Middleware to handle general errors
 app.use(errorHandler);

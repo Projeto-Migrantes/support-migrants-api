@@ -33,7 +33,8 @@ const syncDatabase = async (nameDb) => {
 
     try {
         await connection.sync({ force: true }); 
-        //await runSeeders();
+        // Wait seeds to be db
+        await runSeeders();
         console.log("Database synchronized successfully!");
     } catch (error) {
         console.error("Error synchronizing database:", error);
