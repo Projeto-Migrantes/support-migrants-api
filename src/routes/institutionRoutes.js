@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import organizationController from '../controllers/institutionController.js';
-import validateOrganization from '../middlewares/validation/validateOrganization.js';
+import institutionController from '../controllers/institutionController.js';
+import validateOrganization from '../middlewares/validation/validateInstitution.js';
 
 const router = Router();
 
-router.get('/institutions', organizationController.findAll);
-router.get('/institutions/:id', organizationController.findById);
-router.post('/institutions', validateOrganization, organizationController.create);
+router.get('/institutions', institutionController.findAll);
+router.get('/institutions/:id', institutionController.findById);
+router.post('/institutions', validateOrganization, institutionController.create);
 
 export default router;

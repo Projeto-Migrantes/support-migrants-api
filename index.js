@@ -8,8 +8,8 @@ import createDatabase from './src/createDatabase.js';
 import addressRoutes from './src/routes/addressRoutes.js';
 import institutionRoutes from './src/routes/institutionRoutes.js';
 
-import validateOrganization from './src/middlewares/validation/validateOrganization.js';
 import { errorHandler, notFoundHandler } from './src/middlewares/errorHandler.js';
+import validateInstitution from './src/middlewares/validation/validateInstitution.js';
 
 import swaggerDocsPT from './src/config/swaggerConfigPT.js';
 import swaggerDocsEN from './src/config/swaggerConfigEN.js';
