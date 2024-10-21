@@ -1,16 +1,16 @@
 import { DataTypes } from 'sequelize';
 import connection from '../config/database.js';
 
-// Define an international relations user template for the database
-const UserRI = connection.define('user_ir', { 
-      id: { 
+// Define an User IR template for the database
+const UserIR = connection.define('UserIR', {
+    id: { 
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
         allowNull: false
       }, 
       name: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING(150),
         allowNull: false
       },
       email: {
@@ -23,7 +23,7 @@ const UserRI = connection.define('user_ir', {
         allowNull: false
       },
 }, {
-    tableName: 'user_ir',
-}); 
+    tableName: 'users_ir',
+});
 
-export default UserRI;
+export default UserIR;

@@ -1,25 +1,25 @@
 import { DataTypes } from 'sequelize';
 import connection from '../config/database.js';
 
-// Define an admin template for the database
-const Admin = connection.define('Admin', {
+// Define an Document Migrant template for the database
+const MigrantDocument = connection.define('MigrantDocument', {
     id: { 
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
         allowNull: false
       }, 
-      email: {
-        type: DataTypes.STRING(100),
-        unique: true,
+      document_type: {
+        type: DataTypes.STRING(120),
         allowNull: false
       },
-      password: {
+      document_identification: {
         type: DataTypes.STRING(120),
         allowNull: false
       },
 }, {
-    tableName: 'admins',
+    tableName: 'migrants_documents',
+    timestamps: false,
 });
 
-export default Admin;
+export default MigrantDocument;

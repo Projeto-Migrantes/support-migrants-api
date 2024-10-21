@@ -1,10 +1,9 @@
 import { DataTypes } from 'sequelize';
 import connection from '../config/database.js';
-import UserIR from './ResponsibleUser.js';
 
-// Define an file template for the database
-const File = connection.define('File', {
-    id: { 
+// Define a responsible user model for the database
+const ResponsibleUser = connection.define('ResponsibleUser', { 
+      id: { 
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
@@ -14,20 +13,21 @@ const File = connection.define('File', {
         type: DataTypes.STRING(255),
         allowNull: false
       },
-      description: {
-        type: DataTypes.STRING(255),
+      position: {
+        type: DataTypes.STRING(80),
         allowNull: false
       },
-      url: {
-        type: DataTypes.TEXT,
+      sector: {
+        type: DataTypes.STRING(80),
         allowNull: false
       },
-      title: {
-        type: DataTypes.STRING(45),
+      role: {
+        type: DataTypes.STRING(80),
         allowNull: false
-      }
+      },
 }, {
-    tableName: 'files',
-});
+    tableName: "responsibles_users",
+    timestamps: false,
+}); 
 
-export default File;
+export default ResponsibleUser;

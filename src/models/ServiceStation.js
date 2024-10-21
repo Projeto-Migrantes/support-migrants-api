@@ -3,7 +3,7 @@ import connection from '../config/database.js';
 import Address from './Address.js';
 
 // Define an service station template for the database
-const serviceStation = connection.define('service_station', {
+const serviceStation = connection.define('ServiceStation', {
   id: { 
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -38,7 +38,7 @@ const serviceStation = connection.define('service_station', {
     allowNull: true
   },
 }, {
-    tableName: 'service_station',
+    tableName: 'service_stations',
     timestamps: false,
 });
 

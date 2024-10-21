@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import connection from '../config/database.js';
 
 // Define an address template for the database
-const Address = connection.define('address', {
+const Address = connection.define('Address', {
     id: { 
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -14,23 +14,23 @@ const Address = connection.define('address', {
         allowNull: false
       },
       city: {
-        type: DataTypes.STRING(40),
+        type: DataTypes.STRING(120),
         allowNull: false
       },
       state: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING(120),
         allowNull: false
       },
       neighborhood: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING(120),
         allowNull: false
       },
       street: {
-        type: DataTypes.STRING(150),
+        type: DataTypes.STRING(120),
         allowNull: false
       }
 },{
-    tableName: 'address',
+    tableName: 'addresses',
     timestamps: false,
 });
 

@@ -5,12 +5,12 @@ import Category from './models/Category.js';
 import Admin from './models/Admin.js';
 import File from './models/File.js';
 import Form from './models/Form.js';
-import MaritalStatus from './models/MaritalStatus.js';
 import Migrant from './models/Migrant.js';
-import Nationality from './models/Nationality.js';
-import Organization from './models/Organization.js';
+import Institution from './models/Institution.js';
 import ServiceStation from './models/ServiceStation.js';
-import UserRI from './models/UserIR.js';
+import UserRI from './models/ResponsibleUser.js';
+import TargetPopulation from './models/TargetPopulation.js';
+import RequirementRestriction from './models/RequirementRestriction.js';
 
 const create = async (dbName) => {
     try {
@@ -33,7 +33,7 @@ const syncDatabase = async (nameDb) => {
 
     try {
         await connection.sync({ force: true }); 
-        await runSeeders();
+        //await runSeeders();
         console.log("Database synchronized successfully!");
     } catch (error) {
         console.error("Error synchronizing database:", error);

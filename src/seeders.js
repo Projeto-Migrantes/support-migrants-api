@@ -1,5 +1,5 @@
 import Category from "./models/Category.js";
-import Organization from "./models/Organization.js";
+import Institution from "./models/Institution.js";
 import Address from "./models/Address.js";
 
 const runSeeders = async () => {
@@ -7,7 +7,7 @@ const runSeeders = async () => {
         // Contagem de registros existentes
         const addressCount = await Address.count();
         const categoryCount = await Category.count();
-        const organizationCount = await Organization.count();
+        const institutionCount = await Institution.count();
 
         // Inserção de endereços se a tabela estiver vazia
         if (addressCount === 0) {
@@ -59,8 +59,8 @@ const runSeeders = async () => {
             ]);
         }
 
-        if (organizationCount == 0) {
-            await Organization.bulkCreate([
+        if (institutionCount == 0) {
+            await Institution.bulkCreate([
                 {
                     company_name: "Associação Proteger",
                     trade_name: "Proteger",

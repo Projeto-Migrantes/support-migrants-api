@@ -3,7 +3,7 @@ import connection from '../config/database.js';
 import Migrant from './Migrant.js';
 
 // Define an form template for the database
-const Form = connection.define('form', {
+const Form = connection.define('Form', {
     id: { 
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -31,7 +31,7 @@ const Form = connection.define('form', {
         allowNull: false
       }
 }, {
-    tableName: 'form',
+    tableName: 'forms',
 });
 
 // Form has a migrant

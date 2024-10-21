@@ -6,10 +6,14 @@ import connection from './src/config/database.js';
 import createDatabase from './src/createDatabase.js';
 
 import addressRoutes from './src/routes/addressRoutes.js';
-import organizationRoutes from './src/routes/organizationRoutes.js';
+import institutionRoutes from './src/routes/institutionRoutes.js';
 
 import validateOrganization from './src/middlewares/validation/validateOrganization.js';
 import { errorHandler, notFoundHandler } from './src/middlewares/errorHandler.js';
+
+import swaggerDocsPT from './src/config/swaggerConfigPT.js';
+import swaggerDocsEN from './src/config/swaggerConfigEN.js';
+import swaggerUi from 'swagger-ui-express';
 
 // Create Tables in DB
 createDatabase("migrantes_db_dev");
@@ -18,8 +22,11 @@ const app = express();
 app.use(express.json());
 app.use(limiter);
 
+app.use('/api-docs/pt', swaggerUi.serve, swaggerUi.setup(swaggerDocsPT));
+app.use('/api-docs/en', swaggerUi.serve, swaggerUi.setup(swaggerDocsEN));
+
 app.use('/api', addressRoutes);
-app.use('/api', organizationRoutes);
+app.use('/api', institutionRoutes);
 
 // Middleware to handle general errors
 app.use(errorHandler);
