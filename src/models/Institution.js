@@ -50,7 +50,7 @@ const Institution = connection.define('Institution', {
         allowNull: false
       },
       site: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.TEXT,
         allowNull: true
       },
       instagram: {

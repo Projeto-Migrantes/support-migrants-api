@@ -2,6 +2,7 @@ import addressSchema from './addressSchema.js';
 
 import Joi from 'joi';
 
+// Standard error messages
 const messages = {
     name: {
         'string.base': "Nome deve ser um texto",
@@ -47,7 +48,7 @@ const serviceStationSchema = {
     secondary_phone: Joi.string().pattern(/^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})\-?(\d{4}))$/).optional().messages(messages.secondaryPhone),
 
     // Validating instagram
-    instagram: Joi.string().optional().pattern(/^@?[a-zA-Z0-9_.-]{1,40}$/).messages(messages.instagram),
+    instagram: Joi.string().optional().pattern(/^@[a-zA-Z0-9._]{2,40}$/).messages(messages.instagram),
 
     // Validating address number
     number_address: Joi.string().min(1).max(10).optional().messages(messages.numberAddress),

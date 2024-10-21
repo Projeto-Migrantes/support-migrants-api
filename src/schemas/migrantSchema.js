@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-// Standard error messages
+// Standard error messages in Portuguese
 const messages = {
     name: {
         'string.base': "O nome deve ser um texto.",
