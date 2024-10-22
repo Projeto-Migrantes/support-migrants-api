@@ -97,39 +97,39 @@ Institution.belongsTo(ResponsibleUser, { foreignKey: 'responsible_user_id' });
 ResponsibleUser.hasMany(Institution, { foreignKey: 'responsible_user_id' }); 
 
 // Institution Descriptions belongs to Institution
-InstitutionDescriptions.belongsTo(Institution, { foreignKey: 'institution_descriptions_id' }); 
+InstitutionDescriptions.belongsTo(Institution, { foreignKey: 'institution_id', onDelete: 'CASCADE' }); 
 
 // Institution has a Institution Descriptions
-Institution.hasOne(InstitutionDescriptions, { foreignKey: 'institution_descriptions_id' }); 
+Institution.hasOne(InstitutionDescriptions, { foreignKey: 'institution_id', onDelete: 'CASCADE' });
 
 // ServiceHours belongs to Institution
-ServiceHours.belongsTo(Institution, { foreignKey: 'service_hours_id' }); 
+ServiceHours.belongsTo(Institution, { foreignKey: 'institution_id', onDelete: 'CASCADE' });
 
 // Institution has one ServiceHours
-Institution.hasOne(ServiceHours, { foreignKey: 'service_hours_id' }); 
+Institution.hasOne(ServiceHours, { foreignKey: 'institution_id', onDelete: 'CASCADE' }); 
 
 // TargetPopulation belongs to Institution
-TargetPopulation.belongsTo(Institution, { foreignKey: 'target_population_id' }); 
+TargetPopulation.belongsTo(Institution, { foreignKey: 'institution_id', onDelete: 'CASCADE' });
 
 // Institution has one TargetPopulation
-Institution.hasOne(TargetPopulation, { foreignKey: 'target_population_id' }); 
+Institution.hasOne(TargetPopulation, { foreignKey: 'institution_id', onDelete: 'CASCADE' });
 
 // RequirementRestriction belongs to Institution
-RequirementRestriction.belongsTo(Institution, { foreignKey: 'requirement_restriction_id' }); 
+RequirementRestriction.belongsTo(Institution, { foreignKey: 'institution_id', onDelete: 'CASCADE' }); 
 
 // Institution has one RequirementRestriction
-Institution.hasOne(RequirementRestriction, { foreignKey: 'requirement_restriction_id' }); 
+Institution.hasOne(RequirementRestriction, { foreignKey: 'institution_id', onDelete: 'CASCADE' });
 
 // ServicesOffered belongs to Institution
-ServicesOfferred.belongsTo(Institution, { foreignKey: 'services_offerred_id' }); 
+ServicesOfferred.belongsTo(Institution, { foreignKey: 'institution_id', onDelete: 'CASCADE' });
 
 // Institution has one ServicesOffered
-Institution.hasOne(ServicesOfferred, { foreignKey: 'services_offerred_id' });
+Institution.hasOne(ServicesOfferred, { foreignKey: 'institution_id', onDelete: 'CASCADE' });
 
 // ServiceCosts belongs to Institution
-ServiceCosts.belongsTo(Institution, { foreignKey: 'service_costs_id' }); 
+ServiceCosts.belongsTo(Institution, { foreignKey: 'institution_id', onDelete: 'CASCADE' }); 
 
 // Institution has one ServiceCosts
-Institution.hasOne(ServiceCosts, { foreignKey: 'service_costs_id' }); 
+Institution.hasOne(ServiceCosts, { foreignKey: 'institution_id', onDelete: 'CASCADE' });
 
 export default Institution;

@@ -1,6 +1,7 @@
 import Category from "./models/Category.js";
 import Institution from "./models/Institution.js";
 import Address from "./models/Address.js";
+import TargetPopulation from "./models/TargetPopulation.js";
 
 const runSeeders = async () => {
     try {
@@ -8,12 +9,52 @@ const runSeeders = async () => {
         const addressCount = await Address.count();
         const categoryCount = await Category.count();
         const institutionCount = await Institution.count();
+        const targetPopulationCount = await TargetPopulation.count();
+
+        if (targetPopulationCount === 0) {
+            await TargetPopulation.bulkCreate([
+                {
+                    target_populations_pt: 'Migrantes',
+                    target_populations_fr: 'Migrants',
+                    target_populations_es: 'Migrantes',
+                    target_populations_en: 'Migrants',
+                },
+                {
+                    target_populations_pt: 'Refugiados',
+                    target_populations_fr: 'Réfugiés',
+                    target_populations_es: 'Refugiados',
+                    target_populations_en: 'Refugees',
+
+                },
+                {
+                    target_populations_pt: 'Vítimas de Tráfico de Pessoas',
+                    target_populations_fr: 'Victimes de la traite des personnes',
+                    target_populations_es: 'Víctimas de la trata de personas',
+                    target_populations_en: 'Victims of human trafficking',
+                },
+                {
+                    target_populations_pt: 'Trabalhadores',
+                    target_populations_fr: 'Travailleurs',
+                    target_populations_es: 'Trabajadores',
+                    target_populations_en: 'Workers',
+
+                },
+                {
+                    target_populations_pt: 'População Indígena',
+                    target_populations_fr: 'Population indigène',
+                    target_populations_es: 'Población indígena',
+                    target_populations_en: 'Indigenous population',
+                }
+            ]);
+        }
 
         // Inserção de endereços se a tabela estiver vazia
         if (addressCount === 0) {
             await Address.bulkCreate([
             ]);
         }
+
+
 
         // Inserção de categorias se a tabela estiver vazia
         if (categoryCount === 0) {
