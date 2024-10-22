@@ -13,9 +13,8 @@ import targetRoutes from './src/routes/targetPopulationRoutes.js';
 import { errorHandler, notFoundHandler } from './src/middlewares/errorHandler.js';
 import validateInstitution from './src/middlewares/validation/validateInstitution.js';
 
-import swaggerDocsPT from './src/config/swaggerConfigPT.js';
-import swaggerDocsEN from './src/config/swaggerConfigEN.js';
 import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from './src/config/swagger.json' assert { type: 'json' };
 
 // Create Tables in DB
 createDatabase("migrantes_db_dev");
@@ -26,8 +25,8 @@ const PORT = 3000;
 app.use(express.json());
 app.use(limiter);
 
-app.use('/api-docs/pt', swaggerUi.serve, swaggerUi.setup(swaggerDocsPT));
-app.use('/api-docs/en', swaggerUi.serve, swaggerUi.setup(swaggerDocsEN));
+// Configuração do Swagger
+app.use('/api-docs/pt', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('/api', addressRoutes);
 app.use('/api', institutionRoutes);

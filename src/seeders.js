@@ -106,24 +106,84 @@ const runSeeders = async () => {
         ]);
 
         // Seed Address
-        const createdAddress = await Address.create({
+         await Address.create({
             cep: "40060-000",
             city: "Salvador",
             state: "Bahia",
             neighborhood: "Centro",
             street: "Avenida Sete de Setembro"
         });
+
+         await Address.create({
+            cep: "40050-000",
+            city: "Salvador",
+            state: "Bahia",
+            neighborhood: "Pelourinho",
+            street: "Largo do Pelourinho"
+        });
+        
+         await Address.create({
+            cep: "40070-000",
+            city: "Salvador",
+            state: "Bahia",
+            neighborhood: "Barra",
+            street: "Avenida Oceânica"
+        });
+        
+         await Address.create({
+            cep: "40080-000",
+            city: "Salvador",
+            state: "Bahia",
+            neighborhood: "Pituba",
+            street: "Avenida Paulo VI"
+        });
+        
+         await Address.create({
+            cep: "40090-000",
+            city: "Salvador",
+            state: "Bahia",
+            neighborhood: "Cabula",
+            street: "Rua da Mangueira"
+        });
         
         // Seed Responsible User
-        const createdResponsibleUser = await ResponsibleUser.create({
+         await ResponsibleUser.create({
             name: "João da Silva",
             position: "Diretor",
             sector: "TI",
             role: "Gerente de Projetos"
         });
 
+         await ResponsibleUser.create({
+            name: "Maria Oliveira",
+            position: "Gerente",
+            sector: "Financeiro",
+            role: "Analista Financeiro"
+        });
+        
+         await ResponsibleUser.create({
+            name: "Carlos Santos",
+            position: "Coordenador",
+            sector: "Recursos Humanos",
+            role: "Recrutador"
+        });
+        
+         await ResponsibleUser.create({
+            name: "Ana Pereira",
+            position: "Supervisora",
+            sector: "Marketing",
+            role: "Especialista em Mídias Sociais"
+        });
+        
+         await ResponsibleUser.create({
+            name: "Fernando Costa",
+            position: "Analista",
+            sector: "Desenvolvimento",
+            role: "Desenvolvedor Front-end"
+        });
+
         // Seed Institution
-        const createdInstitution = await Institution.create({
+        await Institution.create({
             name: "Instituto de Tecnologia Exemplar",
             cnpj: "12.345.678/0001-90",
             email: "contato@institutoexemplar.com.br",
@@ -137,65 +197,333 @@ const runSeeders = async () => {
             main_language: "Portuguese",
             second_language: "English",
             link_maps: "https://goo.gl/maps/exemploinstituto",
-            category_id: categories[9].id, 
-            address_id: createdAddress.id,
-            responsible_user_id: createdResponsibleUser.id,
+            category_id: 2, 
+            address_id: 2,
+            responsible_user_id: 1,
+        });
+
+        await Institution.create({
+            name: "Instituto de Tecnologia Avançada",
+            cnpj: "23.456.789/0001-01",
+            email: "contato@institutoavancado.com.br",
+            main_phone: "(71) 91234-5678",
+            secondary_phone: "(71) 92345-6789",
+            address_complement: "Bloco C, Sala 101",
+            address_number: "250",
+            site: "https://www.institutoavancado.com.br",
+            instagram: "@institutoavancado",
+            authorized: true,
+            main_language: "Portuguese",
+            second_language: "Spanish",
+            link_maps: "https://goo.gl/maps/avancadoinstituto",
+            category_id: 4, 
+            address_id: 1,
+            responsible_user_id: 2,
+        });
+        
+        await Institution.create({
+            name: "Centro de Inovação e Tecnologia",
+            cnpj: "34.567.890/0001-12",
+            email: "contato@centroinovacao.com.br",
+            main_phone: "(71) 93456-7890",
+            secondary_phone: "(71) 94567-8901",
+            address_complement: "Prédio A, Sala 202",
+            address_number: "750",
+            site: "https://www.centroinovacao.com.br",
+            instagram: "@centroinovacao",
+            authorized: true,
+            main_language: "Portuguese",
+            second_language: "French",
+            link_maps: "https://goo.gl/maps/inovacaocentro",
+            category_id: 3, 
+            address_id: 4,
+            responsible_user_id: 3,
+        });
+        
+        await Institution.create({
+            name: "Faculdade de Ciências e Tecnologia",
+            cnpj: "45.678.901/0001-23",
+            email: "contato@faculdadect.com.br",
+            main_phone: "(71) 95678-9012",
+            secondary_phone: "(71) 96789-0123",
+            address_complement: "Torre D, Andar 1",
+            address_number: "150",
+            site: "https://www.faculdadect.com.br",
+            instagram: "@faculdadect",
+            authorized: true,
+            main_language: "Portuguese",
+            second_language: "Italian",
+            link_maps: "https://goo.gl/maps/faculdadect",
+            category_id: 3, 
+            address_id: 5,
+            responsible_user_id: 4,
+        });
+        
+        await Institution.create({
+            name: "Universidade de Tecnologia e Pesquisa",
+            cnpj: "56.789.012/0001-34",
+            email: "contato@unitecp.com.br",
+            main_phone: "(71) 97890-1234",
+            secondary_phone: "(71) 98901-2345",
+            address_complement: "Bloco E, Sala 105",
+            address_number: "300",
+            site: "https://www.unitecp.com.br",
+            instagram: "@unitecp",
+            authorized: true,
+            main_language: "Portuguese",
+            second_language: "German",
+            link_maps: "https://goo.gl/maps/unitecp",
+            category_id: 2, 
+            address_id: 1,
+            responsible_user_id: 5,
         });
 
         // Seed Institution Descriptions
         await InstitutionDescription.create({
-            description_pt: "Descrição da instituição em português",
-            description_fr: "Description de l'institution en français",
-            description_es: "Descripción de la institución en español",
-            description_en: "Institution description in English",
-            institution_id: createdInstitution.id
+            description_pt: "Descrição da instituição em português 1",
+            description_fr: "Description de l'institution en français 1",
+            description_es: "Descripción de la institución en español 1",
+            description_en: "Institution description in English 1",
+            institution_id: 1
+        });
+
+        await InstitutionDescription.create({
+            description_pt: "Descrição da instituição em português 2",
+            description_fr: "Description de l'institution en français 2",
+            description_es: "Descripción de la instituição em español 2",
+            description_en: "Institution description in English 2",
+            institution_id: 2
+        });
+        
+        await InstitutionDescription.create({
+            description_pt: "Descrição da instituição em português 3",
+            description_fr: "Description de l'institution en français 3",
+            description_es: "Descripción de la instituição en español 3",
+            description_en: "Institution description in English 3",
+            institution_id: 3
+        });
+        
+        await InstitutionDescription.create({
+            description_pt: "Descrição da instituição em português 4",
+            description_fr: "Description de l'institution en français 4",
+            description_es: "Descripción de la instituição em español 4",
+            description_en: "Institution description in English 4",
+            institution_id: 4
+        });
+        
+        await InstitutionDescription.create({
+            description_pt: "Descrição da instituição em português 5",
+            description_fr: "Description de l'institution en français 5",
+            description_es: "Descripción de la instituição em español 5",
+            description_en: "Institution description in English 5",
+            institution_id: 5
         });
 
         // Seed Requirements Restrictions
         await RequirementsRestriction.create({
-            requirements_restrictions_pt: "Requisitos e restrições em português",
-            requirements_restrictions_fr: "Exigences et restrictions en français",
-            requirements_restrictions_es: "Requisitos y restricciones en español",
-            requirements_restrictions_en: "Requirements and restrictions in English",
-            institution_id: createdInstitution.id
+            requirements_restrictions_pt: "Requisitos e restrições em português 1",
+            requirements_restrictions_fr: "Exigences et restrictions en français 1",
+            requirements_restrictions_es: "Requisitos y restricciones en español 1",
+            requirements_restrictions_en: "Requirements and restrictions in English 1",
+            institution_id: 1
         });
 
+        await RequirementsRestriction.create({
+            requirements_restrictions_pt: "Requisitos e restrições em português 2",
+            requirements_restrictions_fr: "Exigences et restrictions en français 2",
+            requirements_restrictions_es: "Requisitos y restricciones en español 2",
+            requirements_restrictions_en: "Requirements and restrictions in English 2",
+            institution_id: 2
+        });
+        
+        await RequirementsRestriction.create({
+            requirements_restrictions_pt: "Requisitos e restrições em português 3",
+            requirements_restrictions_fr: "Exigences et restrictions en français 3",
+            requirements_restrictions_es: "Requisitos y restricciones en español 3",
+            requirements_restrictions_en: "Requirements and restrictions in English 3",
+            institution_id: 3
+        });
+        
+        await RequirementsRestriction.create({
+            requirements_restrictions_pt: "Requisitos e restrições em português 4",
+            requirements_restrictions_fr: "Exigences et restrictions en français 4",
+            requirements_restrictions_es: "Requisitos y restricciones em español 4",
+            requirements_restrictions_en: "Requirements and restrictions in English 4",
+            institution_id: 4
+        });
+        
+        await RequirementsRestriction.create({
+            requirements_restrictions_pt: "Requisitos e restrições em português 5",
+            requirements_restrictions_fr: "Exigences et restrictions en français 5",
+            requirements_restrictions_es: "Requisitos y restricciones en español 5",
+            requirements_restrictions_en: "Requirements and restrictions in English 5",
+            institution_id: 5
+        });
 
         // Seed Service Cost
         await ServiceCost.create({
-            services_costs_pt: "Custos dos serviços em português",
-            services_costs_fr: "Coûts des services en français",
-            services_costs_es: "Costos de los servicios en español",
-            services_costs_en: "Service costs in English",
-            institution_id: createdInstitution.id
+            services_costs_pt: "Custos dos serviços em português 1",
+            services_costs_fr: "Coûts des services en français 1",
+            services_costs_es: "Costos de los servicios en español 1",
+            services_costs_en: "Service costs in English 1",
+            institution_id: 1
+        });
+
+        await ServiceCost.create({
+            services_costs_pt: "Custos dos serviços em português 2",
+            services_costs_fr: "Coûts des services en français 2",
+            services_costs_es: "Costos de los servicios en español 2",
+            services_costs_en: "Service costs in English 2",
+            institution_id: 2
+        });
+        
+        await ServiceCost.create({
+            services_costs_pt: "Custos dos serviços em português 3",
+            services_costs_fr: "Coûts des services en français 3",
+            services_costs_es: "Costos de los servicios en español 3",
+            services_costs_en: "Service costs in English 3",
+            institution_id: 3
+        });
+        
+        await ServiceCost.create({
+            services_costs_pt: "Custos dos serviços em português 4",
+            services_costs_fr: "Coûts des services en français 4",
+            services_costs_es: "Costos de los serviços en español 4",
+            services_costs_en: "Service costs in English 4",
+            institution_id: 4
+        });
+        
+        await ServiceCost.create({
+            services_costs_pt: "Custos dos serviços em português 5",
+            services_costs_fr: "Coûts des services en français 5",
+            services_costs_es: "Costos de los serviços en español 5",
+            services_costs_en: "Service costs in English 5",
+            institution_id: 5
         });
 
         // Seed Service Hours
         await ServiceHours.create({
-            service_hours_pt: "Horários de atendimento em português",
-            service_hours_fr: "Heures de service en français",
-            service_hours_es: "Horas de servicio en español",
-            service_hours_en: "Service hours in English",
-            institution_id: createdInstitution.id
+            service_hours_pt: "Horários de atendimento em português 1",
+            service_hours_fr: "Heures de service en français 1",
+            service_hours_es: "Horas de servicio en español 1",
+            service_hours_en: "Service hours in English 1",
+            institution_id: 1
+        });
+
+        await ServiceHours.create({
+            service_hours_pt: "Horários de atendimento em português 2",
+            service_hours_fr: "Heures de service en français 2",
+            service_hours_es: "Horas de servicio en español 2",
+            service_hours_en: "Service hours in English 2",
+            institution_id: 2
+        });
+        
+        await ServiceHours.create({
+            service_hours_pt: "Horários de atendimento em português 3",
+            service_hours_fr: "Heures de service en français 3",
+            service_hours_es: "Horas de servicio en español 3",
+            service_hours_en: "Service hours in English 3",
+            institution_id: 3
+        });
+        
+        await ServiceHours.create({
+            service_hours_pt: "Horários de atendimento em português 4",
+            service_hours_fr: "Heures de service en français 4",
+            service_hours_es: "Horas de servicio en español 4",
+            service_hours_en: "Service hours in English 4",
+            institution_id: 4
+        });
+        
+        await ServiceHours.create({
+            service_hours_pt: "Horários de atendimento em português 5",
+            service_hours_fr: "Heures de service en français 5",
+            service_hours_es: "Horas de servicio en español 5",
+            service_hours_en: "Service hours in English 5",
+            institution_id: 5
         });
 
         // Seed Services Offered
         await ServicesOffered.create({
-            services_offered_pt: "Serviços oferecidos em português",
-            services_offered_fr: "Services offerts en français",
-            services_offered_es: "Servicios ofrecidos en español",
-            services_offered_en: "Services offered in English",
-            institution_id: createdInstitution.id
+            services_offered_pt: "Serviços oferecidos em português 1",
+            services_offered_fr: "Services offerts en français 1",
+            services_offered_es: "Servicios ofrecidos en español 1",
+            services_offered_en: "Services offered in English 1",
+            institution_id: 1
+        });
+
+        await ServicesOffered.create({
+            services_offered_pt: "Serviços oferecidos em português 2",
+            services_offered_fr: "Services offerts en français 2",
+            services_offered_es: "Servicios ofrecidos en español 2",
+            services_offered_en: "Services offered in English 2",
+            institution_id: 2
+        });
+        
+        await ServicesOffered.create({
+            services_offered_pt: "Serviços oferecidos em português 3",
+            services_offered_fr: "Services offerts en français 3",
+            services_offered_es: "Servicios ofrecidos en español 3",
+            services_offered_en: "Services offered in English 3",
+            institution_id: 3
+        });
+        
+        await ServicesOffered.create({
+            services_offered_pt: "Serviços oferecidos em português 4",
+            services_offered_fr: "Services offerts en français 4",
+            services_offered_es: "Servicios ofrecidos en español 4",
+            services_offered_en: "Services offered in English 4",
+            institution_id: 4
+        });
+        
+        await ServicesOffered.create({
+            services_offered_pt: "Serviços oferecidos em português 5",
+            services_offered_fr: "Services offerts en français 5",
+            services_offered_es: "Servicios ofrecidos en español 5",
+            services_offered_en: "Services offered in English 5",
+            institution_id: 5
         });
 
         // Seed Target Population
         await TargetPopulation.create({
-            target_populations_pt: "População-alvo em português",
-            target_populations_fr: "Population cible en français",
-            target_populations_es: "Población objetivo en español",
-            target_populations_en: "Target population in English",
-            institution_id: createdInstitution.id
+            target_populations_pt: "População-alvo em português 1",
+            target_populations_fr: "Population cible en français 1",
+            target_populations_es: "Población objetivo en español 1",
+            target_populations_en: "Target population in English 1",
+            institution_id: 1
         });
+
+        await TargetPopulation.create({
+            target_populations_pt: "População-alvo em português 2",
+            target_populations_fr: "Population cible en français 2",
+            target_populations_es: "Población objetivo en español 2",
+            target_populations_en: "Target population in English 2",
+            institution_id: 1
+        });
+
+        await TargetPopulation.create({
+            target_populations_pt: "População-alvo em português 3",
+            target_populations_fr: "Population cible en français 3",
+            target_populations_es: "Población objetivo en español 3",
+            target_populations_en: "Target population in English 3",
+            institution_id: 2
+        });
+
+        await TargetPopulation.create({
+            target_populations_pt: "População-alvo em português 4",
+            target_populations_fr: "Population cible en français 4",
+            target_populations_es: "Población objetivo en español 4",
+            target_populations_en: "Target population in English 4",
+            institution_id: 3
+        });
+
+        await TargetPopulation.create({
+            target_populations_pt: "População-alvo em português 5",
+            target_populations_fr: "Population cible en français 5",
+            target_populations_es: "Población objetivo en español 5",
+            target_populations_en: "Target population in English 5",
+            institution_id: 4
+        });
+
 
         console.log("Seeding completed successfully!");
     } catch (error) {

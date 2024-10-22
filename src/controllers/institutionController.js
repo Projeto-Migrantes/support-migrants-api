@@ -33,6 +33,18 @@ const findById = async (req, res) => {
     }
 };
 
+const findByCategory = async (req, res) => {
+    try {
+        const institutions = await institutionService.findAllInstitutionsByCategory(req.params.id);
+        if(!institutions || institutions.length === 0){
+            return res.status(404).json({ message: 'Nenhuma instituição encontrada com essa categoria' });
+        }
+        return res.status(200).json({ institutions });
+    } catch (error) {
+        return res.status(500).json({ error: 'Erro no servidor' });        
+    }
+}
+
 const create = async (req, res) => {
     try {
         const { institution, 
@@ -80,4 +92,5 @@ export default {
     findAll,
     findById,
     create,
+    findByCategory
 };

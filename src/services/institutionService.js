@@ -14,16 +14,7 @@ const findAllInstitutions = async () => {
         order:[ 
             ['id', 'DESC']
         ],
-        include: [
-            Category, 
-            Address, 
-            ResponsibleUser, 
-            InstitutionDescriptions,
-            ServiceHours, 
-            TargetPopulation, 
-            RequirementRestriction, 
-            ServicesOfferred, 
-            ServiceCosts],
+        include: models.all,
     });
 };
 
@@ -41,8 +32,26 @@ const createInstitution = async (institution, addressId, responsibleUserId) => {
     });
 };
 
+const findAllInstitutionsByCategory = async (categoryId) => {
+    return await Institution.findAll({ where: {category_id: categoryId}, include: models.all});
+}
+
+const models = {
+    all: [
+        { model: Category }, 
+        { model: Address }, 
+        { model: ResponsibleUser }, 
+        { model: InstitutionDescriptions },
+        { model: ServiceHours }, 
+        { model: TargetPopulation }, 
+        { model: RequirementRestriction }, 
+        { model: ServicesOfferred }, 
+        { model: ServiceCosts }]
+};
+
 export default {
     findAllInstitutions,
     findInstitutionById,
     createInstitution,
+    findAllInstitutionsByCategory,
 };

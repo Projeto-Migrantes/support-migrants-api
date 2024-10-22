@@ -1,0 +1,69 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API REST - Projeto Migrantes",
+        "version": "1.0.0",
+        "description": "Esta documentação fornece uma visão geral da funcionalidade da API, suas rotas, parâmetros, retornos e exemplos de uso, permitindo que os desenvolvedores integrem facilmente a API nos projetos."
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000",
+            "description": "Local Server"
+        }, 
+        {
+            "url": "api-ramb.up.railway.app",
+            "description": "Railway Server"
+        }
+    ],
+    "paths": {
+        "/api/institutions": {
+            "get": {
+                "summary": "Retorna todas as instituições",
+                "responses": {
+                    "200": {
+                        "description": "Retorna todas as instituições que estão armazenadas no banco de dados"
+                    }
+                }
+            }
+        },
+        
+        "/api/institutions/{id}": {
+            "get": {
+                "summary": "Retorna uma instituição específica",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "description": "ID da instituição",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Instituição retornada"
+                    },
+                    "404": {
+                        "description": "Instituição não encontrada"
+                    }
+                }
+            }
+        },
+    
+        "/api/institution": {
+            "post": {
+                "summary": "Criar uma instituição",
+                "responses": {
+                    "200": {
+                        "description": "Instituição criada"
+                    },
+                    "500": {
+                        "description": "Erro no servidor"
+                    }
+                }
+            }
+        }
+    }
+}
