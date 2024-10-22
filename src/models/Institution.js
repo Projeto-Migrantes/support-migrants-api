@@ -65,7 +65,7 @@ const Institution = connection.define('Institution', {
         type: DataTypes.STRING(80),
         allowNull: false
       },
-      second_laguage: {
+      second_language: {
         type: DataTypes.STRING(80),
         allowNull: false
       },
@@ -79,10 +79,10 @@ const Institution = connection.define('Institution', {
 }); 
 
 // Institution has a category
-Institution.belongsTo(Category, { foreignKey: 'categories_id' }); 
+Institution.belongsTo(Category, { foreignKey: 'category_id' }); 
 
 // Category has many Institutions
-Category.hasMany(Institution, { foreignKey: 'categories_id' }); 
+Category.hasMany(Institution, { foreignKey: 'category_id' }); 
 
 // Institution has an address
 Institution.belongsTo(Address, { foreignKey: 'address_id' }); 

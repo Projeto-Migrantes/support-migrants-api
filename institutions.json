@@ -1,0 +1,67 @@
+{
+    "institution": {
+    "name": "Instituto de Tecnologia Exemplar",
+    "cnpj": "12.345.678/0001-90",
+    "email": "contato@institutoexemplar.com.br",
+    "main_phone": "(71) 98765-4321",
+    "secondary_phone": "(71) 99876-5432",
+    "address_complement": "Bloco B, Sala 203",
+    "address_number": "500",
+    "site": "https://www.institutoexemplar.com.br",
+    "instagram": "@institutoexemplar",
+    "authorized": true,
+    "main_language": "Portuguese",
+    "second_language": "English",
+    "link_maps": "https://goo.gl/maps/exemploinstituto",
+    "category_id": 1
+    },
+    "address": {
+        "cep": "40060-000",
+        "city": "Salvador",
+        "state": "Bahia",
+        "neighborhood": "Centro",
+        "street": "Avenida Sete de Setembro"
+    },
+    "institution_descriptions": {
+        "description_pt": "Descrição da instituição em português",
+        "description_fr": "Description de l'institution en français",
+        "description_es": "Descripción de la institución en español",
+        "description_en": "Institution description in English"
+    },
+    "requirements_restrictions": {
+        "requirements_restrictions_pt": "Requisitos e restrições em português",
+        "requirements_restrictions_fr": "Exigences et restrictions en français",
+        "requirements_restrictions_es": "Requisitos y restricciones en español",
+        "requirements_restrictions_en": "Requirements and restrictions in English"
+    },
+    "responsible_user": {
+        "name": "João da Silva",
+        "position": "Diretor",
+        "sector": "TI",
+        "role": "Gerente de Projetos"
+    },
+    "service_cost": {
+        "services_costs_pt": "Custos dos serviços em português",
+        "services_costs_fr": "Coûts des services en français",
+        "services_costs_es": "Costos de los servicios en español",
+        "services_costs_en": "Service costs in English"
+    },
+    "service_hours": {
+        "service_hours_pt": "Horários de atendimento em português",
+        "service_hours_fr": "Heures de service en français",
+        "service_hours_es": "Horas de servicio en español",
+        "service_hours_en": "Service hours in English"
+    },
+    "services_offered": {
+        "services_offered_pt": "Serviços oferecidos em português",
+        "services_offered_fr": "Services offerts en français",
+        "services_offered_es": "Servicios ofrecidos en español",
+        "services_offered_en": "Services offered in English"
+    },
+    "target_population": {
+        "target_populations_pt": "População-alvo em português",
+        "target_populations_fr": "Population cible en français",
+        "target_populations_es": "Población objetivo en español",
+        "target_populations_en": "Target population in English"
+    }
+}

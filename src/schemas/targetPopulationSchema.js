@@ -34,10 +34,10 @@ const messages = {
 
 // Validation scheme
 const targetPopulationSchema = Joi.object({
-    target_population_pt: Joi.string().min(3).max(255).required().messages(messages.target_population_pt),
-    target_population_en: Joi.string().min(3).max(255).required().messages(messages.target_population_en),
-    target_population_es: Joi.string().min(3).max(255).required().messages(messages.target_population_es),
-    target_population_fr: Joi.string().min(3).max(255).required().messages(messages.target_population_fr),
+    target_populations_pt: Joi.string().min(3).max(255).required().messages(messages.target_population_pt),
+    target_populations_en: Joi.string().min(3).max(255).required().messages(messages.target_population_en),
+    target_populations_es: Joi.string().min(3).max(255).required().messages(messages.target_population_es),
+    target_populations_fr: Joi.string().min(3).max(255).required().messages(messages.target_population_fr),
 });
 
 export default targetPopulationSchema;

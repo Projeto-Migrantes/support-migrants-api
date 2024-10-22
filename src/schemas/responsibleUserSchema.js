@@ -34,10 +34,10 @@ const messages = {
 
 // Validation schema
 const responsibleUserSchema = Joi.object({
-    name: Joi.string().min(3).max(255).required().messages(messages.name),
-    position: Joi.string().min(3).max(80).required().messages(messages.position),
-    sector: Joi.string().min(3).max(80).required().messages(messages.sector),
-    function: Joi.string().min(3).max(80).required().messages(messages.function), 
+    name: Joi.string().min(1).max(255).required().messages(messages.name),
+    position: Joi.string().min(1).max(80).required().messages(messages.position),
+    sector: Joi.string().min(1).max(80).required().messages(messages.sector),
+    role: Joi.string().min(1).max(80).required().messages(messages.function), 
 });
 
 export default responsibleUserSchema;

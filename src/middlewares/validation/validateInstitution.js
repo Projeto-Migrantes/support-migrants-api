@@ -9,14 +9,14 @@ const validate = (req, res, next) => {
     }
 
     // Removes formatting from phones 
-    req.body.organization.main_phone = req.body.organization.main_phone.replace(/[^\d]/g, ''); 
+    req.body.institution.main_phone = req.body.institution.main_phone.replace(/[^\d]/g, ''); 
 
-    if (req.body.organization.secondary_phone) {
-        req.body.organization.secondary_phone = req.body.organization.secondary_phone.replace(/[^\d]/g, '');
+    if (req.body.institution.secondary_phone) {
+        req.body.institution.secondary_phone = req.body.institution.secondary_phone.replace(/[^\d]/g, '');
     }
     
     // Removes CNPJ formatting 
-    req.body.organization.cnpj = req.body.organization.cnpj.replace(/[^\d]/g, '');
+    req.body.institution.cnpj = req.body.institution.cnpj.replace(/[^\d]/g, '');
     next();
 };
 

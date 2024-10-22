@@ -58,12 +58,6 @@ const messages = {
         'string.max': 'Segundo idioma deve ter no máximo {#limit} caracteres.',
         'any.required': 'Segundo idioma" é obrigatório.'
     },
-    description: {
-        'string.min': "A descrição deve ter no mínimo {#limit} caracteres.",
-        'string.max': "A descrição deve ter no máximo {#limit} caracteres.",
-        'any.required': "A descrição é obrigatória.",
-        'string.empty': "A descrição não pode estar vazia."
-    },
     address: {
         'any.required': `Endereço é obrigatório.`
     },

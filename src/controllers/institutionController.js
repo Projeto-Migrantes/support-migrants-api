@@ -36,29 +36,40 @@ const findById = async (req, res) => {
 const create = async (req, res) => {
     try {
         const { institution, 
-                institutionDescriptions, 
-                requirementRestriction, 
-                responsibleUser,
-                serviceCost,
-                serviceHours,
-                servicesOffered,
-                targetPopulation,    
+                institution_descriptions, 
+                requirements_restrictions, 
+                responsible_user,
+                service_cost,
+                service_hours,
+                services_offered,
+                target_population,    
             } = req.body;
 
         const addressId = await addressController.existAddress(req, res);
-        const createdInstitution = await institutionService.createOrganization(institution, addressId);
-        
-        const id = createdInstitution.id;
+        const createdResponsibleUser = await responsibleUserService.createResponsibleUser(responsible_user);
+        const responsibleUserId = createdResponsibleUser.id;
 
-        const createdInstitutionDescriptions = await institutionDescriptionsService.createInstitutionDescriptions(institutionDescriptions, id);
-        const createdRequirementRestriction = await requirementRestrictionService.createRequirementRestriction(requirementRestriction, id);
-        const createdResponsibleUser = await responsibleUserService.createResponsibleUser(responsibleUser, id);
-        const createdServiceCost = await serviceCostService.createServiceCost(serviceCost, id);
-        const createdServiceHours = await serviceHoursService.createServiceHours(serviceHours, id);
-        const createdServicesOffered = await servicesOfferedService.createServicesOffered(servicesOffered, id);
-        const createdTargetPopulation = await targetPopulationService.createTargetPopulation(targetPopulation, id);
+        const createdInstitution = await institutionService.createInstitution(institution, addressId, responsibleUserId);
+        const institutionId = createdInstitution.id;
 
-        return res.status(201).json({ message: 'Instituição criada com sucesso', createdInstitution });
+        const createdInstitutionDescriptions = await institutionDescriptionsService.createInstitutionDescriptions(institution_descriptions, institutionId);
+        const createdRequirementRestriction = await requirementRestrictionService.createRequirementRestriction(requirements_restrictions, institutionId);
+        const createdServiceCost = await serviceCostService.createServiceCost(service_cost, institutionId);
+        const createdServiceHours = await serviceHoursService.createServiceHours(service_hours, institutionId);
+        const createdServicesOffered = await servicesOfferedService.createServicesOffered(services_offered, institutionId);
+        const createdTargetPopulation = await targetPopulationService.createTargetPopulation(target_population, institutionId);
+
+        return res.status(201).json({
+             message: 'Instituição criada com sucesso', 
+             createdInstitution,
+             createdInstitutionDescriptions,
+             createdRequirementRestriction,
+             createdResponsibleUser,
+             createdServiceCost,
+             createdServiceHours,
+             createdServicesOffered,
+             createdTargetPopulation
+            });
     } catch (error) {
         console.log(error);
         return res.status(500).json( {error: 'Erro interno do servidor '} );

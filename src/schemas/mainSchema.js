@@ -15,9 +15,9 @@ const mainSchema = Joi.object({
     address: addressSchema.required().messages({ 'any.required': "Os dados do endereço são obrigatórios." }),
     responsible_user: responsibleUserSchema.required().messages({ 'any.required': "Os dados do responsável pelo cadastro são obrigatórios." }),
     target_population: targetPopulationSchema.required().messages({ 'any.required': "Os dados da população-alvo são obrigatórios." }),
-    institution_description: institutionDescriptionSchema.required().messages({ 'any.required': "A descrição da instituição é obrigatória." }),
-    requirement_restriction: requirementRestrictionSchema.required().messages({ 'any.required': "Os dados de requerimento e restrição são obrigatórios." }),
-    service_offered: serviceOfferedSchema.required().messages({ 'any.required': "Os dados do serviço oferecido são obrigatórios." }),
+    institution_descriptions: institutionDescriptionSchema.required().messages({ 'any.required': "A descrição da instituição é obrigatória." }),
+    requirements_restrictions: requirementRestrictionSchema.optional().messages({ 'any.required': "Os dados de requerimento e restrição são obrigatórios." }),
+    services_offered: serviceOfferedSchema.required().messages({ 'any.required': "Os dados do serviço oferecido são obrigatórios." }),
     service_cost: serviceCostSchema.required().messages({ 'any.required': "Os dados do custo do serviço são obrigatórios." }),
     service_hours: serviceHoursSchema.required().messages({ 'any.required': "Os dados das horas de serviço são obrigatórios." })
 });
