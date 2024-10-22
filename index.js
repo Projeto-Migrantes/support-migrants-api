@@ -21,6 +21,8 @@ import swaggerUi from 'swagger-ui-express';
 createDatabase("migrantes_db_dev");
 
 const app = express();
+const PORT = 3000;
+
 app.use(express.json());
 app.use(limiter);
 
@@ -47,5 +49,5 @@ connection.authenticate()
     });
 
 app.listen(3000, () => {
-    console.log('Rodando');
+    console.log(`Servidor Rodando na porta: ${PORT}`);
 });
