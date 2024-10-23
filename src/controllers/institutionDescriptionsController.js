@@ -8,6 +8,7 @@ const findAll = async (req, res) => {
         }
         return res.status(200).json({ institutionDescriptions });
     } catch (error) {
+        console.error(error);
         return res.status(500).json({ error: 'Erro no servidor.' });        
     }
 };
@@ -19,6 +20,7 @@ const create = async (req, res) => {
         return res.status(201).json({ message: "Descrição criada", createdInstitutionDescriptions });
     } catch (error) {
         console.log(error);
+        console.error(error);
         return res.status(500).json({ error: 'Erro no servidor.' });        
     }
 };

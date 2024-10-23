@@ -17,6 +17,7 @@ const findAll = async (req, res) => {
         }
         return res.status(200).json({ institutions });
     } catch (error) {
+        console.error(error);
         return res.status(500).json({ error: 'Erro no servidor.' });        
     }
 };
@@ -29,6 +30,7 @@ const findById = async (req, res) => {
     }  
     return res.status(200).json({ institution });
     } catch (error) {
+        console.error(error);
         return res.status(500).json({ error: 'Erro no servidor.' })        
     }
 };
@@ -41,6 +43,7 @@ const findByCategory = async (req, res) => {
         }
         return res.status(200).json({ institutions });
     } catch (error) {
+        console.error(error);
         return res.status(500).json({ error: 'Erro no servidor' });        
     }
 }
@@ -83,7 +86,7 @@ const create = async (req, res) => {
              createdTargetPopulation
             });
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return res.status(500).json( {error: 'Erro interno do servidor '} );
     }
 }

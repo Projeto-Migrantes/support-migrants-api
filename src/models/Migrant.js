@@ -95,6 +95,12 @@ const Migrant = connection.define('Migrant', {
      }
 }, {
     tableName: 'migrants',
+    defaultScope: {
+      attributes: { exclude: ['password'] }
+    },
+    scopes: {
+      withPassword: { attributes: {} }
+    }
 }); 
 
 // Migrant has a international relations user
@@ -104,10 +110,10 @@ Migrant.belongsTo(UserIR, { foreignKey: 'user_ir_id' });
 UserIR.hasMany(Migrant, { foreignKey: 'user_ir_id' });
 
 // Migrant has one Document Migrant
-Migrant.hasOne(MigrantDocument, { foreignKey: 'migrant_document_id' });
+Migrant.hasOne(MigrantDocument, { foreignKey: 'migrant_id' });
 
 // Document Migrant belongs to Migrant
-MigrantDocument.belongsTo(Migrant, { foreignKey: 'migrant_document_id' });
+MigrantDocument.belongsTo(Migrant, { foreignKey: 'migrant_id' });
 
 // Migrant has an address
 Migrant.belongsTo(Address, { foreignKey: 'address_id' }); 

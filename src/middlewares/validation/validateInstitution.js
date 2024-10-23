@@ -1,7 +1,7 @@
-import mainSchema from "../../schemas/mainSchema.js";
+import institutionMainSchema from "../../schemas/institutionMainSchema.js";
 
 const validate = (req, res, next) => {
-    const { error, value } = mainSchema.validate(req.body, { abortEarly: false });
+    const { error, value } = institutionMainSchema.validate(req.body, { abortEarly: false });
 
     if(error){
         const errorsDetails = error.details.map(detail => detail.message);
