@@ -3,7 +3,6 @@ import runSeeders from './seeders.js';
 import Address from './models/Address.js';
 import Category from './models/Category.js';
 import Admin from './models/Admin.js';
-import File from './models/File.js';
 import Form from './models/Form.js';
 import Migrant from './models/Migrant.js';
 import Institution from './models/Institution.js';
@@ -11,6 +10,7 @@ import ServiceStation from './models/ServiceStation.js';
 import UserRI from './models/ResponsibleUser.js';
 import TargetPopulation from './models/TargetPopulation.js';
 import RequirementRestriction from './models/RequirementRestriction.js';
+import Pdf from './models/Pdf.js';
 
 const create = async (dbName) => {
     try {

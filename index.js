@@ -1,5 +1,6 @@
 'use strict';
 
+
 import express from 'express';
 import limiter from './src/middlewares/rateLimiter.js';
 import connection from './src/config/database.js';
@@ -12,18 +13,21 @@ import serviceStationRoutes from './src/routes/serviceStationRoutes.js';
 import migrantRoutes from './src/routes/migrantRoutes.js';
 import authRoutes from './src/routes/auth.js';
 import formRoutes from './src/routes/formRoutes.js';
+import pdfRoutes from './src/routes/pdfRoutes.js';
 
 import { errorHandler, notFoundHandler } from './src/middlewares/errorHandler.js';
-import validateInstitution from './src/middlewares/validation/validateInstitution.js';
 
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from './src/config/swagger.json' assert { type: 'json' };
 
+import dotenv from 'dotenv';
+dotenv.config()
+
 // Create Tables in DB
-createDatabase("migrantes_db_dev");
+// createDatabase("migrantes_db_dev");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(limiter);
@@ -38,7 +42,9 @@ app.use('/api',
     serviceStationRoutes, 
     migrantRoutes, 
     authRoutes, 
-    formRoutes);
+    formRoutes,
+    pdfRoutes
+);
 
 // Middleware to handle general errors
 app.use(errorHandler);

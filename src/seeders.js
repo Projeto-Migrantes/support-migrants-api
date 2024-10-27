@@ -5,12 +5,42 @@ import TargetPopulation from "../src/models/TargetPopulation.js";
 import InstitutionDescription from "../src/models/InstitutionDescriptions.js";
 import RequirementsRestriction from "../src/models/RequirementRestriction.js";
 import ResponsibleUser from "../src/models/ResponsibleUser.js";
-import ServiceCost from "../src/models/ServiceCost.js"; // Modelo para custos de serviços
-import ServiceHours from "../src/models/ServiceHours.js"; // Modelo para horários de serviços
-import ServicesOffered from "../src/models/ServicesOffered.js"; // Modelo para serviços oferecidos
+import ServiceCost from "../src/models/ServiceCost.js"; 
+import ServiceHours from "../src/models/ServiceHours.js"; 
+import ServicesOffered from "../src/models/ServicesOffered.js"; 
+import Pdf from "./models/Pdf.js";
 
 const runSeeders = async () => {
     try {
+
+        // Seed PDF data
+        await Pdf.bulkCreate([
+            {
+                name: "Guia de Programação em JavaScript",
+                description: "Este PDF contém um guia abrangente para iniciantes em JavaScript.",
+                url: "https://example.com/guia-javascript.pdf",
+                language: "pt"
+            },
+            {
+                name: "JavaScript Programming Guide",
+                description: "This PDF contains a comprehensive guide for beginners in JavaScript.",
+                url: "https://example.com/javascript-guide.pdf",
+                language: "en"
+            },
+            {
+                name: "Guía de Programación en JavaScript",
+                description: "Este PDF contiene una guía completa para principiantes en JavaScript.",
+                url: "https://example.com/guia-javascript.pdf",
+                language: "es"
+            },
+            {
+                name: "Guide de Programmation en JavaScript",
+                description: "Ce PDF contient un guide complet pour les débutants en JavaScript.",
+                url: "https://example.com/guide-javascript.pdf",
+                language: "fr"
+            }
+        ]);
+
         // Seed Categories
         const categories = await Category.bulkCreate([
             {
