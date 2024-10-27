@@ -1,4 +1,3 @@
-import addressSchema from './addressSchema.js';
 
 import Joi from 'joi';
 
@@ -36,7 +35,7 @@ const messages = {
     }
 };
 
-const serviceStationSchema = {
+const serviceStationSchema = Joi.object({
     
     // Validating name
     name: Joi.string().min(10).max(200).required().messages(messages.name),
@@ -55,9 +54,6 @@ const serviceStationSchema = {
 
     // Validating address complement
     address_complement: Joi.string().min(15).max(150).optional().messages(messages.addressComplement),
-
-    // Validating address
-    address: addressSchema.required().messages(messages.address),
-};
+});
 
 export default serviceStationSchema;

@@ -38,11 +38,20 @@ const deleteMigrant = async (migrantId) => {
     return await Migrant.destroy({ where: { id: migrantId } });
 };
 
+const updatePasswordMigrant = async (newPassowrd, migrantId) => {
+    return await Migrant.update({
+        password: newPassowrd, 
+    },{
+        where: {id: migrantId}
+    });
+}
+
 export default {
     findAllMigrants,
     findMigrantById,
     findOneMigrantByEmail,
     createMigrant,
     updateMigrant,
-    deleteMigrant
+    deleteMigrant,
+    updatePasswordMigrant,
 };

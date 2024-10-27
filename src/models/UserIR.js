@@ -24,6 +24,12 @@ const UserIR = connection.define('UserIR', {
       },
 }, {
     tableName: 'users_ir',
+    defaultScope: {
+      attributes: { exclude: ['password'] }
+    },
+    scopes: {
+      withPassword: { attributes: {} }
+    }
 });
 
 export default UserIR;

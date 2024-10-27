@@ -16,12 +16,12 @@ const serviceStation = connection.define('ServiceStation', {
     unique: true
   },
   main_phone: {
-    type: DataTypes.STRING(15),
+    type: DataTypes.STRING(40),
     allowNull: false,
     unique: true
   },
   secondary_phone: {
-    type: DataTypes.STRING(15),
+    type: DataTypes.STRING(40),
     allowNull: true,
     unique: true
   },

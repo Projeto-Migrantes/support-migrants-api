@@ -58,9 +58,6 @@ const messages = {
         'string.max': 'Segundo idioma deve ter no máximo {#limit} caracteres.',
         'any.required': 'Segundo idioma" é obrigatório.'
     },
-    address: {
-        'any.required': `Endereço é obrigatório.`
-    },
     addressComplement: {
         'string.base': `Complemento do Endereço deve ser um texto.`,
         'string.empty': `Complemento do Endereço não pode estar vazio.`,

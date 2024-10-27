@@ -36,6 +36,11 @@ const findAllInstitutionsByCategory = async (categoryId) => {
     return await Institution.findAll({ where: {category_id: categoryId}, include: models.all});
 }
 
+// Delete Institution By ID
+const deleteInstitution = async (institutionId) => {
+    return await Institution.destroy({ where: { id: institutionId } });
+};
+
 const models = {
     all: [
         { model: Category }, 
@@ -54,4 +59,5 @@ export default {
     findInstitutionById,
     createInstitution,
     findAllInstitutionsByCategory,
+    deleteInstitution,
 };

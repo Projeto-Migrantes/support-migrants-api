@@ -46,7 +46,7 @@ const Migrant = connection.define('Migrant', {
         allowNull: true
       },
       phone: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING(40),
         allowNull: true,
       },
       phone_whatsapp: {
@@ -110,10 +110,10 @@ Migrant.belongsTo(UserIR, { foreignKey: 'user_ir_id' });
 UserIR.hasMany(Migrant, { foreignKey: 'user_ir_id' });
 
 // Migrant has one Document Migrant
-Migrant.hasOne(MigrantDocument, { foreignKey: 'migrant_id' });
+Migrant.hasOne(MigrantDocument, { foreignKey: 'migrant_id', onDelete: 'CASCADE' });
 
 // Document Migrant belongs to Migrant
-MigrantDocument.belongsTo(Migrant, { foreignKey: 'migrant_id' });
+MigrantDocument.belongsTo(Migrant, { foreignKey: 'migrant_id', onDelete: 'CASCADE' });
 
 // Migrant has an address
 Migrant.belongsTo(Address, { foreignKey: 'address_id' }); 

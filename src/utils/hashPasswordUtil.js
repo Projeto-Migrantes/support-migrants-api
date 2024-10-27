@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 
+// Generates the password hash
 const createHash = async (password) => {
     const saltRounds = 10;
     try {
@@ -11,6 +12,7 @@ const createHash = async (password) => {
     }
 };
 
+// Compares the password hash with the password sent as a parameter
 const compareHash = async (password, passwordMigrant) => {
     try {
         const isPasswordValid = await bcrypt.compare(password, passwordMigrant);

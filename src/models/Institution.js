@@ -32,12 +32,12 @@ const Institution = connection.define('Institution', {
         allowNull: false
       },
       main_phone: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING(40),
         allowNull: false,
         unique: true
       },
       secondary_phone: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING(40),
         allowNull: true,
         unique: true
       },

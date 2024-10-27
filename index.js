@@ -8,7 +8,7 @@ import createDatabase from './src/createDatabase.js';
 import addressRoutes from './src/routes/addressRoutes.js';
 import institutionRoutes from './src/routes/institutionRoutes.js';
 import categoryRoutes from './src/routes/categoryRoutes.js';
-import targetRoutes from './src/routes/targetPopulationRoutes.js';
+import serviceStationRoutes from './src/routes/serviceStationRoutes.js';
 import migrantRoutes from './src/routes/migrantRoutes.js';
 import authRoutes from './src/routes/auth.js';
 
@@ -33,7 +33,7 @@ app.use('/api-docs/pt', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/api', addressRoutes);
 app.use('/api', institutionRoutes);
 app.use('/api', categoryRoutes);
-app.use('/api', targetRoutes);
+app.use('/api', serviceStationRoutes);
 app.use('/api', migrantRoutes);
 app.use('/api', authRoutes);
 

@@ -8,5 +8,7 @@ router.get('/institutions', institutionController.findAll);
 router.get('/institutions/:id', institutionController.findById);
 router.get('/institutions/category/:id', validateOrganization, institutionController.findByCategory);
 router.post('/institutions', validateOrganization, institutionController.create);
+router.delete('/institutions/:id', institutionController.destroy);
+
 
 export default router;

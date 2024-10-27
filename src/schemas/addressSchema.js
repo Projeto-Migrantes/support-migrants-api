@@ -33,7 +33,7 @@ const addressSchema = Joi.object({
     city: Joi.string().min(3).max(40).required().messages(messages.city),
     state: Joi.string().min(3).max(40).required().messages(messages.state),
     neighborhood: Joi.string().min(3).max(100).required().messages(messages.neighborhood),
-    street: Joi.string().min(3).max(150).required().messages(messages.street)
+    street: Joi.string().min(2).max(150).required().messages(messages.street)
 });
 
 export default addressSchema;

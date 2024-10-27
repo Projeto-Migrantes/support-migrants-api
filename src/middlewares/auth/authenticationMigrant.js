@@ -23,10 +23,7 @@ const login = async (req, res) => {
             process.env.JWT_SECRET,
         );
 
-        return res.status(200).json({
-            ...migrant, 
-            token
-        });
+        return res.status(200).json({ token });
     } catch (error) {
         console.error('Erro ao fazer login', error);
         return res.status(500).json({ message: 'Erro interno do servidor' });
@@ -41,11 +38,10 @@ const authenticateToken = (req, res, next) => {
         return res.status(400).json({ message: 'Token não fornecido' });
     }
 
-    jwt.verify(token, process.env.JWT_SECRET, (err, migrant) => {
-        if(err) {
+    jwt.verify(token, process.env.JWT_SECRET, (error, migrant) => {
+        if(error) {
             return res.status(401).json({ message: 'Token inválido ou expirado' });
-        
-        }
+        };
 
         req.migrant = migrant;
         next();

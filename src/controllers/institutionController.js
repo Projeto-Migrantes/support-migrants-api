@@ -88,12 +88,31 @@ const create = async (req, res) => {
     } catch (error) {
         console.error(error);
         return res.status(500).json( {error: 'Erro interno do servidor '} );
+    };
+};
+
+const destroy = async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        const deletedInstitution = await institutionService.deleteInstitution(id);
+
+        if(deletedInstitution === 0){
+            return res.status(404).json({ message: 'Instituição não encontrada' });
+        };
+
+        return res.status(204).send();
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Erro no servidor' });
     }
-}
+};
 
 export default { 
     findAll,
     findById,
     create,
-    findByCategory
+    findByCategory,
+    destroy
 };
