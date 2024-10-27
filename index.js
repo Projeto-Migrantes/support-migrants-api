@@ -11,6 +11,8 @@ import authRoutes from './src/routes/auth.js';
 import formRoutes from './src/routes/formRoutes.js';
 import pdfRoutes from './src/routes/pdfRoutes.js';
 import { errorHandler, notFoundHandler } from './src/middlewares/errorHandler.js';
+import cors from 'cors';
+
 
 import swaggerUi from 'swagger-ui-express';
 import fs from 'fs';
@@ -28,6 +30,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
+app.use(cors());
 app.use(limiter);
 
 // Configuração do Swagger
