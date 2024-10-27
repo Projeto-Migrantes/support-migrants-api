@@ -38,6 +38,7 @@
     "express-rate-limit": "^7.4.1",
     "generate-password": "^1.7.1",
     "joi": "^17.13.3",
+    "js-yaml": "^4.1.0",
     "jsonwebtoken": "^9.0.2",
     "mocha": "^10.7.3",
     "pg": "^8.13.0",

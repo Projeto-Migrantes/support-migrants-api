@@ -1,0 +1,55 @@
+openapi: "3.0.0"
+info:
+  title: "Documentação da API REST - Projeto RAMB"
+  version: "1.0.0"
+  description: "Esta documentação oferece uma visão abrangente sobre as funcionalidades da API,
+   incluindo suas rotas, parâmetros, retornos e exemplos de uso. O objetivo é facilitar a integração da 
+   API nos projetos dos desenvolvedores das aplicações. As principais aplicações que se beneficiam dessa integração são 
+   o aplicativo móvel utilizado pelos migrantes e o dashboard destinado ao curso de Relações Internacionais. 
+   Esta API REST foi desenvolvida utilizando Node.js com o framework Express, além de outros módulos que facilitam a 
+   criação e utilização da API."
+servers:
+  - url: "http://localhost:3000/v1/api"
+    description: "Ambiente de desenvolvimento"
+  - url: "api-ramb.up.railway.app/v1/api"
+    description: "Ambiente de teste"
+tags: 
+  - name: Instituições
+    description: "Operações relacionadas as instituições"
+  - name: Migrantes
+    description: "Operações relacionadas aos migrantes"
+paths:
+  /institutions:
+    get:
+      tags: [Instituições]
+      summary: "Retorna todas as instituições"
+      responses:
+        "200":
+          description: "Sucesso. Lista de Instituições"
+  /api/institutions/{id}:
+    get:
+      tags: [Instituições]
+      summary: "Retorna uma instituição específica"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          description: "ID da instituição"
+          schema:
+            type: "integer"
+      responses:
+        "200":
+          description: "Instituição retornada"
+        "404":
+          description: "Instituição não encontrada"
+  /api/institution:
+    post:
+      tags: [Instituições]
+      summary: "Criar uma instituição"
+      responses:
+        "200":
+          description: "Instituição criada"
+        "500":
+          description: "Erro no servidor"
+          
+ 
