@@ -11,6 +11,7 @@ import categoryRoutes from './src/routes/categoryRoutes.js';
 import serviceStationRoutes from './src/routes/serviceStationRoutes.js';
 import migrantRoutes from './src/routes/migrantRoutes.js';
 import authRoutes from './src/routes/auth.js';
+import formRoutes from './src/routes/formRoutes.js';
 
 import { errorHandler, notFoundHandler } from './src/middlewares/errorHandler.js';
 import validateInstitution from './src/middlewares/validation/validateInstitution.js';
@@ -30,12 +31,14 @@ app.use(limiter);
 // Configuração do Swagger
 app.use('/api-docs/pt', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.use('/api', addressRoutes);
-app.use('/api', institutionRoutes);
-app.use('/api', categoryRoutes);
-app.use('/api', serviceStationRoutes);
-app.use('/api', migrantRoutes);
-app.use('/api', authRoutes);
+app.use('/api', 
+    addressRoutes, 
+    institutionRoutes, 
+    categoryRoutes, 
+    serviceStationRoutes, 
+    migrantRoutes, 
+    authRoutes, 
+    formRoutes);
 
 // Middleware to handle general errors
 app.use(errorHandler);

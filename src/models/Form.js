@@ -18,8 +18,8 @@ const Form = connection.define('Form', {
         type: DataTypes.STRING(700),
         allowNull: false
       },
-      telephone: {
-        type: DataTypes.STRING(20),
+      phone: {
+        type: DataTypes.STRING(40),
         allowNull: false
       },
       name: {
@@ -33,11 +33,5 @@ const Form = connection.define('Form', {
 }, {
     tableName: 'forms',
 });
-
-// Form has a migrant
-Form.belongsTo(Migrant, { foreignKey: 'migrant_id' });
-
-// Migrant has many forms
-Migrant.hasMany(Form, { foreignKey: 'migrant_id' });
 
 export default Form;
