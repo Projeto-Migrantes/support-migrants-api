@@ -24,6 +24,16 @@ const findAll = async (req, res) => {
 
 const findById = async (req, res) => {
     try {
+
+        if (!req.params.id) {
+            return res.status(400).json({ message: "ID inválido!" });
+        }
+
+        const id = req.params.id;
+        if (isNaN(id) || id <= 0) { 
+            return res.status(400).json({ message: "O ID deve ser um número válido!" });
+        }
+        
       const institution = await institutionService.findInstitutionById(req.params.id);
       if(!institution || institution.length === 0){
         return res.status(404).json({message: 'Nenhuma instituição encontrada'})
@@ -37,6 +47,15 @@ const findById = async (req, res) => {
 
 const findByCategory = async (req, res) => {
     try {
+        if (!req.params.id) {
+            return res.status(400).json({ message: "ID inválido!" });
+        }
+
+        const id = req.params.id;
+        if (isNaN(id) || id <= 0) { 
+            return res.status(400).json({ message: "O ID deve ser um número válido!" });
+        }
+
         const institutions = await institutionService.findAllInstitutionsByCategory(req.params.id);
         if(!institutions || institutions.length === 0){
             return res.status(404).json({ message: 'Nenhuma instituição encontrada com essa categoria' });

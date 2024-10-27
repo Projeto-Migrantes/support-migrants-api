@@ -18,6 +18,15 @@ const findAll = async (req, res) => {
 
 const findById = async (req, res) => {
     try {
+         if (!req.params.id) {
+            return res.status(400).json({ message: "ID inválido!" });
+        }
+
+        const id = req.params.id;
+        if (isNaN(id) || id <= 0) { 
+            return res.status(400).json({ message: "O ID deve ser um número válido!" });
+        }
+
         const migrant = await migrantService.findMigrantById(req.params.id);
         if(!migrant){
             return res.status(404).json({ message: "Nenhum migrante foi encontrado" });
@@ -44,25 +53,35 @@ const getProfile = async (req, res) => {
 
 const create = async (req, res) => {
     try {
-
         const { migrant, address, migrant_document } = req.body;
 
         const createdAddress = await addressService.existsAddress(address.cep);
+        if (!createdAddress) {
+            return res.status(400).json({ message: "Endereço não encontrado." });
+        }
 
-        const hashedPassoword = await hashPasswordUtil.createHash(migrant.password);
-        migrant.password = hashedPassoword;
+        const hashedPassword = await hashPasswordUtil.createHash(migrant.password);
+        migrant.password = hashedPassword;
 
         const createdMigrant = await migrantService.createMigrant(migrant, createdAddress.id);
+        if (!createdMigrant) {
+            return res.status(500).json({ message: "Falha ao criar migrante." });
+        }
         const migrantId = createdMigrant.id;
 
         const createdDocumentMigrant = await migrantDocumentService.createMigrantsDocuments(migrant_document, migrantId);
-        
-        return res.status(201).json({ message: "Migrante criado", createdMigrant, createdDocumentMigrant });
+        if (!createdDocumentMigrant) {
+            return res.status(500).json({ message: "Falha ao criar documento do migrante." });
+        }
+
+        return res.status(201).json({ migrant: createdMigrant, document: createdDocumentMigrant });
+
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Erro no servidor" });
     }
 };
+
 
 const update = async (req, res) => {
     try {

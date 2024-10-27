@@ -10,7 +10,9 @@ const findAllMigrants = async () => {
 
 // Find All Migrant by ID
 const findMigrantById = async (id) => {
-    return await Migrant.findByPk(id);
+    return await Migrant.findByPk(id, {
+        include: [ {model: MigrantDocument}, {model: Address}]
+    });
 }; 
 
 // Create one Migrant

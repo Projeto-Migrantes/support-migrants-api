@@ -9,9 +9,52 @@ import ServiceCost from "../src/models/ServiceCost.js";
 import ServiceHours from "../src/models/ServiceHours.js"; 
 import ServicesOffered from "../src/models/ServicesOffered.js"; 
 import Pdf from "./models/Pdf.js";
+import MigrantDocument from "./models/MigrantDocument.js";
+import Migrant from "./models/Migrant.js";
 
 const runSeeders = async () => {
     try {
+
+         // Seed Address
+         await Address.create({
+            cep: "40060-000",
+            city: "Salvador",
+            state: "Bahia",
+            neighborhood: "Centro",
+            street: "Avenida Sete de Setembro"
+        });
+
+         await Address.create({
+            cep: "40050-000",
+            city: "Salvador",
+            state: "Bahia",
+            neighborhood: "Pelourinho",
+            street: "Largo do Pelourinho"
+        });
+        
+         await Address.create({
+            cep: "40070-000",
+            city: "Salvador",
+            state: "Bahia",
+            neighborhood: "Barra",
+            street: "Avenida Oceânica"
+        });
+        
+         await Address.create({
+            cep: "40080-000",
+            city: "Salvador",
+            state: "Bahia",
+            neighborhood: "Pituba",
+            street: "Avenida Paulo VI"
+        });
+        
+         await Address.create({
+            cep: "40090-000",
+            city: "Salvador",
+            state: "Bahia",
+            neighborhood: "Cabula",
+            street: "Rua da Mangueira"
+        });
 
         // Seed PDF data
         await Pdf.bulkCreate([
@@ -40,6 +83,8 @@ const runSeeders = async () => {
                 language: "fr"
             }
         ]);
+
+        
 
         // Seed Categories
         const categories = await Category.bulkCreate([
@@ -135,46 +180,154 @@ const runSeeders = async () => {
             }
         ]);
 
-        // Seed Address
-         await Address.create({
-            cep: "40060-000",
-            city: "Salvador",
-            state: "Bahia",
-            neighborhood: "Centro",
-            street: "Avenida Sete de Setembro"
-        });
+        await Migrant.bulkCreate([
+            {
+              full_name: "João da Silva",
+              social_name: "João",
+              date_birth: new Date('1990-01-15'),
+              preferred_language: "pt",
+              entry_date: new Date(),
+              address_complement: "Apartamento 101",
+              address_number: "123",
+              email: "joao.silva@example.com",
+              phone: "21987654321",
+              phone_whatsapp: true,
+              authorized: true,
+              migrant_reason: "Trabalho",
+              gender: "Masculino",
+              nationality: "Brasileiro",
+              marital_status: "Solteiro",
+              education_level: "Superior",
+              social_program_access: "Bolsa Família",
+              status_migratory: "Regular",
+              password: "senhaForte123",
+              is_pcd: false,
+              address_id: 2,
+            },
+            {
+              full_name: "Maria Oliveira",
+              social_name: "Maria",
+              date_birth: new Date('1985-03-22'),
+              preferred_language: "pt",
+              entry_date: new Date(),
+              address_complement: "Casa 2",
+              address_number: "456",
+              email: "maria.oliveira@example.com",
+              phone: "21912345678",
+              phone_whatsapp: true,
+              authorized: true,
+              migrant_reason: "Estudo",
+              gender: "Feminino",
+              nationality: "Brasileira",
+              marital_status: "Casada",
+              education_level: "Médio",
+              social_program_access: "Nenhum",
+              status_migratory: "Regular",
+              password: "senhaForte123",
+              is_pcd: false,
+              address_id: 1,
+            },
+            {
+              full_name: "Carlos Pereira",
+              social_name: "Carlão",
+              date_birth: new Date('1978-11-30'),
+              preferred_language: "pt",
+              entry_date: new Date(),
+              address_complement: "Sem complemento",
+              address_number: "789",
+              email: "carlos.pereira@example.com",
+              phone: "21955555555",
+              phone_whatsapp: false,
+              authorized: true,
+              migrant_reason: "Refugiado",
+              gender: "Masculino",
+              nationality: "Venezuelano",
+              marital_status: "Viúvo",
+              education_level: "Superior",
+              social_program_access: "Refúgio",
+              status_migratory: "Regular",
+              password: "senhaForte123",
+              is_pcd: false,
+              address_id: 5,
+            },
+            {
+              full_name: "Ana Costa",
+              social_name: "Aninha",
+              date_birth: new Date('2000-06-10'),
+              preferred_language: "pt",
+              entry_date: new Date(),
+              address_complement: "Bloco B",
+              address_number: "321",
+              email: "ana.costa@example.com",
+              phone: "21988888888",
+              phone_whatsapp: true,
+              authorized: true,
+              migrant_reason: "Estudo",
+              gender: "Feminino",
+              nationality: "Brasileira",
+              marital_status: "Solteira",
+              education_level: "Ensino Médio",
+              social_program_access: "Nenhum",
+              status_migratory: "Regular",
+              password: "senhaForte123",
+              is_pcd: false,
+              address_id: 3,
+            },
+            {
+              full_name: "Pedro Santos",
+              social_name: "Pedrinho",
+              date_birth: new Date('1995-02-20'),
+              preferred_language: "pt",
+              entry_date: new Date(),
+              address_complement: "Cobertura",
+              address_number: "654",
+              email: "pedro.santos@example.com",
+              phone: "21977777777",
+              phone_whatsapp: true,
+              authorized: true,
+              migrant_reason: "Trabalho",
+              gender: "Masculino",
+              nationality: "Brasileiro",
+              marital_status: "Solteiro",
+              education_level: "Superior",
+              social_program_access: "Nenhum",
+              status_migratory: "Regular",
+              password: "senhaForte123",
+              is_pcd: false,
+              address_id: 1,
+            }
+          ]);
 
-         await Address.create({
-            cep: "40050-000",
-            city: "Salvador",
-            state: "Bahia",
-            neighborhood: "Pelourinho",
-            street: "Largo do Pelourinho"
-        });
-        
-         await Address.create({
-            cep: "40070-000",
-            city: "Salvador",
-            state: "Bahia",
-            neighborhood: "Barra",
-            street: "Avenida Oceânica"
-        });
-        
-         await Address.create({
-            cep: "40080-000",
-            city: "Salvador",
-            state: "Bahia",
-            neighborhood: "Pituba",
-            street: "Avenida Paulo VI"
-        });
-        
-         await Address.create({
-            cep: "40090-000",
-            city: "Salvador",
-            state: "Bahia",
-            neighborhood: "Cabula",
-            street: "Rua da Mangueira"
-        });
+
+          await MigrantDocument.bulkCreate([
+            {
+              document_type: "Passaporte",
+              document_identification: "AB123456",
+              migrant_id: 1
+            },
+            {
+              document_type: "Identidade",
+              document_identification: "ID987654",
+              migrant_id: 2
+            },
+            {
+              document_type: "Visto",
+              document_identification: "VISA111222",
+              migrant_id: 3
+            },
+            {
+              document_type: "Certidão de Nascimento",
+              document_identification: "BIRTH333444",
+              migrant_id: 4
+            },
+            {
+              document_type: "CPF",
+              document_identification: "CPF555666",
+              migrant_id: 5
+            }
+          ]);
+
+       
         
         // Seed Responsible User
          await ResponsibleUser.create({
