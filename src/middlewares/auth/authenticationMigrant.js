@@ -24,7 +24,7 @@ const login = async (req, res) => {
         );
 
         return res.status(200).json({
-            ...migrant,
+            ...migrant, 
             token
         });
     } catch (error) {
@@ -33,6 +33,27 @@ const login = async (req, res) => {
     }
 };
 
+const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if(!token){
+        return res.status(400).json({ message: 'Token não fornecido' });
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, migrant) => {
+        if(err) {
+            return res.status(401).json({ message: 'Token inválido ou expirado' });
+        
+        }
+
+        req.migrant = migrant;
+        next();
+    });
+};
+
+
 export default {
-    login
+    login,
+    authenticateToken,
 };
