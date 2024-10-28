@@ -30,7 +30,7 @@ const Migrant = connection.define('Migrant', {
       },
       entry_date: {
         type: DataTypes.DATE,
-        allowNull: false
+        allowNull: true
       },
       address_complement: {
         type: DataTypes.STRING(120),
@@ -43,7 +43,7 @@ const Migrant = connection.define('Migrant', {
       email: {
         type: DataTypes.STRING(100),
         unique: true,
-        allowNull: true
+        allowNull: false
       },
       phone: {
         type: DataTypes.STRING(40),

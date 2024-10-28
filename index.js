@@ -22,7 +22,7 @@ import dotenv from 'dotenv';
 dotenv.config()
 
 // Create Tables in DB
-// createDatabase("migrantes_db_dev");
+ createDatabase("migrantes_db_dev");
 
 const swaggerDocument = yaml.load(fs.readFileSync('./src/config/swagger.yaml', 'utf8'));
 
