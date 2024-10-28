@@ -62,25 +62,25 @@ const runSeeders = async () => {
             {
                 name: "Guia de Programação em JavaScript",
                 description: "Este PDF contém um guia abrangente para iniciantes em JavaScript.",
-                url: "https://example.com/guia-javascript.pdf",
+                url: "https://example.com/guia-javascript-pt-BR.pdf",
                 language: "pt"
             },
             {
                 name: "JavaScript Programming Guide",
                 description: "This PDF contains a comprehensive guide for beginners in JavaScript.",
-                url: "https://example.com/javascript-guide.pdf",
+                url: "https://example.com/javascript-guide-en.pdf",
                 language: "en"
             },
             {
                 name: "Guía de Programación en JavaScript",
                 description: "Este PDF contiene una guía completa para principiantes en JavaScript.",
-                url: "https://example.com/guia-javascript.pdf",
+                url: "https://example.com/guia-javascript-es.pdf",
                 language: "es"
             },
             {
                 name: "Guide de Programmation en JavaScript",
                 description: "Ce PDF contient un guide complet pour les débutants en JavaScript.",
-                url: "https://example.com/guide-javascript.pdf",
+                url: "https://example.com/guide-javascript-fr.pdf",
                 language: "fr"
             }
         ]);
