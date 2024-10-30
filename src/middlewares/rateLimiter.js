@@ -1,9 +1,9 @@
 import { rateLimit } from 'express-rate-limit';
 
-// Request limiter in 15 minutes for 100 requests per IP
+// Request limiter in 5s for 1000 requests per IP
 const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, 
-    max: 100, 
+    windowMs: 5 * 1000, 
+    max: 1000, 
     message: 'You have made too many requests, please try again later.',
 });
 

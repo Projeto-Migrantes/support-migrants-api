@@ -23,7 +23,8 @@ const login = async (req, res) => {
             process.env.JWT_SECRET,
         );
 
-        return res.status(200).json({ token });
+        res.setHeader('Authorization', `Bearer ${token}`);
+        res.status(200).json({ message: 'Login realizado com sucesso' })
     } catch (error) {
         console.error('Erro ao fazer login', error);
         return res.status(500).json({ message: 'Erro interno do servidor' });
