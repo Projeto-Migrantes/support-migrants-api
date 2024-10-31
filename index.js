@@ -29,8 +29,6 @@ const swaggerDocument = yaml.load(fs.readFileSync('./src/config/swagger.yaml', '
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const cors = require('cors');
-
 // Configurando o CORS
 app.use(cors({
     origin: 'http://localhost:8081', 
