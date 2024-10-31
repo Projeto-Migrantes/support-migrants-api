@@ -673,7 +673,7 @@ const runSeeders = async () => {
             target_populations_fr: "Population cible en français 2",
             target_populations_es: "Población objetivo en español 2",
             target_populations_en: "Target population in English 2",
-            institution_id: 1
+            institution_id: 2
         });
 
         await TargetPopulation.create({
@@ -681,7 +681,7 @@ const runSeeders = async () => {
             target_populations_fr: "Population cible en français 3",
             target_populations_es: "Población objetivo en español 3",
             target_populations_en: "Target population in English 3",
-            institution_id: 2
+            institution_id: 3
         });
 
         await TargetPopulation.create({
@@ -689,7 +689,7 @@ const runSeeders = async () => {
             target_populations_fr: "Population cible en français 4",
             target_populations_es: "Población objetivo en español 4",
             target_populations_en: "Target population in English 4",
-            institution_id: 3
+            institution_id: 4
         });
 
         await TargetPopulation.create({
@@ -697,7 +697,7 @@ const runSeeders = async () => {
             target_populations_fr: "Population cible en français 5",
             target_populations_es: "Población objetivo en español 5",
             target_populations_en: "Target population in English 5",
-            institution_id: 4
+            institution_id: 5
         });
 
 
