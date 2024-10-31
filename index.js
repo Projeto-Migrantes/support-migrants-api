@@ -33,7 +33,6 @@ app.use(express.json());
 
 // Configurando o CORS
 app.use(cors({
-    origin: 'http://localhost:8081', // URL do seu front-end
     exposedHeaders: ['Authorization'], // Permitir que o cabeçalho Authorization seja acessível
     allowedHeaders: ['Content-Type', 'Authorization'], // Permitir cabeçalhos que podem ser enviados
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
