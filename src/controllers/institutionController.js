@@ -50,13 +50,20 @@ const findByCategory = async (req, res) => {
         if (!req.params.id) {
             return res.status(400).json({ message: "ID inválido!" });
         }
-
+        
+        let institutions;
         const id = req.params.id;
         if (isNaN(id) || id <= 0) { 
             return res.status(400).json({ message: "O ID deve ser um número válido!" });
         }
 
-        const institutions = await institutionService.findAllInstitutionsByCategory(req.params.id);
+
+        if(id === 0){
+            institutions = await institutionService.findAllInstitutions();
+        } else{
+            institutions = await institutionService.findAllInstitutionsByCategory(req.params.id);
+        }
+
         if(!institutions || institutions.length === 0){
             return res.status(404).json({ message: 'Nenhuma instituição encontrada com essa categoria' });
         }
