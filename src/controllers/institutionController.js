@@ -53,11 +53,12 @@ const findByCategory = async (req, res) => {
         
         let institutions;
         const id = req.params.id;
+        
         if (isNaN(id)) { 
             return res.status(400).json({ message: "O ID deve ser um número válido!" });
         }
 
-        if(id === 0){
+        if(id == 0){
             institutions = await institutionService.findAllInstitutions();
         } else{
             institutions = await institutionService.findAllInstitutionsByCategory(req.params.id);
