@@ -8,6 +8,12 @@ const findMigrantsDocuments = async (id) => {
     return await MigrantDocument.findByPk(id);
 }; 
 
+// Delete Document Migrant By ID
+const deleteMigrantDocument = async (migrantId) => {
+    return await MigrantDocument.destroy({ where: { migrant_id: migrantId } });
+};
+
+
 const createMigrantsDocuments = async (migrantDocumet, migrantId) => {
     return await MigrantDocument.create({
         ...migrantDocumet,
@@ -19,4 +25,5 @@ export default {
     findAllMigrantsDocuments,
     findMigrantsDocuments,
     createMigrantsDocuments,
+    deleteMigrantDocument,
 };

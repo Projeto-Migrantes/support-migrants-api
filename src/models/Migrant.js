@@ -21,7 +21,7 @@ const Migrant = connection.define('Migrant', {
         allowNull: true
       },
       date_birth: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false
       },
       preferred_language: {
@@ -29,7 +29,7 @@ const Migrant = connection.define('Migrant', {
         allowNull: false
       },
       entry_date: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: true
       },
       address_complement: {
@@ -49,7 +49,7 @@ const Migrant = connection.define('Migrant', {
         type: DataTypes.STRING(40),
         allowNull: true,
       },
-      phone_whatsapp: {
+      whatsapp_number: {
         type: DataTypes.BOOLEAN,
         allowNull: true
       },
@@ -83,7 +83,7 @@ const Migrant = connection.define('Migrant', {
       },
       status_migratory: {
         type: DataTypes.STRING(255),
-        allowNull: false
+        allowNull: true
       },
       password: {
         type: DataTypes.STRING(255),

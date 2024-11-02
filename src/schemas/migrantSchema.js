@@ -103,24 +103,24 @@ const messages = {
 // Validation schema
 const migrantSchema = Joi.object({
     full_name: Joi.string().max(150).required().messages(messages.full_name),
-    social_name: Joi.string().max(150).messages(messages.social_name),
+    social_name: Joi.string().max(150).allow(null).messages(messages.social_name),
     date_birth: Joi.date().required().messages(messages.date_birth),
     preferred_language: Joi.string().max(100).required().messages(messages.preferred_language),
     entry_date: Joi.date().required().messages(messages.entry_date),
-    address_complement: Joi.string().max(120).messages(messages.address_complement),
+    address_complement: Joi.string().max(120).allow(null).messages(messages.address_complement), 
     address_number: Joi.string().max(10).messages(messages.address_number),
     email: Joi.string().email().max(100).messages(messages.email),
     phone: Joi.string().max(20).messages(messages.phone),
-    phone_whatsapp: Joi.boolean().messages(messages.phone_whatsapp),
-    authorized: Joi.boolean().required().messages(messages.authorized),
+    whatsapp_number: Joi.boolean().allow(null).messages(messages.phone_whatsapp),
+    authorized: Joi.boolean().required().allow(null).messages(messages.authorized),
     migrant_reason: Joi.string().max(255).required().messages(messages.migrant_reason),
     gender: Joi.string().max(80).required().messages(messages.gender),
     nationality: Joi.string().max(120).required().messages(messages.nationality),
     marital_status: Joi.string().max(120).required().messages(messages.marital_status),
-    education_level: Joi.string().max(120).messages(messages.education_level),
-    social_program_access: Joi.string().max(255).messages(messages.social_program_access),
-    status_migratory: Joi.string().max(255).required().messages(messages.status_migratory),
-    password: Joi.string().min(6).required().messages(messages.password),
+    education_level: Joi.string().max(120).allow(null).messages(messages.education_level),
+    social_program_access: Joi.string().max(255).allow(null).messages(messages.social_program_access), 
+    status_migratory: Joi.string().max(255).optional().allow(null).messages(messages.status_migratory),
+    password: Joi.string().min(6).required().messages(messages.password), 
     is_pcd: Joi.boolean().required().messages(messages.is_pcd)
 });
 

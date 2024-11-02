@@ -12,6 +12,7 @@ router.post("/migrants/auth/verify", authenticationMigrant.authenticateToken, mi
 
 router.patch("/migrants/change-password/:id", migrantController.updatePassword);
 
+router.get('/migrants/search', migrantController.searchMigrants);
 router.get("/migrants", migrantController.findAll);
 router.get("/migrants/:id", migrantController.findById);
 

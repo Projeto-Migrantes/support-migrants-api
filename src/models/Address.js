@@ -30,7 +30,7 @@ const Address = connection.define('Address', {
         allowNull: false
       }
 },{
-    tableName: 'addresses',
+    tableName: 'address',
     timestamps: false,
 });
 

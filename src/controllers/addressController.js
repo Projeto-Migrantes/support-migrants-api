@@ -24,6 +24,7 @@ const create = async (req, res) => {
 
 const existAddress = async (req, res) => {
     const cep = req.body.address.cep;
+    
     try {
         const existCEP = await addressService.existsAddress(cep);
         if(!existCEP){

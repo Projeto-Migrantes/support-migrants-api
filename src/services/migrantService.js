@@ -1,6 +1,7 @@
 import Address from '../models/Address.js';
 import Migrant from '../models/Migrant.js';
 import MigrantDocument from '../models/MigrantDocument.js';
+import { Sequelize } from 'sequelize';
 
 // Find All Migrants
 const findAllMigrants = async () => {
@@ -31,8 +32,11 @@ const findOneMigrantByEmail = async (email) => {
 }
 
 // Update one Migrant by ID
-const updateMigrant = async (newData, migrantId) => {
-    return await Migrant.update(newData, { where: { id: migrantId } });
+const updateMigrant = async (newData, migrantId, newAddressId) => {
+    return await Migrant.update(
+       { ...newData, 
+        address_id: newAddressId},
+        { where: { id: migrantId } });
 };
 
 // Delete Migrant By ID
@@ -48,6 +52,31 @@ const updatePasswordMigrant = async (newPassowrd, migrantId) => {
     });
 }
 
+const searchMigrants = async (query) => {
+    try {
+        const migrants = await Migrant.findAll({
+            where: {
+                [Sequelize.Op.or]: [
+                    { email: { [Sequelize.Op.iLike]: `%${query}%` } },
+                    { phone: { [Sequelize.Op.iLike]: `%${query}%` } }, 
+                    { '$MigrantDocument.document_identification$': { [Sequelize.Op.iLike]: `%${query}%` } } 
+                ]
+            },
+            include: [
+                {
+                    model: MigrantDocument,
+                    required: false 
+                }
+            ]
+        });
+
+        return migrants;
+    } catch (error) {
+        throw new Error('Erro ao buscar migrantes: ' + error.message);
+    }
+};
+
+
 export default {
     findAllMigrants,
     findMigrantById,
@@ -56,4 +85,5 @@ export default {
     updateMigrant,
     deleteMigrant,
     updatePasswordMigrant,
+    searchMigrants,
 };
