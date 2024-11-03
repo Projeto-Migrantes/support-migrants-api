@@ -122,12 +122,7 @@ const update = async (req, res) => {
 
         const migrantId = id;
 
-        await migrantDocumentService.deleteMigrantDocument(migrantId);
-
-        const createdDocumentMigrant = await migrantDocumentService.createMigrantsDocuments(newData.migrant_document, migrantId);
-        if (!createdDocumentMigrant) {
-            return res.status(500).json({ message: "Falha ao criar documento do migrante." });
-        }
+        await migrantDocumentService.updateMigrantDocument(newData.migrant_document, migrantId);
 
         const [updatedLines] = await migrantService.updateMigrant(newData.migrant, id, createdAddress); 
         

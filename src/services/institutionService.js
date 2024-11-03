@@ -8,6 +8,7 @@ import TargetPopulation from '../models/TargetPopulation.js';
 import RequirementRestriction from '../models/RequirementRestriction.js';
 import ServicesOfferred from '../models/ServicesOffered.js';
 import ServiceCosts from '../models/ServiceCost.js';
+import { Sequelize } from "sequelize";
 
 const findAllInstitutions = async () => {
     return await Institution.findAll({
@@ -20,7 +21,7 @@ const findAllInstitutions = async () => {
 
 const findInstitutionById = async (id) => {
     return await Institution.findByPk(id, {
-      include: [{model: Category}, {model: Address}]
+        include: models.all,
     });
 };
 
@@ -39,6 +40,32 @@ const findAllInstitutionsByCategory = async (categoryId) => {
 // Delete Institution By ID
 const deleteInstitution = async (institutionId) => {
     return await Institution.destroy({ where: { id: institutionId } });
+};
+
+// Update one institution by ID
+const updateInstitution = async (newData, institutionId, newAddressId) => {
+    return await Institution.update(
+       { ...newData, 
+        address_id: newAddressId},
+        { where: { id: institutionId } });
+};
+
+const searchInstitutions = async (query) => {
+    try {
+        const institutions = await Institution.findAll({
+            where: {
+                [Sequelize.Op.or]: [
+                    { email: { [Sequelize.Op.iLike]: `%${query}%` } },
+                    { main_phone: { [Sequelize.Op.iLike]: `%${query}%` } }, 
+                    { cnpj: { [Sequelize.Op.iLike]: `%${query}%` } } 
+                ]
+            },
+        });
+
+        return institutions;
+    } catch (error) {
+        throw new Error('Erro ao buscar instituições: ' + error.message);
+    }
 };
 
 const models = {
@@ -60,4 +87,6 @@ export default {
     createInstitution,
     findAllInstitutionsByCategory,
     deleteInstitution,
+    searchInstitutions,
+    updateInstitution
 };

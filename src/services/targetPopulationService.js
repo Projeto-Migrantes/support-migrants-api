@@ -11,7 +11,14 @@ const createTargetPopulation = async (targetPopulation, institutionId) => {
     });
 };
 
+const updateTargetPopulation = async (newData, institutionId) => {
+    return await TargetPopulation.update(
+        newData, 
+        { where: { id: institutionId } });
+};
+
 export default {
     findAllTargetPopulation,
     createTargetPopulation,
+    updateTargetPopulation,
 };

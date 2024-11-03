@@ -11,7 +11,14 @@ const createServiceHours = async (serviceHours, institutionId) => {
     });
 };
 
+const updateServiceHours= async (newData, institutionId) => {
+    return await ServiceHours.update(
+        newData, 
+        { where: { id: institutionId } });
+};
+
 export default {
     findAllServiceHours,
     createServiceHours,
+    updateServiceHours,
 };

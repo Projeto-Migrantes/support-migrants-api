@@ -90,6 +90,12 @@ const runSeeders = async () => {
         // Seed Categories
         const categories = await Category.bulkCreate([
             {
+                category_pt: "Todas Categorias",
+                category_fr: "Toutes les Catégories",
+                category_es: "Todas las Categorías",
+                category_en: "All Categories"
+            },
+            {
                 category_pt: "Agência Governamental",
                 category_fr: "Agence gouvernementale",
                 category_es: "Agencia Gubernamental",
@@ -373,7 +379,7 @@ const runSeeders = async () => {
             main_language: "Portuguese",
             second_language: "English",
             link_maps: "https://goo.gl/maps/exemploinstituto",
-            category_id: 2, 
+            category_id: 15, 
             address_id: 2,
             responsible_user_id: 1,
         });

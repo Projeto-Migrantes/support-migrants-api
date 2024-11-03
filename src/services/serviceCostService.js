@@ -11,7 +11,15 @@ const createServiceCost = async (serviceCost, institutionId) => {
     });
 };
 
+const updateServiceCost = async (newData, institutionId) => {
+    return await ServiceCost.update(
+        newData, 
+        { where: { id: institutionId } });
+};
+
+
 export default {
     findAllServiceCost,
     createServiceCost,
+    updateServiceCost
 };

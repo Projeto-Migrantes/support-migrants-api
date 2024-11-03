@@ -74,6 +74,62 @@ const findByCategory = async (req, res) => {
     }
 }
 
+
+const searchInstituions = async (req, res) => {
+    const query = req.query.q; 
+
+    if (!query) {
+        return res.status(400).json({ message: 'Query string is required' });
+    }
+
+    try {
+        const institutions = await institutionService.searchInstitutions(query);
+        res.json({ institutions });
+    } catch (error) {
+        console.error('Erro ao buscar instituições:', error.message); 
+        res.status(500).json({ message: error.message }); 
+    }
+};
+
+const update = async (req, res) => {
+    try {
+        const { institution, 
+                ServiceCost, 
+                ServicesOffered, 
+                RequirementRestriction, 
+                TargetPopulation, 
+                ServiceHour, 
+                InstitutionDescription} = req.body;
+        const { id } = req.params;
+
+        const createdAddress = await addressController.existAddress(req, res);
+        
+        if (!createdAddress) {
+            return res.status(400).json({ message: "Endereço não encontrado." });
+        }
+
+        const institutionId = id;
+
+        await serviceCostService.updateServiceCost(ServiceCost, institutionId);
+        await servicesOfferedService.updateServicesOffered(ServicesOffered, institutionId);
+        await requirementRestrictionService.updateRequirementRestriction(RequirementRestriction, institutionId);
+        await targetPopulationService.updateTargetPopulation(TargetPopulation, institutionId);
+        await serviceHoursService.updateServiceHours(ServiceHour, institutionId);
+        await institutionDescriptionsService.updateInstitutionDescriptions(InstitutionDescription, institutionId);
+        
+        const [updatedLines] = await institutionService.updateInstitution(institution, id, createdAddress); 
+        
+        if (updatedLines === 0) {
+            return res.status(404).json({ message: 'Instituição não encontrada' });
+        }
+        return res.status(200).json({ message: 'Instituição atualizada com sucesso' });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Erro no servidor' });
+    }
+};
+
 const create = async (req, res) => {
     try {
         const { institution, 
@@ -140,5 +196,7 @@ export default {
     findById,
     create,
     findByCategory,
-    destroy
+    destroy,
+    searchInstituions,
+    update
 };

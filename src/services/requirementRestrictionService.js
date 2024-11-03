@@ -11,7 +11,14 @@ const createRequirementRestriction = async (requirementRestriction, institutionI
     });
 };
 
+const updateRequirementRestriction = async (newData, institutionId) => {
+    return await RequirementRestriction.update(
+        newData, 
+        { where: { id: institutionId } });
+};
+
 export default {
     findAllRequirementRestriction,
     createRequirementRestriction,
+    updateRequirementRestriction
 };

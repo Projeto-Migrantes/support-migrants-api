@@ -11,7 +11,14 @@ const createServicesOffered= async (servicesOffered, institutionId) => {
     });
 };
 
+const updateServicesOffered = async (newData, institutionId) => {
+    return await ServicesOffered.update(
+        newData, 
+        { where: { id: institutionId } });
+};
+
 export default {
     findAllServicesOffered,
     createServicesOffered,
+    updateServicesOffered
 };

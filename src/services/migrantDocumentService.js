@@ -13,6 +13,11 @@ const deleteMigrantDocument = async (migrantId) => {
     return await MigrantDocument.destroy({ where: { migrant_id: migrantId } });
 };
 
+const updateMigrantDocument= async (newData, migrantId) => {
+    return await MigrantDocument.update(
+        newData, 
+        { where: { id: migrantId } });
+};
 
 const createMigrantsDocuments = async (migrantDocumet, migrantId) => {
     return await MigrantDocument.create({
@@ -26,4 +31,5 @@ export default {
     findMigrantsDocuments,
     createMigrantsDocuments,
     deleteMigrantDocument,
+    updateMigrantDocument,
 };
