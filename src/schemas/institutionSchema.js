@@ -92,16 +92,16 @@ const institutionSchema = Joi.object({
     main_phone: Joi.string().pattern(/^\(?\d{2}\)? ?\d{4,5}-?\d{4}$/).required().messages(messages.mainPhone),
 
     // Validating optional Phone
-    secondary_phone: Joi.string().pattern(/^\(?\d{2}\)? ?\d{4,5}-?\d{4}$/).optional().messages(messages.secondaryPhone),
+    secondary_phone: Joi.string().pattern(/^\(?\d{2}\)? ?\d{4,5}-?\d{4}$/).optional().allow(null).messages(messages.secondaryPhone),
 
     // Validating address complement
-    address_complement: Joi.string().min(2).max(150).optional().messages(messages.addressComplement),
+    address_complement: Joi.string().min(2).max(150).optional().allow(null).messages(messages.addressComplement),
 
     // Validating address number
     address_number: Joi.string().min(1).max(10).optional().messages(messages.numberAddress),
     
     // Validating site
-    site: Joi.string().max(2000).optional().messages(messages.site),
+    site: Joi.string().max(2000).optional().allow(null).messages(messages.site),
 
     // Validating instagram
     instagram: Joi.string().optional().pattern(/^@[a-zA-Z0-9._]{2,40}$/).messages(messages.instagram),
@@ -116,7 +116,7 @@ const institutionSchema = Joi.object({
     second_language: Joi.string().min(2).max(80).required().messages(messages.second_language),
 
     // Validating link maps
-    link_maps: Joi.string().min(5).max(2000).optional().messages(messages.link_maps),
+    link_maps: Joi.string().min(5).max(2000).optional().allow(null).messages(messages.link_maps),
 
     // Validating category
     category_id: Joi.number().min(1).required().messages(messages.category),

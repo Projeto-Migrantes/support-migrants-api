@@ -71,7 +71,7 @@ const Institution = connection.define('Institution', {
       },
       link_maps: {
         type: DataTypes.STRING(255),
-        allowNull: false,
+        allowNull: true,
       }
 }, {
     tableName: 'institutions',

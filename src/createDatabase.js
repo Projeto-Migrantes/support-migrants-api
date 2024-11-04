@@ -11,6 +11,7 @@ import UserRI from './models/ResponsibleUser.js';
 import TargetPopulation from './models/TargetPopulation.js';
 import RequirementRestriction from './models/RequirementRestriction.js';
 import Pdf from './models/Pdf.js';
+import ResponsibleUser from './models/ResponsibleUser.js';
 
 const create = async (dbName) => {
     try {

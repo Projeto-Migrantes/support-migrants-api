@@ -99,7 +99,9 @@ const update = async (req, res) => {
                 RequirementRestriction, 
                 TargetPopulation, 
                 ServiceHour, 
-                InstitutionDescription} = req.body;
+                InstitutionDescription,
+                ResponsibleUser
+            } = req.body;
         const { id } = req.params;
 
         const createdAddress = await addressController.existAddress(req, res);
@@ -116,8 +118,9 @@ const update = async (req, res) => {
         await targetPopulationService.updateTargetPopulation(TargetPopulation, institutionId);
         await serviceHoursService.updateServiceHours(ServiceHour, institutionId);
         await institutionDescriptionsService.updateInstitutionDescriptions(InstitutionDescription, institutionId);
+        const responsible_user_id = await responsibleUserService.createResponsibleUser(ResponsibleUser);
         
-        const [updatedLines] = await institutionService.updateInstitution(institution, id, createdAddress); 
+        const [updatedLines] = await institutionService.updateInstitution(institution, id, createdAddress, responsible_user_id); 
         
         if (updatedLines === 0) {
             return res.status(404).json({ message: 'Instituição não encontrada' });
@@ -139,7 +142,7 @@ const create = async (req, res) => {
                 service_cost,
                 service_hours,
                 services_offered,
-                target_population,    
+                target_population,  
             } = req.body;
 
         const addressId = await addressController.existAddress(req, res);
@@ -155,17 +158,19 @@ const create = async (req, res) => {
         const createdServiceHours = await serviceHoursService.createServiceHours(service_hours, institutionId);
         const createdServicesOffered = await servicesOfferedService.createServicesOffered(services_offered, institutionId);
         const createdTargetPopulation = await targetPopulationService.createTargetPopulation(target_population, institutionId);
+        
+        const [updatedLines] = await institutionService.updateInstitution(institution, addressId, responsibleUserId); 
 
         return res.status(201).json({
              message: 'Instituição criada com sucesso', 
-             createdInstitution,
-             createdInstitutionDescriptions,
-             createdRequirementRestriction,
-             createdResponsibleUser,
-             createdServiceCost,
-             createdServiceHours,
-             createdServicesOffered,
-             createdTargetPopulation
+             institution: createdInstitution,
+             institution_descriptions: createdInstitutionDescriptions,
+             requirements_restrictions: createdRequirementRestriction,
+             responsible_user: createdResponsibleUser,
+             service_cost: createdServiceCost,
+             service_hours: createdServiceHours,
+             services_offered: createdServicesOffered,
+             target_population: createdTargetPopulation
             });
     } catch (error) {
         console.error(error);

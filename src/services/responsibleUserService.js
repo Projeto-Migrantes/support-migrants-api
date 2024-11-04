@@ -4,10 +4,9 @@ const findAllResponsibleUser = async () => {
     return await ResponsibleUser.findAll();
 };
 
-const createResponsibleUser = async (responsibleUser, institutionId) => {
+const createResponsibleUser = async (responsibleUser) => {
     return await ResponsibleUser.create({
         ...responsibleUser,
-        institution_id: institutionId
     });
 };
 

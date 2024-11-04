@@ -25,11 +25,11 @@ const findInstitutionById = async (id) => {
     });
 };
 
-const createInstitution = async (institution, addressId, responsibleUserId) => {
+const createInstitution = async (institution, addressId, responsible_user_id) => {
     return await Institution.create({
         ...institution,
         address_id: addressId,
-        responsible_user_id: responsibleUserId
+        responsible_user_id: responsible_user_id
     });
 };
 
@@ -43,10 +43,12 @@ const deleteInstitution = async (institutionId) => {
 };
 
 // Update one institution by ID
-const updateInstitution = async (newData, institutionId, newAddressId) => {
+const updateInstitution = async (newData, institutionId, newAddressId, responsible_user_id) => {
     return await Institution.update(
        { ...newData, 
-        address_id: newAddressId},
+        address_id: newAddressId,
+        responsible_user_id: responsible_user_id
+    },
         { where: { id: institutionId } });
 };
 
