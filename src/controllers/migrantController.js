@@ -73,6 +73,11 @@ const create = async (req, res) => {
     try {
         const { migrant, migrant_document } = req.body;
 
+        const emailExist = await migrantService.findOneMigrantByEmail(migrant.email);
+        if(emailExist){
+            return res.status(400).json({ message: "Este e-mail já está sendo usado." })
+        }
+
         const createdAddress = await addressController.existAddress(req, res);
         
         if (!createdAddress) {
@@ -184,6 +189,21 @@ const updatePassword = async (req, res) => {
   }  
 };
 
+const emailExist = async (req, res) => {
+    try {
+        const emailExist = await migrantService.findOneMigrantByEmail(req.body.email);
+        if (emailExist) {
+            return res.json({ exists: true });
+        } else {
+            return res.json({ exists: false });
+        }
+    } catch (error) {
+        console.error('Erro ao verificar e-mail:', error);
+        return res.status(500).json({ message: "Erro interno no servidor. Tente novamente mais tarde." });
+    }
+};
+
+
 export default {
     findAll,
     findById,
@@ -193,5 +213,6 @@ export default {
     getProfile,
     exist,
     updatePassword,
-    searchMigrants
+    searchMigrants,
+    emailExist
 };

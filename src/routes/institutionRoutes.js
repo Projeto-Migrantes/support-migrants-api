@@ -12,5 +12,4 @@ router.post('/institutions', validateOrganization, institutionController.create)
 router.put("/institutions/:id", institutionController.update);
 router.delete('/institutions/:id', institutionController.destroy);
 
-
 export default router;

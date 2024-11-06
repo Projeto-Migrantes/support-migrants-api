@@ -11,7 +11,9 @@ import ServicesOffered from "../src/models/ServicesOffered.js";
 import Pdf from "./models/Pdf.js";
 import MigrantDocument from "./models/MigrantDocument.js";
 import Migrant from "./models/Migrant.js";
+
 import hashPasswordUtil from "./utils/hashPasswordUtil.js" 
+import Admin from "./models/Admin.js";
 
 const runSeeders = async () => {
     try {
@@ -62,30 +64,34 @@ const runSeeders = async () => {
             {
                 name: "Guia de Programação em JavaScript",
                 description: "Este PDF contém um guia abrangente para iniciantes em JavaScript.",
-                url: "https://example.com/guia-javascript-pt-BR.pdf",
+                url: "https://drive.google.com/file/d/11S0GMCe3TLStG_OpVrAmfI1jLR27boIh/view?usp=sharing",
                 language: "pt"
             },
             {
                 name: "JavaScript Programming Guide",
                 description: "This PDF contains a comprehensive guide for beginners in JavaScript.",
-                url: "https://example.com/javascript-guide-en.pdf",
+                url: "https://drive.google.com/file/d/1WNdYsyZUlwXnQACtl5PA5KUNUv5ROI7T/view?usp=sharing",
                 language: "en"
             },
             {
                 name: "Guía de Programación en JavaScript",
                 description: "Este PDF contiene una guía completa para principiantes en JavaScript.",
-                url: "https://example.com/guia-javascript-es.pdf",
+                url: "https://drive.google.com/file/d/1ur5LPuhLYP8Vf4kDFcx9drLi66D4p4Xj/view?usp=sharing",
                 language: "es"
             },
             {
                 name: "Guide de Programmation en JavaScript",
                 description: "Ce PDF contient un guide complet pour les débutants en JavaScript.",
-                url: "https://example.com/guide-javascript-fr.pdf",
+                url: "https://drive.google.com/file/d/1hE4XTmn_7gGd-MfxUKIzqItpBTd_WCLa/view?usp=sharing",
                 language: "fr"
             }
         ]);
 
-        
+
+        await Admin.create({
+            userName: "admin",
+            password: await hashPasswordUtil.createHash("admin"),
+        });
 
         // Seed Categories
         const categories = await Category.bulkCreate([
@@ -449,12 +455,12 @@ const runSeeders = async () => {
             secondary_phone: "(71) 98901-2345",
             address_complement: "Bloco E, Sala 105",
             address_number: "300",
-            site: "https://www.unitecp.com.br",
-            instagram: "@unitecp",
+            site: "https://www.unifacs.br",
+            instagram: "@universidadesalvador",
             authorized: true,
             main_language: "Portuguese",
             second_language: "German",
-            link_maps: "https://goo.gl/maps/unitecp",
+            link_maps: "https://maps.app.goo.gl/oNcLfZZbGkHHF1vJ7",
             category_id: 2, 
             address_id: 1,
             responsible_user_id: 5,
@@ -494,7 +500,7 @@ const runSeeders = async () => {
         });
         
         await InstitutionDescription.create({
-            description_pt: "Descrição da instituição em português 5",
+            description_pt: "Descrição da instituição em português 5 Descrição da instituição em português 5 Descrição da instituição em português 5 Descrição da instituição em português 5 Descrição da instituição em português 5 Descrição da instituição em português 5 Descrição da instituição em português 5 ",
             description_fr: "Description de l'institution en français 5",
             description_es: "Descripción de la instituição em español 5",
             description_en: "Institution description in English 5",
@@ -576,10 +582,10 @@ const runSeeders = async () => {
         });
         
         await ServiceCost.create({
-            services_costs_pt: "Custos dos serviços em português 5",
-            services_costs_fr: "Coûts des services en français 5",
-            services_costs_es: "Costos de los serviços en español 5",
-            services_costs_en: "Service costs in English 5",
+            services_costs_pt: "Gratuito",
+            services_costs_fr: "Gratuit",
+            services_costs_en: "Free",
+            services_costs_es: "Gratuito",
             institution_id: 5
         });
 
@@ -617,10 +623,10 @@ const runSeeders = async () => {
         });
         
         await ServiceHours.create({
-            service_hours_pt: "Horários de atendimento em português 5",
-            service_hours_fr: "Heures de service en français 5",
-            service_hours_es: "Horas de servicio en español 5",
-            service_hours_en: "Service hours in English 5",
+            service_hours_pt: "Segunda a sexta das 8h-18h",
+            service_hours_fr: "Du lundi au vendredi de 8h à 18h",
+            service_hours_es: "De lunes a viernes de 8 a 18 horas.",
+            service_hours_en: "Monday to Friday from 8 AM to 6 PM.",
             institution_id: 5
         });
 
@@ -658,10 +664,10 @@ const runSeeders = async () => {
         });
         
         await ServicesOffered.create({
-            services_offered_pt: "Serviços oferecidos em português 5",
-            services_offered_fr: "Services offerts en français 5",
-            services_offered_es: "Servicios ofrecidos en español 5",
-            services_offered_en: "Services offered in English 5",
+            services_offered_pt: "Apoio Psicológico, Apoio Jurídico, Atendimento Social",
+            services_offered_fr: "Soutien Psychologique, Soutien Juridique, Service Social",
+            services_offered_es: "Apoyo Psicológico, Apoyo Jurídico, Atención Social",
+            services_offered_en: "Psychological Support, Legal Support, Social Service",
             institution_id: 5
         });
 
@@ -699,12 +705,14 @@ const runSeeders = async () => {
         });
 
         await TargetPopulation.create({
-            target_populations_pt: "População-alvo em português 5",
-            target_populations_fr: "Population cible en français 5",
-            target_populations_es: "Población objetivo en español 5",
-            target_populations_en: "Target population in English 5",
+            target_populations_pt: "Crianças e Adolescentes",
+            target_populations_fr: "Enfants et Adolescents.",
+            target_populations_es: "Niños y Adolescentes.",
+            target_populations_en: "Children and Adolescents",
             institution_id: 5
         });
+
+        
 
 
         console.log("Seeding completed successfully!");

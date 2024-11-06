@@ -6,6 +6,7 @@ import authenticationMigrant from "../middlewares/auth/authenticationMigrant.js"
 const router = Router();
 
 // Routes Migrant
+router.post('/migrants/check-email', migrantController.emailExist);
 router.get("/migrants/profile", authenticationMigrant.authenticateToken, migrantController.getProfile);
 router.post("/migrants/auth/verify", authenticationMigrant.authenticateToken, migrantController.exist);
 

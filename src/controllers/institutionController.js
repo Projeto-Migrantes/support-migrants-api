@@ -120,7 +120,7 @@ const update = async (req, res) => {
         await institutionDescriptionsService.updateInstitutionDescriptions(InstitutionDescription, institutionId);
         const responsible_user_id = await responsibleUserService.createResponsibleUser(ResponsibleUser);
         
-        const [updatedLines] = await institutionService.updateInstitution(institution, id, createdAddress, responsible_user_id); 
+        const [updatedLines] = await institutionService.updateInstitution(institution, id, createdAddress, responsible_user_id.id); 
         
         if (updatedLines === 0) {
             return res.status(404).json({ message: 'Instituição não encontrada' });

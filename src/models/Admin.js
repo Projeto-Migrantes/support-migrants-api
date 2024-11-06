@@ -9,7 +9,7 @@ const Admin = connection.define('Admin', {
         primaryKey: true,
         allowNull: false
       }, 
-      email: {
+      userName: {
         type: DataTypes.STRING(100),
         unique: true,
         allowNull: false
@@ -20,6 +20,12 @@ const Admin = connection.define('Admin', {
       },
 }, {
     tableName: 'admins',
+    defaultScope: {
+      attributes: { exclude: ['password'] }
+    },
+    scopes: {
+      withPassword: { attributes: {} }
+    }
 });
 
 export default Admin;
