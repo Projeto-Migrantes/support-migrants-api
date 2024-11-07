@@ -14,8 +14,12 @@ import Migrant from "./models/Migrant.js";
 
 import hashPasswordUtil from "./utils/hashPasswordUtil.js" 
 import Admin from "./models/Admin.js";
+import Term from "./models/Term.js";
 
 const runSeeders = async () => {
+
+
+
     try {
 
          // Seed Address
@@ -87,6 +91,15 @@ const runSeeders = async () => {
             }
         ]);
 
+        await Term.create({
+            content: 'Contéudo do term',
+            type: 'migrante'
+        });
+
+        await Term.create({
+            content: 'Contéudo do term',
+            type: 'instituicao'
+        });
 
         await Admin.create({
             userName: "admin",

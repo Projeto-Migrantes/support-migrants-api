@@ -109,7 +109,7 @@ const migrantSchema = Joi.object({
     entry_date: Joi.date().required().messages(messages.entry_date),
     address_complement: Joi.string().max(120).allow(null).messages(messages.address_complement), 
     address_number: Joi.string().max(10).messages(messages.address_number),
-    email: Joi.string().email().max(100).messages(messages.email),
+    email: Joi.string().max(100).messages(messages.email),
     phone: Joi.string().max(20).messages(messages.phone),
     whatsapp_number: Joi.boolean().allow(null).messages(messages.phone_whatsapp),
     authorized: Joi.boolean().required().allow(null).messages(messages.authorized),

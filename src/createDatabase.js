@@ -12,6 +12,7 @@ import TargetPopulation from './models/TargetPopulation.js';
 import RequirementRestriction from './models/RequirementRestriction.js';
 import Pdf from './models/Pdf.js';
 import ResponsibleUser from './models/ResponsibleUser.js';
+import Term from './models/Term.js';
 
 const create = async (dbName) => {
     try {

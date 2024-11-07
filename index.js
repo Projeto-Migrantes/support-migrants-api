@@ -10,6 +10,7 @@ import migrantRoutes from './src/routes/migrantRoutes.js';
 import authRoutes from './src/routes/auth.js';
 import formRoutes from './src/routes/formRoutes.js';
 import pdfRoutes from './src/routes/pdfRoutes.js';
+import termRoutes from './src/routes/termRoutes.js';
 import { errorHandler, notFoundHandler } from './src/middlewares/errorHandler.js';
 import cors from 'cors';
 
@@ -52,7 +53,8 @@ app.use('/api/v1',
     migrantRoutes, 
     authRoutes, 
     formRoutes,
-    pdfRoutes
+    pdfRoutes,
+    termRoutes
 );
 
 // Middleware to handle general errors
