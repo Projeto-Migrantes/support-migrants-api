@@ -11,10 +11,10 @@ import ServicesOffered from "../src/models/ServicesOffered.js";
 import Pdf from "./models/Pdf.js";
 import MigrantDocument from "./models/MigrantDocument.js";
 import Migrant from "./models/Migrant.js";
-
 import hashPasswordUtil from "./utils/hashPasswordUtil.js" 
 import Term from "./models/Term.js";
 import User from "./models/User.js";
+import Form from "./models/Form.js";
 
 const runSeeders = async () => {
     try {
@@ -59,6 +59,19 @@ const runSeeders = async () => {
             neighborhood: "Cabula",
             street: "Rua da Mangueira"
         });
+
+        await Form.bulkCreate([
+            { email: "alex.oliveira@exemplo.com", message: "Gostaria de saber mais detalhes sobre o serviço.", name: "Alex Oliveira", phone: "71983310134", subject: "Informação sobre serviço" },
+            { email: "maria.silva@exemplo.com", message: "Estou interessada no orçamento.", name: "Maria Silva", phone: "71991234567", subject: "Orçamento" },
+            { email: "joao.santos@exemplo.com", message: "Tenho dúvidas sobre o produto.", name: "João Santos", phone: "71987654321", subject: "Dúvidas sobre produto que acabei comprando essa semana na loja nova" },
+            { email: "ana.moura@exemplo.com", message: "Solicito um orçamento detalhado.", name: "Ana Moura", phone: "71999887766", subject: "Orçamento" },
+            { email: "bruno.lima@exemplo.com", message: "Preciso de informações sobre o atendimento.", name: "Bruno Lima", phone: "71988776655", subject: "Atendimento" },
+            { email: "carla.oliveira@exemplo.com", message: "Gostaria de agendar um atendimento.", name: "Carla Oliveira", phone: "71977665544", subject: "Agendamento" },
+            { email: "daniel.souza@exemplo.com", message: "Tenho uma reclamação a fazer.", name: "Daniel Souza", phone: "71966554433", subject: "Reclamação" },
+            { email: "elisa.costa@exemplo.com", message: "Gostei muito do serviço!", name: "Elisa Costa", phone: "71955443322", subject: "Elogio" },
+            { email: "fabio.pereira@exemplo.com", message: "Sugiro algumas melhorias no atendimento.", name: "Fabio Pereira", phone: "71944332211", subject: "Sugestão" },
+            { email: "gloria.nunes@exemplo.com", message: "Preciso de informações sobre formas de pagamento.", name: "Gloria Nunes", phone: "71933221100", subject: "Pagamento" }
+        ]);
 
         // Seed PDF data
         await Pdf.bulkCreate([

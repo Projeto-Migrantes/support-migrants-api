@@ -1,6 +1,5 @@
 import { DataTypes } from 'sequelize';
 import connection from '../config/database.js';
-import Migrant from './Migrant.js';
 
 // Define an form template for the database
 const Form = connection.define('Form', {
@@ -29,6 +28,11 @@ const Form = connection.define('Form', {
       email: {
         type: DataTypes.STRING(100),
         allowNull: false
+      },
+      status: {
+        type: DataTypes.ENUM('resolved', 'read', 'unread'),
+        allowNull: true,
+        defaultValue: 'unread'
       }
 }, {
     tableName: 'forms',
