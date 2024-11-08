@@ -13,13 +13,10 @@ import MigrantDocument from "./models/MigrantDocument.js";
 import Migrant from "./models/Migrant.js";
 
 import hashPasswordUtil from "./utils/hashPasswordUtil.js" 
-import Admin from "./models/Admin.js";
 import Term from "./models/Term.js";
+import User from "./models/User.js";
 
 const runSeeders = async () => {
-
-
-
     try {
 
          // Seed Address
@@ -101,9 +98,18 @@ const runSeeders = async () => {
             type: 'instituicao'
         });
 
-        await Admin.create({
-            userName: "admin",
+        await User.create({
+            name: 'admin',
+            email: "admin",
             password: await hashPasswordUtil.createHash("admin"),
+            role: 'admin'
+        });
+
+        await User.create({
+            name: 'Lucas Marques',
+            email: "lucas.marques@gmail.com",
+            password: await hashPasswordUtil.createHash("senha123"),
+            role: 'user'
         });
 
         // Seed Categories

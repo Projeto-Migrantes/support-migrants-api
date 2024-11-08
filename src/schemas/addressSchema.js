@@ -30,10 +30,10 @@ const messages = {
 // Validation scheme
 const addressSchema = Joi.object({
     cep: Joi.string().pattern(/^\d{5}-?\d{3}$/).required().messages(messages.cep),
-    city: Joi.string().min(3).max(40).required().messages(messages.city),
-    state: Joi.string().min(3).max(40).required().messages(messages.state),
-    neighborhood: Joi.string().min(3).max(100).required().messages(messages.neighborhood),
-    street: Joi.string().min(2).max(150).required().messages(messages.street)
+    city: Joi.string().min(3).max(150).required().messages(messages.city),
+    state: Joi.string().min(3).max(150).required().messages(messages.state),
+    neighborhood: Joi.string().min(3).max(300).required().messages(messages.neighborhood),
+    street: Joi.string().min(2).max(300).required().messages(messages.street)
 });
 
 export default addressSchema;

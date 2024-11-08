@@ -42,7 +42,7 @@ const Institution = connection.define('Institution', {
         unique: true
       },
       address_complement: {
-        type: DataTypes.STRING(150),
+        type: DataTypes.STRING(255),
         allowNull: true
       },
       address_number: {
@@ -50,11 +50,11 @@ const Institution = connection.define('Institution', {
         allowNull: false
       },
       site: {
-        type: DataTypes.TEXT,
+        type: DataTypes.STRING(1000),
         allowNull: true
       },
       instagram: {
-        type: DataTypes.STRING(30),
+        type: DataTypes.STRING(80),
         allowNull: true,
       },
       authorized: {
@@ -70,7 +70,7 @@ const Institution = connection.define('Institution', {
         allowNull: false
       },
       link_maps: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(2000),
         allowNull: true,
       }
 }, {

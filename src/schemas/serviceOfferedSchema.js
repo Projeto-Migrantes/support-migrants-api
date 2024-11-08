@@ -34,10 +34,10 @@ const messages = {
 
 // Validation scheme
 const serviceOfferedSchema = Joi.object({
-    services_offered_pt: Joi.string().min(3).max(255).required().messages(messages.service_offered_pt),
-    services_offered_en: Joi.string().min(3).max(255).required().messages(messages.service_offered_en),
-    services_offered_es: Joi.string().min(3).max(255).required().messages(messages.service_offered_es),
-    services_offered_fr: Joi.string().min(3).max(255).required().messages(messages.service_offered_fr),
+    services_offered_pt: Joi.string().min(3).max(500).required().messages(messages.service_offered_pt),
+    services_offered_en: Joi.string().min(3).max(500).required().messages(messages.service_offered_en),
+    services_offered_es: Joi.string().min(3).max(500).required().messages(messages.service_offered_es),
+    services_offered_fr: Joi.string().min(3).max(500).required().messages(messages.service_offered_fr),
 });
 
 export default serviceOfferedSchema;

@@ -10,11 +10,11 @@ const MigrantDocument = connection.define('MigrantDocument', {
         allowNull: false
       }, 
       document_type: {
-        type: DataTypes.STRING(120),
+        type: DataTypes.STRING(200),
         allowNull: false
       },
       document_identification: {
-        type: DataTypes.STRING(120),
+        type: DataTypes.STRING(200),
         allowNull: false
       },
 }, {

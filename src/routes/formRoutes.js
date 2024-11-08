@@ -8,7 +8,7 @@ const router = Router();
 
 router.get('/forms', formController.findAll);
 router.get('/forms/:id', formController.findById);
-router.post('/forms', validateForm, authenticationMigrant.authenticateToken, formController.create);
+router.post('/forms', validateForm, /*authenticationMigrant.authenticateToken,*/ formController.create);
 router.delete('/forms/:id', formController.destroy);
 
 export default router;

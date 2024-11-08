@@ -10,23 +10,23 @@ const Address = connection.define('Address', {
         allowNull: false
       }, 
       cep: {
-        type: DataTypes.STRING(15),
+        type: DataTypes.STRING(20),
         allowNull: false
       },
       city: {
-        type: DataTypes.STRING(120),
+        type: DataTypes.STRING(150),
         allowNull: false
       },
       state: {
-        type: DataTypes.STRING(120),
+        type: DataTypes.STRING(150),
         allowNull: false
       },
       neighborhood: {
-        type: DataTypes.STRING(120),
+        type: DataTypes.STRING(300),
         allowNull: false
       },
       street: {
-        type: DataTypes.STRING(120),
+        type: DataTypes.STRING(300),
         allowNull: false
       }
 },{

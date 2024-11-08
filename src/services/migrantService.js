@@ -5,8 +5,9 @@ import { Sequelize } from 'sequelize';
 
 // Find All Migrants
 const findAllMigrants = async () => {
-    return await Migrant.findAll({
-        include: [ {model: MigrantDocument}, {model: Address}]});
+    return await Migrant.findAll({ 
+        order:[['id', 'DESC']],
+        include: [ {model: MigrantDocument}, {model: Address}], });
 };
 
 // Find All Migrant by ID
@@ -54,6 +55,9 @@ const updatePasswordMigrant = async (newPassowrd, migrantId) => {
 
 const searchMigrants = async (query) => {
     try {
+        if (!validateQuery(query)) {
+            throw new Error('Query inválida');
+        }
         const migrants = await Migrant.findAll({
             where: {
                 [Sequelize.Op.or]: [
@@ -76,6 +80,10 @@ const searchMigrants = async (query) => {
     }
 };
 
+
+const validateQuery = (query) => {
+    return typeof query === 'string' && query.trim().length > 0;
+};
 
 export default {
     findAllMigrants,

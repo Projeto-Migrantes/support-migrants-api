@@ -95,16 +95,16 @@ const institutionSchema = Joi.object({
     secondary_phone: Joi.string().pattern(/^\(?\d{2}\)? ?\d{4,5}-?\d{4}$/).optional().allow(null).messages(messages.secondaryPhone),
 
     // Validating address complement
-    address_complement: Joi.string().min(2).max(150).optional().allow(null).messages(messages.addressComplement),
+    address_complement: Joi.string().min(2).max(250).optional().allow(null).messages(messages.addressComplement),
 
     // Validating address number
     address_number: Joi.string().min(1).max(10).optional().messages(messages.numberAddress),
     
     // Validating site
-    site: Joi.string().max(2000).optional().allow(null).messages(messages.site),
+    site: Joi.string().max(1000).optional().allow(null).messages(messages.site),
 
     // Validating instagram
-    instagram: Joi.string().optional().pattern(/^@[a-zA-Z0-9._]{2,40}$/).messages(messages.instagram),
+    instagram: Joi.string().optional().pattern(/^@[a-zA-Z0-9._]{2,70}$/).messages(messages.instagram),
 
     // Validating authorized
     authorized: Joi.boolean().required().messages(messages.authorized),

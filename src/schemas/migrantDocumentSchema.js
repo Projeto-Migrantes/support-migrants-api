@@ -20,8 +20,8 @@ const messages = {
 
 // Validation schema
 const migrantDocumentSchema = Joi.object({
-    document_type: Joi.string().min(1).max(120).required().messages(messages.document_type),
-    document_identification: Joi.string().min(1).max(120).required().messages(messages.document_identification),
+    document_type: Joi.string().min(1).max(200).required().messages(messages.document_type),
+    document_identification: Joi.string().min(1).max(200).required().messages(messages.document_identification),
 });
 
 export default migrantDocumentSchema;

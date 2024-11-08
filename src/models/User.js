@@ -1,25 +1,34 @@
 import { DataTypes } from 'sequelize';
 import connection from '../config/database.js';
 
-// Define an admin template for the database
-const Admin = connection.define('Admin', {
+// Define an User template for the database
+const User = connection.define('User', {
     id: { 
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
         allowNull: false
       }, 
-      userName: {
+      name: {
+        type: DataTypes.STRING(150),
+        allowNull: false
+      },
+      email: {
         type: DataTypes.STRING(100),
         unique: true,
-        allowNull: false
+        allowNull: false,
       },
       password: {
         type: DataTypes.STRING(120),
         allowNull: false
       },
+      role: {
+        type: DataTypes.ENUM('user', 'admin'),
+        allowNull: false,
+        defaultValue: 'user'
+      }
 }, {
-    tableName: 'admins',
+    tableName: 'users',
     defaultScope: {
       attributes: { exclude: ['password'] }
     },
@@ -28,4 +37,4 @@ const Admin = connection.define('Admin', {
     }
 });
 
-export default Admin;
+export default User;

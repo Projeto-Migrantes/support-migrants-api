@@ -35,16 +35,16 @@ const messages = {
 // Validation schema
 const requerimentRestrictionSchema = Joi.object({
     // Requeriment/Restriction in Portuguese
-    requirements_restrictions_pt: Joi.string().min(3).max(255).optional().messages(messages.requeriment_restriction_pt),
+    requirements_restrictions_pt: Joi.string().min(3).max(500).optional().messages(messages.requeriment_restriction_pt),
     
     // Requeriment/Restriction in French
-    requirements_restrictions_fr: Joi.string().min(3).max(255).optional().messages(messages.requeriment_restriction_fr),
+    requirements_restrictions_fr: Joi.string().min(3).max(500).optional().messages(messages.requeriment_restriction_fr),
 
     // Requeriment/Restriction in Spanish
-    requirements_restrictions_es: Joi.string().min(3).max(255).optional().messages(messages.requeriment_restriction_es),
+    requirements_restrictions_es: Joi.string().min(3).max(500).optional().messages(messages.requeriment_restriction_es),
     
     // Requeriment/Restriction in English
-    requirements_restrictions_en: Joi.string().min(3).max(255).optional().messages(messages.requeriment_restriction_en),
+    requirements_restrictions_en: Joi.string().min(3).max(500).optional().messages(messages.requeriment_restriction_en),
 });
 
 export default requerimentRestrictionSchema;

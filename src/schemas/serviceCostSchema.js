@@ -35,16 +35,16 @@ const messages = {
 // Validation schema
 const serviceCostSchema = Joi.object({
     // Service cost in Portuguese
-    services_costs_pt: Joi.string().min(3).max(255).required().messages(messages.service_cost_pt),
+    services_costs_pt: Joi.string().min(3).max(500).required().messages(messages.service_cost_pt),
 
     // Service cost in English
-    services_costs_en: Joi.string().min(3).max(255).required().messages(messages.service_cost_en),
+    services_costs_en: Joi.string().min(3).max(500).required().messages(messages.service_cost_en),
 
     // Service cost in Spanish
-    services_costs_es: Joi.string().min(3).max(255).required().messages(messages.service_cost_es),
+    services_costs_es: Joi.string().min(3).max(500).required().messages(messages.service_cost_es),
 
     // Service cost in French
-    services_costs_fr: Joi.string().min(3).max(255).required().messages(messages.service_cost_fr),
+    services_costs_fr: Joi.string().min(3).max(500).required().messages(messages.service_cost_fr),
 });
 
 export default serviceCostSchema;

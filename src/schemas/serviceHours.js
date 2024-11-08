@@ -35,16 +35,16 @@ const messages = {
 // Validation schema
 const serviceHoursSchema = Joi.object({
     // Service hours in Portuguese
-    service_hours_pt: Joi.string().min(3).max(255).required().messages(messages.service_hours_pt),
+    service_hours_pt: Joi.string().min(3).max(500).required().messages(messages.service_hours_pt),
 
     // Service hours in English
-    service_hours_en: Joi.string().min(3).max(255).required().messages(messages.service_hours_en),
+    service_hours_en: Joi.string().min(3).max(500).required().messages(messages.service_hours_en),
 
     // Service hours in Spanish
-    service_hours_es: Joi.string().min(3).max(255).required().messages(messages.service_hours_es),
+    service_hours_es: Joi.string().min(3).max(500).required().messages(messages.service_hours_es),
 
     // Service hours in French
-    service_hours_fr: Joi.string().min(3).max(255).required().messages(messages.service_hours_fr),
+    service_hours_fr: Joi.string().min(3).max(500).required().messages(messages.service_hours_fr),
 });
 
 export default serviceHoursSchema;

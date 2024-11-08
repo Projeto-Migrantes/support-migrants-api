@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
 import connection from '../config/database.js';
-import UserIR from './UserIR.js';
+import User from './User.js';
 import Address from './Address.js';
 import MigrantDocument from './MigrantDocument.js';
 
@@ -33,7 +33,7 @@ const Migrant = connection.define('Migrant', {
         allowNull: true
       },
       address_complement: {
-        type: DataTypes.STRING(120),
+        type: DataTypes.STRING(250),
         allowNull: true
       },
       address_number: {
@@ -104,10 +104,10 @@ const Migrant = connection.define('Migrant', {
 }); 
 
 // Migrant has a international relations user
-Migrant.belongsTo(UserIR, { foreignKey: 'user_ir_id' });
+Migrant.belongsTo(User, { foreignKey: 'user_id' });
 
 // international relations user has many Users
-UserIR.hasMany(Migrant, { foreignKey: 'user_ir_id' });
+User.hasMany(Migrant, { foreignKey: 'user_id' });
 
 // Migrant has one Document Migrant
 Migrant.hasOne(MigrantDocument, { foreignKey: 'migrant_id', onDelete: 'CASCADE' });

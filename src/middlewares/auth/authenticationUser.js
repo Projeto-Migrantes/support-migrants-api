@@ -1,0 +1,44 @@
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+import adminService from '../../services/UserService.js';
+
+dotenv.config();
+
+const login = async (req, res) => {
+    const { username, password } = req.body; // Obtém as credenciais de login do corpo da requisição
+
+    try {
+        // Chama o serviço para autenticar o usuário e obter o token
+        const token = await adminService.loginService(username, password);
+        
+        // Retorna o token gerado e uma mensagem de sucesso
+        res.setHeader('Authorization', `Bearer ${token}`);
+        res.status(200).json({ message: 'Login realizado com sucesso' });
+    } catch (error) {
+        console.error('Erro ao fazer login:', error.message);
+        return res.status(401).json({ message: error.message });
+    }
+};
+
+const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) {
+        return res.status(400).json({ message: 'Token não fornecido' });
+    }
+
+    jwt.verify(token, process.env.JWT_SECRET, (error, admin) => {
+        if (error) {
+            return res.status(401).json({ message: 'Token inválido ou expirado' });
+        };
+
+        req.admin = admin;
+        next();
+    });
+};
+
+export default {
+    login,
+    authenticateToken,
+};

@@ -13,9 +13,9 @@ const createHash = async (password) => {
 };
 
 // Compares the password hash with the password sent as a parameter
-const compareHash = async (password, passwordMigrant) => {
+const compareHash = async (password, passwordUser) => {
     try {
-        const isPasswordValid = await bcrypt.compare(password, passwordMigrant);
+        const isPasswordValid = await bcrypt.compare(password, passwordUser);
         return isPasswordValid;
     } catch (error) {
         console.error(error);

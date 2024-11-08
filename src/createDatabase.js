@@ -2,7 +2,6 @@ import connection from './config/database.js';
 import runSeeders from './seeders.js';
 import Address from './models/Address.js';
 import Category from './models/Category.js';
-import Admin from './models/Admin.js';
 import Form from './models/Form.js';
 import Migrant from './models/Migrant.js';
 import Institution from './models/Institution.js';
@@ -13,6 +12,8 @@ import RequirementRestriction from './models/RequirementRestriction.js';
 import Pdf from './models/Pdf.js';
 import ResponsibleUser from './models/ResponsibleUser.js';
 import Term from './models/Term.js';
+import User from './models/User.js';
+
 
 const create = async (dbName) => {
     try {

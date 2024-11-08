@@ -11,11 +11,11 @@ const login = async (req, res) => {
         const migrant = await migrantService.findOneMigrantByEmail(email);
         
         if(!migrant){
-            return res.status(404).json({ message: "Migrante não encontrado" });
+            return res.status(404).json({ message: "Credenciais inválidas" });
         }
         const isPasswordValid = await hashPasswordUtil.compareHash(password, migrant.password);
         if(!isPasswordValid){
-            return res.status(401).json({ message: 'Senha incorreta' });
+            return res.status(401).json({ message: "Credenciais inválidas" });
         }
 
         const token = jwt.sign(
