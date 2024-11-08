@@ -37,10 +37,10 @@ const messages = {
 
 // Validation scheme
 const formSchema = Joi.object({
-    subject: Joi.string().min(5).max(150).required().messages(messages.subject),
-    message: Joi.string().min(10).max(700).required().messages(messages.message),
+    subject: Joi.string().min(1).max(200).required().messages(messages.subject),
+    message: Joi.string().min(1).max(2000).required().messages(messages.message),
     phone: Joi.string().pattern(/^\(?\d{2}\)? ?\d{4,5}-?\d{4}$/).required().messages(messages.phone),
-    name: Joi.string().min(2).max(100).required().messages(messages.name),
+    name: Joi.string().min(1).max(150).required().messages(messages.name),
     email: Joi.string().email().max(100).required().messages(messages.email),
 });
 

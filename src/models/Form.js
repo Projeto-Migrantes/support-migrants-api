@@ -11,11 +11,11 @@ const Form = connection.define('Form', {
         allowNull: false
       }, 
       subject: {
-        type: DataTypes.STRING(150),
+        type: DataTypes.STRING(200),
         allowNull: false
       },
       message: {
-        type: DataTypes.STRING(700),
+        type: DataTypes.STRING(2000),
         allowNull: false
       },
       phone: {
