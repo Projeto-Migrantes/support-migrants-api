@@ -13,7 +13,7 @@ const findAll = async (req, res) => {
     try {
         const institutions = await institutionService.findAllInstitutions();
         if(!institutions || institutions.length === 0){
-            return res.status(404).json({message: 'Nenhuma instituição encontrada'});
+            return res.status(200).json({message: 'Nenhuma instituição encontrada'});
         }
         return res.status(200).json({ institutions });
     } catch (error) {
@@ -65,7 +65,7 @@ const findByCategory = async (req, res) => {
         }
 
         if(!institutions || institutions.length === 0){
-            return res.status(404).json({ message: 'Nenhuma instituição encontrada com essa categoria' });
+            return res.status(200).json({ message: 'Nenhuma instituição encontrada com essa categoria' });
         }
         return res.status(200).json({ institutions });
     } catch (error) {
@@ -107,7 +107,7 @@ const update = async (req, res) => {
         const createdAddress = await addressController.existAddress(req, res);
         
         if (!createdAddress) {
-            return res.status(400).json({ message: "Endereço não encontrado." });
+            return res.status(200).json({ message: "Endereço não encontrado." });
         }
 
         const institutionId = id;
@@ -123,7 +123,7 @@ const update = async (req, res) => {
         const [updatedLines] = await institutionService.updateInstitution(institution, id, createdAddress, responsible_user_id.id); 
         
         if (updatedLines === 0) {
-            return res.status(404).json({ message: 'Instituição não encontrada' });
+            return res.status(200).json({ message: 'Instituição não encontrada' });
         }
         return res.status(200).json({ message: 'Instituição atualizada com sucesso' });
 
@@ -185,7 +185,7 @@ const destroy = async (req, res) => {
         const deletedInstitution = await institutionService.deleteInstitution(id);
 
         if(deletedInstitution === 0){
-            return res.status(404).json({ message: 'Instituição não encontrada' });
+            return res.status(200).json({ message: 'Instituição não encontrada' });
         };
 
         return res.status(204).send();

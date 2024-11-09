@@ -7,8 +7,10 @@ import authenticationMigrant from '../middlewares/auth/authenticationMigrant.js'
 const router = Router();
 
 router.get('/forms', formController.findAll);
+router.get("/forms/status/:status", formController.findyByStatus);
+router.put('/forms/:id', formController.update);
 router.get('/forms/:id', formController.findById);
-router.post('/forms', validateForm, /*authenticationMigrant.authenticateToken,*/ formController.create);
+router.post('/forms', validateForm,formController.create);
 router.delete('/forms/:id', formController.destroy);
 
 export default router;

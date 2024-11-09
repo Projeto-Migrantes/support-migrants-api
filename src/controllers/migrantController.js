@@ -60,7 +60,7 @@ const getProfile = async (req, res) => {
     try {
         const migrant = await migrantService.findMigrantById(req.migrant.id);
         if(!migrant){
-            return res.status(404).json({ message: "Nenhum migrante foi encontrado" });
+            return res.status(200).json({ message: "Nenhum migrante foi encontrado" });
         }
         return res.status(200).json({ migrant });
     } catch (error) {
@@ -81,7 +81,7 @@ const create = async (req, res) => {
         const createdAddress = await addressController.existAddress(req, res);
         
         if (!createdAddress) {
-            return res.status(400).json({ message: "Endereço não encontrado." });
+            return res.status(200).json({ message: "Endereço não encontrado." });
         }
 
         const hashedPassword = await hashPasswordUtil.createHash(migrant.password);
