@@ -10,7 +10,7 @@ router.get('/forms', formController.findAll);
 router.get("/forms/status/:status", formController.findyByStatus);
 router.put('/forms/:id', formController.update);
 router.get('/forms/:id', formController.findById);
-router.post('/forms', validateForm,formController.create);
 router.delete('/forms/:id', formController.destroy);
+router.post('/forms', validateForm,formController.create);
 
 export default router;

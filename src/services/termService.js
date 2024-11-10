@@ -9,6 +9,10 @@ const createTerm = async (content, type) => {
     }
 };
 
+const getTems = async () => {
+    return await Term.findAll();
+}
+
 const getTerm = async (type) => {
     try {
         const term = await Term.findOne({ where: { type } });
@@ -48,5 +52,6 @@ export default {
     createTerm,
     getTerm,
     updateTerm,
-    deleteTerm
+    deleteTerm,
+    getTems,
 };

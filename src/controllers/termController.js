@@ -44,9 +44,20 @@ const deleteTerm = async (req, res) => {
     }
 };
 
+const getTerms = async (req, res) => {
+    try {
+        const terms = await termsService.getTems();
+        res.status(200).json({ terms });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Erro no servidor'});
+    }
+}
+
 export default {
     createTerm,
     getTerm,
+    getTerms,
     updateTerm,
     deleteTerm
 };
