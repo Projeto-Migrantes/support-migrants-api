@@ -67,6 +67,16 @@ const updatePasswordUser = async (password, userId) => {
     });
 };
 
+const countUsers = async () => {
+    return await User.count();
+};
+
+const findUserByEmailService = async (email) => {
+    return await User.findOne({
+        raw: true, where: { email }
+    });
+};
+
 export default {
     loginService,
     createUserService,
@@ -74,5 +84,7 @@ export default {
     findUserByIdService,
     updateUser,
     deleteUser,
-    updatePasswordUser
+    updatePasswordUser,
+    countUsers,
+    findUserByEmailService
 };

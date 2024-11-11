@@ -97,11 +97,22 @@ const destroy = async (req, res) => {
     }
 };
 
+const countUnread = async (req, res) => {
+    try {
+        const count = await formService.countFormsPedding();
+        return res.status(200).json({ count });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Erro no servidor' });
+    };
+};
+
 export default { 
     findAll,
     findById,
     create,
     destroy,
     findyByStatus,
-    update
+    update,
+    countUnread,
 };

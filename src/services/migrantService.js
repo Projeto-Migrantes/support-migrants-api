@@ -30,7 +30,7 @@ const findOneMigrantByEmail = async (email) => {
     return await Migrant.scope('withPassword').findOne({
         raw: true, where: { email }
     });
-}
+};
 
 // Update one Migrant by ID
 const updateMigrant = async (newData, migrantId, newAddressId) => {
@@ -51,7 +51,11 @@ const updatePasswordMigrant = async (newPassowrd, migrantId) => {
     },{
         where: {id: migrantId}
     });
-}
+};
+
+const countMigrants = async () => {
+    return await Migrant.count();
+};
 
 const searchMigrants = async (query) => {
     try {
@@ -94,4 +98,5 @@ export default {
     deleteMigrant,
     updatePasswordMigrant,
     searchMigrants,
+    countMigrants,
 };

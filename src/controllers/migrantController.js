@@ -187,6 +187,16 @@ const updatePassword = async (req, res) => {
   }  
 };
 
+const count = async (req, res) => {
+    try {
+        const count = await migrantService.countMigrants();
+        return res.status(200).json({ count });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Erro no servidor' });
+    };
+};
+
 const emailExist = async (req, res) => {
     try {
         const emailExist = await migrantService.findOneMigrantByEmail(req.body.email);
@@ -201,7 +211,6 @@ const emailExist = async (req, res) => {
     }
 };
 
-
 export default {
     findAll,
     findById,
@@ -212,5 +221,6 @@ export default {
     exist,
     updatePassword,
     searchMigrants,
-    emailExist
+    emailExist,
+    count,
 };

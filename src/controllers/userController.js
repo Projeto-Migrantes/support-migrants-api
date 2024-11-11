@@ -72,11 +72,33 @@ const updatePassword = async (req, res) => {
     };
 };
 
+const countUsers = async (req, res) => {
+    try {
+        const count = await UserService.countUsers();
+        return res.status(200).json({ count });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Erro no servidor' });        
+    }
+};
+
+const emailExist = async (req, res) => {
+    const { email } = req.body;
+    try {
+        const emailExist = await UserService.findUserByEmailService(email);
+        if (emailExist) {
+            return res.json({ exists: true });
+        } else {
+            return res.json({ exists: false });
+        }
+    } catch (error) {
+        console.error('Erro ao verificar e-mail:', error);
+        return res.status(500).json({ message: "Erro interno no servidor. Tente novamente mais tarde." });
+    };
+};
+
 export default {
-    createUser,
-    getUsers,
-    getUser,
-    updateUser,
-    deleteUser,
-    updatePassword,
+    createUser, getUsers, getUser,
+    updateUser, deleteUser, updatePassword,
+    countUsers, emailExist
 };

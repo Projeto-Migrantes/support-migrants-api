@@ -19,6 +19,10 @@ const findAllInstitutions = async () => {
     });
 };
 
+const countInstitutions = async () => {
+    return await Institution.count();
+};
+
 const findInstitutionById = async (id) => {
     return await Institution.findByPk(id, {
         include: models.all,
@@ -35,7 +39,7 @@ const createInstitution = async (institution, addressId, responsible_user_id) =>
 
 const findAllInstitutionsByCategory = async (categoryId) => {
     return await Institution.findAll({ where: {category_id: categoryId}, include: models.all});
-}
+};
 
 // Delete Institution By ID
 const deleteInstitution = async (institutionId) => {
@@ -70,6 +74,10 @@ const searchInstitutions = async (query) => {
     }
 };
 
+const findInstitutionByEmail = async (email) => {
+    return await Institution.findOne({ where: { email } });
+};
+
 const models = {
     all: [
         { model: Category }, 
@@ -83,6 +91,7 @@ const models = {
         { model: ServiceCosts }]
 };
 
+
 export default {
     findAllInstitutions,
     findInstitutionById,
@@ -90,5 +99,7 @@ export default {
     findAllInstitutionsByCategory,
     deleteInstitution,
     searchInstitutions,
-    updateInstitution
+    updateInstitution,
+    countInstitutions,
+    findInstitutionByEmail,
 };

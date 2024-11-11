@@ -91,6 +91,16 @@ const searchInstituions = async (req, res) => {
     }
 };
 
+const count = async (req, res) => {
+    try {
+        const count = await institutionService.countInstitutions();
+        return res.status(200).json({ count });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Erro no servidor' });        
+    }
+};
+
 const update = async (req, res) => {
     try {
         const { institution, 
@@ -178,6 +188,21 @@ const create = async (req, res) => {
     };
 };
 
+const emailExist = async (req, res) => {
+    try {
+        const { email } = req.body;
+        const emailExist = await institutionService.findInstitutionByEmail(email);
+        if (emailExist) {
+            return res.json({ exists: true });
+        } else {
+            return res.json({ exists: false });
+        }
+    } catch (error) {
+        console.error('Erro ao verificar e-mail:', error);
+        return res.status(500).json({ message: "Erro interno no servidor. Tente novamente mais tarde." });
+    };
+};
+
 const destroy = async (req, res) => {
     try {
         const { id } = req.params;
@@ -203,5 +228,7 @@ export default {
     findByCategory,
     destroy,
     searchInstituions,
-    update
+    update,
+    count,
+    emailExist,
 };

@@ -29,6 +29,10 @@ const createForm= async (form) => {
     return await Form.create({...form});
 };
 
+const countFormsPedding = async () => {
+    return await Form.count({where: {status: 'unread'}});
+};
+
 const deleteForm = async (formId) => {
     return await Form.destroy({ where: { id: formId } });
 };
@@ -40,4 +44,5 @@ export default {
     deleteForm,
     findFormsByStatus,
     updateForms,
+    countFormsPedding,
 };

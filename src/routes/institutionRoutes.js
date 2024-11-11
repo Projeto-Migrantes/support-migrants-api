@@ -5,11 +5,14 @@ import validateOrganization from '../middlewares/validation/validateInstitution.
 const router = Router();
 
 router.get('/institutions', institutionController.findAll);
+router.post('/institutions/check-email', institutionController.emailExist);
 router.get('/institutions/search', institutionController.searchInstituions);
+router.get('/institutions-count', institutionController.count);
 router.get('/institutions/:id', institutionController.findById);
 router.get('/institutions/category/:id', institutionController.findByCategory);
 router.post('/institutions', validateOrganization, institutionController.create);
 router.put("/institutions/:id", institutionController.update);
 router.delete('/institutions/:id', institutionController.destroy);
+
 
 export default router;

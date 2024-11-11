@@ -7,6 +7,7 @@ import authenticationMigrant from '../middlewares/auth/authenticationMigrant.js'
 const router = Router();
 
 router.get('/forms', formController.findAll);
+router.get('/forms-count/unread', formController.countUnread);
 router.get("/forms/status/:status", formController.findyByStatus);
 router.put('/forms/:id', formController.update);
 router.get('/forms/:id', formController.findById);

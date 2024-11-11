@@ -9,20 +9,13 @@ const router = Router();
 router.post('/migrants/check-email', migrantController.emailExist);
 router.get("/migrants/profile", authenticationMigrant.authenticateToken, migrantController.getProfile);
 router.post("/migrants/auth/verify", authenticationMigrant.authenticateToken, migrantController.exist);
-
-
+router.get('/migrants-count', migrantController.count);
 router.patch("/migrants/change-password/:id", migrantController.updatePassword);
-
 router.get('/migrants/search', migrantController.searchMigrants);
 router.get("/migrants", migrantController.findAll);
 router.get("/migrants/:id", migrantController.findById);
-
 router.post("/migrants", validateMigrant, migrantController.create);
-
 router.put("/migrants/:id", migrantController.update);
-
 router.delete("/migrants/:id", migrantController.destroy);
-
-
 
 export default router;
