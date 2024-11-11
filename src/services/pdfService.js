@@ -7,7 +7,15 @@ const createPdf = async (pdfData) => {
 };
 
 const findAllPdfs = async () => {
-    return await Pdf.findAll();
+    return await Pdf.findAll({order:[ 
+        ['id', 'DESC']
+    ]});
+};
+
+const updatePdfById = async (pdfId, data) => {
+    return await Pdf.update({...data}, {
+        where: {id: pdfId}
+    });
 };
 
 const findPdfByLanguage = async (language) => {
@@ -25,5 +33,6 @@ export default {
     createPdf,
     findAllPdfs,
     findPdfByLanguage,
-    deletePdf
+    deletePdf,
+    updatePdfById
 };

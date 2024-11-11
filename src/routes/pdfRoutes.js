@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.post('/pdfs', validate, pdfController.createPdf);
 router.get('/pdfs', pdfController.findAll);
+router.put('/pdfs/:id', validate, pdfController.update);
 router.get('/pdfs/:language', pdfController.findByLanguage);
 router.delete('/pdfs/:id', pdfController.destroy);
 

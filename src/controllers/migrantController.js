@@ -1,9 +1,7 @@
 import migrantService from "../services/migrantService.js";
 import migrantDocumentService from "../services/migrantDocumentService.js";
-import addressService from "../services/addressService.js";
 import hashPasswordUtil from "../utils/hashPasswordUtil.js";
 import addressController from "./addressController.js";
-import MigrantDocument from "../models/MigrantDocument.js";
 
 const findAll = async (req, res) => {
     try {

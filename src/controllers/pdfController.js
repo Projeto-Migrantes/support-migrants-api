@@ -23,6 +23,21 @@ import pdfService from '../services/pdfService.js';
     }
 };
 
+const update = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const pdfData = req.body;
+        const updatedPdf = await pdfService.updatePdfById(id, pdfData);
+        if(updatedPdf[0] === 0){
+            return res.status(404).json({ message: 'PDF não encontrado' });
+        }
+        return res.status(200).json(updatedPdf);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ message: 'Erro no servidor' });
+    }
+};
+
 const findByLanguage = async (req, res) => {
     try {
         const language = req.params.language;
@@ -60,4 +75,5 @@ export default {
     findAll,
     findByLanguage,
     destroy,
+    update,
 }

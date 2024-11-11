@@ -2,11 +2,14 @@ import express from 'express';
 import limiter from './src/middlewares/rateLimiter.js';
 import connection from './src/config/database.js';
 import createDatabase from './src/createDatabase.js';
+
 import addressRoutes from './src/routes/addressRoutes.js';
 import institutionRoutes from './src/routes/institutionRoutes.js';
 import categoryRoutes from './src/routes/categoryRoutes.js';
 import serviceStationRoutes from './src/routes/serviceStationRoutes.js';
 import migrantRoutes from './src/routes/migrantRoutes.js';
+import userRoutes from './src/routes/userRoutes.js';
+
 import authRoutes from './src/routes/auth.js';
 import formRoutes from './src/routes/formRoutes.js';
 import pdfRoutes from './src/routes/pdfRoutes.js';
@@ -46,15 +49,14 @@ app.use(limiter);
 app.use('/api-docs/pt', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('/api/v1', 
-    addressRoutes, 
-    institutionRoutes, 
-    categoryRoutes, 
+    addressRoutes, institutionRoutes, categoryRoutes, 
     serviceStationRoutes, 
     migrantRoutes, 
     authRoutes, 
     formRoutes,
     pdfRoutes,
-    termRoutes
+    termRoutes,
+    userRoutes
 );
 
 // Middleware to handle general errors

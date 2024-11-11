@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import hashPasswordUtil from "../utils/hashPasswordUtil.js";
+import { Op } from "sequelize";
 
 const loginService = async (username, password) => {
     try {
@@ -27,7 +28,51 @@ const loginService = async (username, password) => {
     }
 };
 
+const createUserService = async (user) => {
+    return await User.create({...user});
+};
+
+const findAllUsersService = async () => {
+    return await User.findAll({
+        where: {
+            email: {
+                [Op.ne]: 'admin' 
+            }
+        },
+        order: [['id', 'DESC']]
+    });
+};
+
+
+const findUserByIdService = async (id) => {
+    return await User.findByPk(id);
+};
+
+const updateUser = async (userId, data) => {
+    return await User.update({
+        ...data
+    }, {
+        where: {id: userId}
+    });
+};
+
+const deleteUser = async (userId) => {
+    return await User.destroy({ where: { id: userId } });
+};
+
+const updatePasswordUser = async (password, userId) => {
+    const hashPassword = await hashPasswordUtil.createHash(password);
+    return await User.update({password: hashPassword}, {
+        where: {id: userId}
+    });
+};
+
 export default {
     loginService,
-
+    createUserService,
+    findAllUsersService,
+    findUserByIdService,
+    updateUser,
+    deleteUser,
+    updatePasswordUser
 };

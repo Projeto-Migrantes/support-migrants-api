@@ -10,11 +10,11 @@ const Pdf = connection.define('Pdf', {
         allowNull: false
     }, 
     name: {
-        type: DataTypes.STRING(150),
+        type: DataTypes.STRING(200),
         allowNull: false
     },
     description: {
-        type: DataTypes.STRING(500),
+        type: DataTypes.STRING(1000),
         allowNull: true 
     },
     url: {

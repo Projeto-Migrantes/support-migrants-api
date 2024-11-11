@@ -29,9 +29,9 @@ const messages = {
 
 // Validation schema
 const pdfSchema = Joi.object({
-    name: Joi.string().min(1).max(150).required().messages(messages.name),
-    description: Joi.string().max(500).optional().messages(messages.description),
-    url: Joi.string().uri().required().messages(messages.url),
+    name: Joi.string().min(1).max(200).required().messages(messages.name),
+    description: Joi.string().max(1000).optional().messages(messages.description),
+    url: Joi.string().min(1).required().messages(messages.url),
     language: Joi.string().valid('en', 'es', 'fr', 'pt').required().messages(messages.language),
 });
 

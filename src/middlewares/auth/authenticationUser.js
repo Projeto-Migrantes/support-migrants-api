@@ -5,13 +5,11 @@ import adminService from '../../services/UserService.js';
 dotenv.config();
 
 const login = async (req, res) => {
-    const { username, password } = req.body; // Obtém as credenciais de login do corpo da requisição
+    const { username, password } = req.body; 
 
     try {
-        // Chama o serviço para autenticar o usuário e obter o token
         const token = await adminService.loginService(username, password);
         
-        // Retorna o token gerado e uma mensagem de sucesso
         res.setHeader('Authorization', `Bearer ${token}`);
         res.status(200).json({ message: 'Login realizado com sucesso' });
     } catch (error) {

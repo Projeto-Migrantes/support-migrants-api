@@ -77,29 +77,29 @@ const runSeeders = async () => {
         // Seed PDF data
         await Pdf.bulkCreate([
             {
-                name: "Guia de Programação em JavaScript",
-                description: "Este PDF contém um guia abrangente para iniciantes em JavaScript.",
-                url: "https://drive.google.com/file/d/11S0GMCe3TLStG_OpVrAmfI1jLR27boIh/view?usp=sharing",
-                language: "pt"
+                name: "Manuel du migrant en Français",
+                description: "Ce PDF est un manuel destiné aux migrants en Français.",
+                url: "https://drive.google.com/file/d/1hE4XTmn_7gGd-MfxUKIzqItpBTd_WCLa/view?usp=sharing",
+                language: "fr"
             },
             {
-                name: "JavaScript Programming Guide",
-                description: "This PDF contains a comprehensive guide for beginners in JavaScript.",
-                url: "https://drive.google.com/file/d/1WNdYsyZUlwXnQACtl5PA5KUNUv5ROI7T/view?usp=sharing",
-                language: "en"
-            },
-            {
-                name: "Guía de Programación en JavaScript",
-                description: "Este PDF contiene una guía completa para principiantes en JavaScript.",
+                name: "Manual del Migrante en Español",
+                description: "Este PDF es un manual para migrantes en Español.",
                 url: "https://drive.google.com/file/d/1ur5LPuhLYP8Vf4kDFcx9drLi66D4p4Xj/view?usp=sharing",
                 language: "es"
             },
             {
-                name: "Guide de Programmation en JavaScript",
-                description: "Ce PDF contient un guide complet pour les débutants en JavaScript.",
-                url: "https://drive.google.com/file/d/1hE4XTmn_7gGd-MfxUKIzqItpBTd_WCLa/view?usp=sharing",
-                language: "fr"
-            }
+                name: "Migrant Handbook in English",
+                description: "This PDF is a handbook for migrants in English.",
+                url: "https://drive.google.com/file/d/1WNdYsyZUlwXnQACtl5PA5KUNUv5ROI7T/view?usp=sharing",
+                language: "en"
+            },
+            {
+                name: "Manual do Migrante em Português",
+                description: "Este PDF é um manual para o migrante em Português.",
+                url: "https://drive.google.com/file/d/11S0GMCe3TLStG_OpVrAmfI1jLR27boIh/view?usp=sharing",
+                language: "pt"
+            },
         ]);
 
         await Term.create({
