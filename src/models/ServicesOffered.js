@@ -10,19 +10,19 @@ const ServicesOffered = connection.define('ServicesOffered', {
         allowNull: false
     }, 
     services_offered_pt: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(500),
         allowNull: false
     }, 
     services_offered_fr: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(500),
         allowNull: false
     }, 
     services_offered_es: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(500),
         allowNull: false
     }, 
     services_offered_en: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(500),
         allowNull: false
     }
 }, {

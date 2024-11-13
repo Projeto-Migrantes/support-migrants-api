@@ -26,7 +26,7 @@ const serviceStation = connection.define('ServiceStation', {
     unique: true
   },
   instagram: {
-    type: DataTypes.STRING(30),
+    type: DataTypes.STRING(50),
     allowNull: true
   },
   number_address: {

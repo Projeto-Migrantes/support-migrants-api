@@ -10,19 +10,19 @@ const RequirementRestriction = connection.define('RequirementRestriction', {
         allowNull: false
     }, 
     requirements_restrictions_pt: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(500),
         allowNull: false
     }, 
     requirements_restrictions_fr: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(500),
         allowNull: false
     }, 
     requirements_restrictions_es: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(500),
         allowNull: false
     }, 
     requirements_restrictions_en: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(500),
         allowNull: false
     }
 }, {

@@ -10,19 +10,19 @@ const ServiceHours = connection.define('ServiceHours', {
         allowNull: false
     }, 
     service_hours_pt: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(500),
         allowNull: false
     }, 
     service_hours_fr: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(500),
         allowNull: false
     }, 
     service_hours_es: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(500),
         allowNull: false
     }, 
     service_hours_en: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(500),
         allowNull: false
     }
 }, {

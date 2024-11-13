@@ -10,19 +10,19 @@ const TargetPopulation = connection.define('TargetPopulation', {
         allowNull: false
     }, 
     target_populations_pt: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(500),
         allowNull: false
     }, 
     target_populations_fr: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(500),
         allowNull: false
     }, 
     target_populations_es: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(500),
         allowNull: false
     }, 
     target_populations_en: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(500),
         allowNull: false
     }
 },

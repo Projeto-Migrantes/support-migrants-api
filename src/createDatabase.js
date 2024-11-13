@@ -13,7 +13,7 @@ import Pdf from './models/Pdf.js';
 import ResponsibleUser from './models/ResponsibleUser.js';
 import Term from './models/Term.js';
 import User from './models/User.js';
-
+import Session from './models/Session.js';
 
 const create = async (dbName) => {
     try {
@@ -31,11 +31,10 @@ const create = async (dbName) => {
 };
 
 const syncDatabase = async (nameDb) => {
-    // Wait for the database to be created
-    await create(nameDb);
-
     try {
-        await connection.sync({ force: true }); 
+         // Wait for the database to be created
+        await create(nameDb);
+        await connection.sync({ force: false }); 
         // Wait seeds to be db
         await runSeeders();
         console.log("Database synchronized successfully!");

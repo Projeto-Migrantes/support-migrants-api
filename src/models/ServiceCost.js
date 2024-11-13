@@ -10,19 +10,19 @@ const ServicesCost = connection.define('ServiceCost', {
         allowNull: false
     }, 
     services_costs_pt: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(500),
         allowNull: false
     }, 
     services_costs_fr: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(500),
         allowNull: false
     }, 
     services_costs_en: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(500),
         allowNull: false
     }, 
     services_costs_es: {
-        type: DataTypes.STRING(255),
+        type: DataTypes.STRING(500),
         allowNull: false
     }
 }, {
