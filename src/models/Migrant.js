@@ -1,6 +1,5 @@
 import { DataTypes } from 'sequelize';
 import connection from '../config/database.js';
-import User from './User.js';
 import Address from './Address.js';
 import MigrantDocument from './MigrantDocument.js';
 
@@ -102,12 +101,6 @@ const Migrant = connection.define('Migrant', {
       withPassword: { attributes: {} }
     }
 }); 
-
-// Migrant has a international relations user
-Migrant.belongsTo(User, { foreignKey: 'user_id' });
-
-// international relations user has many Users
-User.hasMany(Migrant, { foreignKey: 'user_id' });
 
 // Migrant has one Document Migrant
 Migrant.hasOne(MigrantDocument, { foreignKey: 'migrant_id', onDelete: 'CASCADE' });

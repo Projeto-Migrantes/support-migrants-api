@@ -34,7 +34,7 @@ const syncDatabase = async (nameDb) => {
     try {
          // Wait for the database to be created
         await create(nameDb);
-        await connection.sync({ force: false }); 
+        await connection.sync({ force: true }); 
         // Wait seeds to be db
         await runSeeders();
         console.log("Database synchronized successfully!");

@@ -15,8 +15,9 @@ const Session = connection.define('Session', {
         allowNull: false
     },
 }, {
-    tableName: 'sessions',
+    tableName: 'session',
     timestamps: false
 });
+
 
 export default Session;

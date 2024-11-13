@@ -13,8 +13,8 @@ import MigrantDocument from "./models/MigrantDocument.js";
 import Migrant from "./models/Migrant.js";
 import hashPasswordUtil from "./utils/hashPasswordUtil.js" 
 import Term from "./models/Term.js";
-import User from "./models/User.js";
 import Session from "./models/Session.js";
+import User from "./models/User.js";
 import Form from "./models/Form.js";
 
 const runSeeders = async () => {
