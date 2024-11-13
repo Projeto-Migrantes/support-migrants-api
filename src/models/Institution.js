@@ -70,7 +70,7 @@ const Institution = connection.define('Institution', {
         allowNull: false
       },
       link_maps: {
-        type: DataTypes.STRING(2000),
+        type: DataTypes.STRING(1500),
         allowNull: true,
       }
 }, {

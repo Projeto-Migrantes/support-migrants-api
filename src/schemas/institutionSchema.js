@@ -79,46 +79,19 @@ const messages = {
 // Validation scheme
 const institutionSchema = Joi.object({
 
-    // Validating name
     name: Joi.string().min(2).max(200).required().messages(messages.name),
-
-    // Validating CNPJ
     cnpj: Joi.string().pattern(/^\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2}$/).required().messages(messages.cnpj),
-
-    // Validating email
-    email: Joi.string().email().min(10).max(100).required().messages(messages.email),
-
-    // Validating main phone
+    email: Joi.string().min(10).max(100).required().messages(messages.email),
     main_phone: Joi.string().pattern(/^\(?\d{2}\)? ?\d{4,5}-?\d{4}$/).required().messages(messages.mainPhone),
-
-    // Validating optional Phone
     secondary_phone: Joi.string().pattern(/^\(?\d{2}\)? ?\d{4,5}-?\d{4}$/).optional().allow(null).messages(messages.secondaryPhone),
-
-    // Validating address complement
     address_complement: Joi.string().min(2).max(250).optional().allow(null).messages(messages.addressComplement),
-
-    // Validating address number
     address_number: Joi.string().min(1).max(10).optional().messages(messages.numberAddress),
-    
-    // Validating site
     site: Joi.string().max(1000).optional().allow(null).messages(messages.site),
-
-    // Validating instagram
-    instagram: Joi.string().optional().pattern(/^@[a-zA-Z0-9._]{2,70}$/).messages(messages.instagram),
-
-    // Validating authorized
+    instagram: Joi.string().optional().allow(null).pattern(/^@[a-zA-Z0-9._]{2,70}$/).messages(messages.instagram),
     authorized: Joi.boolean().required().messages(messages.authorized),
-
-    // Validating Main Language
     main_language: Joi.string().min(2).max(80).required().messages(messages.main_language),
-
-    // Validating Main Language
     second_language: Joi.string().min(2).max(80).required().messages(messages.second_language),
-
-    // Validating link maps
-    link_maps: Joi.string().min(5).max(2000).optional().allow(null).messages(messages.link_maps),
-
-    // Validating category
+    link_maps: Joi.string().min(5).max(1500).optional().allow(null).messages(messages.link_maps),
     category_id: Joi.number().min(1).required().messages(messages.category),
 });
 
