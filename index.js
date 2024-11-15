@@ -10,8 +10,8 @@ import migrantRoutes from './src/routes/migrantRoutes.js';
 import authRoutes from './src/routes/auth.js';
 import formRoutes from './src/routes/formRoutes.js';
 import pdfRoutes from './src/routes/pdfRoutes.js';
-import termRoutes from './src/routes/termRoutes.js';
 import userRoutes from './src/routes/userRoutes.js';
+import termRoutes from './src/routes/termRoutes.js';
 
 import authKey from './src/middlewares/authKey.js';
 import { errorHandler, notFoundHandler } from './src/middlewares/errorHandler.js';
