@@ -65,6 +65,6 @@ connection.authenticate()
         console.error('Unable to connect to the database:', err);
     });
 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+    export default (req, res) => {
+        app(req, res);
+    };
