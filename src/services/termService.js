@@ -1,18 +1,27 @@
 import Term from '../models/Term.js';
 
+/*
+* Function that creates a term
+*/
 const createTerm = async (content, type) => {
     try {
         const term = await Term.create({ content, type });
         return term;
     } catch (error) {
         throw new Error('Erro ao criar o termo: ' + error.message);
-    }
+    };
 };
 
+/*
+* Function that fetches all terms from the database
+*/
 const getTems = async () => {
     return await Term.findAll();
-}
+};
 
+/*
+* Function that fetches a term by its type
+*/
 const getTerm = async (type) => {
     try {
         const term = await Term.findOne({ where: { type } });
@@ -20,9 +29,12 @@ const getTerm = async (type) => {
         return term;
     } catch (error) {
         throw new Error('Erro ao buscar o termo: ' + error.message);
-    }
+    };
 };
 
+/*
+* Function that updates a term by its type
+*/
 const updateTerm = async (content, type) => {
     try {
         const term = await Term.findOne({ where: { type } });
@@ -33,25 +45,26 @@ const updateTerm = async (content, type) => {
         return term;
     } catch (error) {
         throw new Error('Erro ao atualizar o termo: ' + error.message);
-    }
+    };
 };
 
+/*
+* Function that deletes a term by its type
+*/
 const deleteTerm = async (type) => {
     try {
         const term = await Term.findOne({ where: { type } });
+
         if (!term) throw new Error(`Termo não encontrado para ${type}`);
         
         await term.destroy();
         return { message: 'Termo deletado com sucesso.' };
     } catch (error) {
         throw new Error('Erro ao deletar o termo: ' + error.message);
-    }
+    };
 };
 
 export default {
-    createTerm,
-    getTerm,
-    updateTerm,
-    deleteTerm,
-    getTems,
+    createTerm, getTerm, updateTerm,
+    deleteTerm, getTems,
 };

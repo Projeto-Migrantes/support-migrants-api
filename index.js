@@ -9,26 +9,19 @@ import categoryRoutes from './src/routes/categoryRoutes.js';
 import serviceStationRoutes from './src/routes/serviceStationRoutes.js';
 import migrantRoutes from './src/routes/migrantRoutes.js';
 import userRoutes from './src/routes/userRoutes.js';
-
 import authRoutes from './src/routes/auth.js';
 import formRoutes from './src/routes/formRoutes.js';
 import pdfRoutes from './src/routes/pdfRoutes.js';
 import termRoutes from './src/routes/termRoutes.js';
+
 import { errorHandler, notFoundHandler } from './src/middlewares/errorHandler.js';
 import cors from 'cors';
-
-
-import swaggerUi from 'swagger-ui-express';
-import fs from 'fs';
-import yaml from 'js-yaml';
 
 import dotenv from 'dotenv';
 dotenv.config()
 
 // Create Tables in DB
 createDatabase("migrantes_db_dev");
-
-const swaggerDocument = yaml.load(fs.readFileSync('./src/config/swagger.yaml', 'utf8'));
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -37,16 +30,13 @@ app.use(express.json());
 
 // Configurando o CORS
 app.use(cors({
-    exposedHeaders: ['Authorization'], // Permitir que o cabeçalho Authorization seja acessível
-    allowedHeaders: ['Content-Type', 'Authorization'], // Permitir cabeçalhos que podem ser enviados
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
+    exposedHeaders: ['Authorization'], 
+    allowedHeaders: ['Content-Type', 'Authorization'], 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
 }));
 
 
 app.use(limiter);
-
-// Configuração do Swagger
-app.use('/api-docs/pt', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('/api/v1', 
     addressRoutes, institutionRoutes, categoryRoutes, 
@@ -67,12 +57,12 @@ app.use(notFoundHandler);
 
 connection.authenticate()
     .then(() => {
-        console.log('Conexão feita com sucesso!');
+        console.log('Connection has been established successfully.');
     })
     .catch(err => {
-        console.log('Conexão falhou', err);
+        console.error('Unable to connect to the database:', err);
     });
 
-app.listen(3000, () => {
-    console.log(`Servidor Rodando na porta: ${PORT}`);
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });

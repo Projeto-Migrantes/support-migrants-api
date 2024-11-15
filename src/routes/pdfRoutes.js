@@ -4,6 +4,7 @@ import validate from '../middlewares/validation/validatePdf.js';
 
 const router = express.Router();
 
+// Routes for pdfs
 router.post('/pdfs', validate, pdfController.createPdf);
 router.get('/pdfs', pdfController.findAll);
 router.put('/pdfs/:id', validate, pdfController.update);

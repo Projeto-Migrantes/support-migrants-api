@@ -4,6 +4,7 @@ import authenticationUser from "../middlewares/auth/authenticationUser.js";
 
 const router = Router();
 
+// Routes for authentication
 router.post('/migrant/login', authenticationMigrant.login);
 router.post('/login', authenticationUser.login);
 

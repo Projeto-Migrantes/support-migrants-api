@@ -4,6 +4,7 @@ import validateServiceStation from '../middlewares/validation/validateServiceSta
 
 const router = Router();
 
+// Routes for service stations
 router.get('/service-stations', serviceStationController.findAll);
 router.get('/service-stations/:id', serviceStationController.findById);
 router.post('/service-stations', validateServiceStation, serviceStationController.create);

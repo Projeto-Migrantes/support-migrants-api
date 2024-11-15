@@ -4,6 +4,7 @@ import validateOrganization from '../middlewares/validation/validateInstitution.
 
 const router = Router();
 
+// Routes for institutions
 router.get('/institutions', institutionController.findAll);
 router.post('/institutions/check-email', institutionController.emailExist);
 router.get('/institutions/search', institutionController.searchInstituions);

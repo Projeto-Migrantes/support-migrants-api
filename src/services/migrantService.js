@@ -3,36 +3,46 @@ import Migrant from '../models/Migrant.js';
 import MigrantDocument from '../models/MigrantDocument.js';
 import { Sequelize } from 'sequelize';
 
-// Find All Migrants
+/*
+* Function that fetches all migrants from the database
+*/
 const findAllMigrants = async () => {
     return await Migrant.findAll({ 
         order:[['id', 'DESC']],
         include: [ {model: MigrantDocument}, {model: Address}], });
 };
 
-// Find All Migrant by ID
+/*
+* Function that fetches a migrant by id
+*/
 const findMigrantById = async (id) => {
     return await Migrant.findByPk(id, {
         include: [ {model: MigrantDocument}, {model: Address}]
     });
 }; 
 
-// Create one Migrant
+/*
+* Function that creates a new migrant using the provided data
+*/
 const createMigrant = async (migrant, addresId) => {
     return await Migrant.create({
         ...migrant,
         address_id: addresId
     });
-}
+};
 
-// Find One Migrant By Email
+/*
+* Function that fetches a migrant by email
+*/
 const findOneMigrantByEmail = async (email) => {
     return await Migrant.scope('withPassword').findOne({
         raw: true, where: { email }
     });
 };
 
-// Update one Migrant by ID
+/*
+* Function that updates a migrant
+*/
 const updateMigrant = async (newData, migrantId, newAddressId) => {
     return await Migrant.update(
        { ...newData, 
@@ -40,11 +50,16 @@ const updateMigrant = async (newData, migrantId, newAddressId) => {
         { where: { id: migrantId } });
 };
 
-// Delete Migrant By ID
+/*
+* Function that deletes a migrant
+*/
 const deleteMigrant = async (migrantId) => {
     return await Migrant.destroy({ where: { id: migrantId } });
 };
 
+/*
+* Function that updates a migrant password
+*/
 const updatePasswordMigrant = async (newPassowrd, migrantId) => {
     return await Migrant.update({
         password: newPassowrd, 
@@ -53,10 +68,16 @@ const updatePasswordMigrant = async (newPassowrd, migrantId) => {
     });
 };
 
+/*
+* Function that counts all migrants
+*/
 const countMigrants = async () => {
     return await Migrant.count();
 };
 
+/*
+* Function that searches migrants by query
+*/
 const searchMigrants = async (query) => {
     try {
         if (!validateQuery(query)) {
@@ -84,19 +105,15 @@ const searchMigrants = async (query) => {
     }
 };
 
-
+/*
+* Function that validates a query
+*/
 const validateQuery = (query) => {
     return typeof query === 'string' && query.trim().length > 0;
 };
 
 export default {
-    findAllMigrants,
-    findMigrantById,
-    findOneMigrantByEmail,
-    createMigrant,
-    updateMigrant,
-    deleteMigrant,
-    updatePasswordMigrant,
-    searchMigrants,
-    countMigrants,
+    findAllMigrants, findMigrantById, findOneMigrantByEmail,
+    createMigrant, updateMigrant, deleteMigrant,
+    updatePasswordMigrant, searchMigrants, countMigrants,
 };

@@ -1,32 +1,43 @@
 import addressController from './addressController.js';
 import serviceStationService from '../services/serviceStationService.js';
 
+/*
+* Function that fetches all service stations from the database
+*/
 const findAll = async (req, res) => {
     try {
         const stationService = await serviceStationService.findAllServiceStations();
+
         if(!stationService || stationService.length === 0){
-            return res.status(404).json({message: 'Nenhum Posto de atendimento encontrado'});
-        }
+            return res.status(200).json({message: 'Nenhum Posto de atendimento encontrado'});
+        };
+
         return res.status(200).json({ stationService });
     } catch (error) {
-        console.error(error);
         return res.status(500).json({ error: 'Erro no servidor.' });        
-    }
+    };
 };
 
+/*
+* Function that fetches a service station by its ID
+*/
 const findById = async (req, res) => {
     try {
       const stationService = await serviceStationService.findServiceStationById(req.params.id);
-      if(!stationService || stationService.length === 0){
-        return res.status(404).json({message: 'Nenhum Posto de atendimento encontrado'})
-    }  
-    return res.status(200).json({ stationService });
+
+        if(!stationService || stationService.length === 0){
+            return res.status(200).json({message: 'Nenhum Posto de atendimento encontrado'});
+        };
+    
+        return res.status(200).json({ stationService });
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: 'Erro no servidor.' })        
-    }
+        return res.status(500).json({ error: 'Erro no servidor.' });    
+    };
 };
 
+/*
+* Function that creates a new service station using the provided data
+*/
 const create = async (req, res) => {
     try {
         const { service_station } = req.body;
@@ -40,11 +51,13 @@ const create = async (req, res) => {
              createdServiceStation 
             });
     } catch (error) {
-        console.error(error);
         return res.status(500).json( {error: 'Erro interno do servidor '} );
     };
 };
 
+/*
+* Function that deletes a service station by its ID
+*/
 const destroy = async (req, res) => {
     try {
         const { id } = req.params;
@@ -52,20 +65,17 @@ const destroy = async (req, res) => {
         const deletedServiceStation = await serviceStationService.deleteServiceStation(id);
 
         if(deletedServiceStation === 0){
-            return res.status(404).json({ message: 'Posto de atendimento não encontrado' });
+            return res.status(200).json({ message: 'Posto de atendimento não encontrado' });
         };
 
         return res.status(204).send();
 
     } catch (error) {
-        console.error(error);
         return res.status(500).json({ message: 'Erro no servidor' });
-    }
+    };
 };
 
 export default { 
-    findAll,
-    findById,
-    create,
-    destroy,
+    findAll, findById,
+    create, destroy,
 };

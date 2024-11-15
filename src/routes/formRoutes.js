@@ -1,11 +1,10 @@
 import { Router } from 'express';
 import formController from '../controllers/formController.js';
 import validateForm from '../middlewares/validation/validateForm.js';
-import authenticationMigrant from '../middlewares/auth/authenticationMigrant.js';
-
 
 const router = Router();
 
+// Routes for forms
 router.get('/forms', formController.findAll);
 router.get('/forms-count/unread', formController.countUnread);
 router.get("/forms/status/:status", formController.findyByStatus);

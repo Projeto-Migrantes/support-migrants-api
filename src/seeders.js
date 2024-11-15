@@ -17,6 +17,9 @@ import Session from "./models/Session.js";
 import User from "./models/User.js";
 import Form from "./models/Form.js";
 
+/*
+* Function that runs the seeders
+*/
 const runSeeders = async () => {
     try {
 

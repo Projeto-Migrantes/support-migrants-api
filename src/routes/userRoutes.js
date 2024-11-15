@@ -4,6 +4,7 @@ import validate from '../middlewares/validation/validateUser.js';
 
 const router = Router();
 
+// Routes for users
 router.get('/users', userController.getUsers);
 router.post('/users/check-email', userController.emailExist);
 router.get('/users-count', userController.countUsers);

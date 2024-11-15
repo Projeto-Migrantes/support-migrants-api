@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import connection from '../config/database.js';
 
+// Define a Session model for the database
 const Session = connection.define('Session', {
     sid: {
         type: DataTypes.STRING,

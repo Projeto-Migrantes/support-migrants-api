@@ -15,32 +15,36 @@ import Term from './models/Term.js';
 import User from './models/User.js';
 import Session from './models/Session.js';
 
+/*
+* Function that creates a database if it does not exist
+*/
 const create = async (dbName) => {
     try {
-        // Check if the database already exists
         const [results] = await connection.query(`SELECT datname FROM pg_database WHERE datname = '${dbName}';`);
 
-        // If the database does not exist, create it
         if (results.length === 0) {
             await connection.query(`CREATE DATABASE "${dbName}";`);
             console.log(`Database "${dbName}" created successfully!`);
-        } 
+        };
+
     } catch (error) {
         console.error('Error verifying or creating database:', error);
-    }
+    };
 };
 
+/*
+* Function that synchronizes the database
+*/
 const syncDatabase = async (nameDb) => {
     try {
-         // Wait for the database to be created
         await create(nameDb);
         await connection.sync({ force: true }); 
-        // Wait seeds to be db
         await runSeeders();
+        
         console.log("Database synchronized successfully!");
     } catch (error) {
         console.error("Error synchronizing database:", error);
-    }
+    };
 };
 
 export default syncDatabase;

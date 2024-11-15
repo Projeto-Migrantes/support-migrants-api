@@ -10,6 +10,9 @@ import ServicesOfferred from '../models/ServicesOffered.js';
 import ServiceCosts from '../models/ServiceCost.js';
 import { Sequelize } from "sequelize";
 
+/*
+* Function that fetches all institutions from the database
+*/
 const findAllInstitutions = async () => {
     return await Institution.findAll({
         order:[ 
@@ -19,16 +22,25 @@ const findAllInstitutions = async () => {
     });
 };
 
+/*
+* Function that fetches the number of institutions from the database
+*/
 const countInstitutions = async () => {
     return await Institution.count();
 };
 
+/*
+* Function that fetches an institution by id
+*/
 const findInstitutionById = async (id) => {
     return await Institution.findByPk(id, {
         include: models.all,
     });
 };
 
+/*
+* Function that creates a new institution using the provided data
+*/
 const createInstitution = async (institution, addressId, responsible_user_id) => {
     return await Institution.create({
         ...institution,
@@ -37,16 +49,23 @@ const createInstitution = async (institution, addressId, responsible_user_id) =>
     });
 };
 
+/*
+* Function that fetches all institutions by category
+*/
 const findAllInstitutionsByCategory = async (categoryId) => {
     return await Institution.findAll({ where: {category_id: categoryId}, include: models.all});
 };
 
-// Delete Institution By ID
+/*
+* Function that deletes an institution
+*/
 const deleteInstitution = async (institutionId) => {
     return await Institution.destroy({ where: { id: institutionId } });
 };
 
-// Update one institution by ID
+/*
+* Function that updates an institution
+*/
 const updateInstitution = async (newData, institutionId, newAddressId, responsible_user_id) => {
     return await Institution.update(
        { ...newData, 
@@ -56,6 +75,9 @@ const updateInstitution = async (newData, institutionId, newAddressId, responsib
         { where: { id: institutionId } });
 };
 
+/*
+* Function that searches institutions by query
+*/
 const searchInstitutions = async (query) => {
     try {
         const institutions = await Institution.findAll({
@@ -74,10 +96,16 @@ const searchInstitutions = async (query) => {
     }
 };
 
+/*
+* Function that fetches an institution by email
+*/
 const findInstitutionByEmail = async (email) => {
     return await Institution.findOne({ where: { email } });
 };
 
+/*
+* Object that contains all models to be included in the institution model
+*/
 const models = {
     all: [
         { model: Category }, 
@@ -91,15 +119,9 @@ const models = {
         { model: ServiceCosts }]
 };
 
-
 export default {
-    findAllInstitutions,
-    findInstitutionById,
-    createInstitution,
-    findAllInstitutionsByCategory,
-    deleteInstitution,
-    searchInstitutions,
-    updateInstitution,
-    countInstitutions,
+    findAllInstitutions,  findInstitutionById,  createInstitution,
+    findAllInstitutionsByCategory, deleteInstitution,
+    searchInstitutions, updateInstitution, countInstitutions,
     findInstitutionByEmail,
 };
