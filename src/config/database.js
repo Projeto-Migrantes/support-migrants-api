@@ -1,5 +1,6 @@
 import Sequelize from 'sequelize';
 import dotenv from 'dotenv';
+import pg from 'pg';
 dotenv.config();
 
 // Create the database connection
@@ -9,6 +10,7 @@ const connection = new Sequelize(process.env.DB_TEST_NAME, process.env.DB_TEST_U
     dialect: process.env.DB_TEST_DIALECT,
     port: process.env.DB_TEST_PORT,
     timezone: process.env.DB_TEST_TZ,
+    dialectModule: pg,
     logging: false
 });
 
