@@ -14,6 +14,7 @@ import formRoutes from './src/routes/formRoutes.js';
 import pdfRoutes from './src/routes/pdfRoutes.js';
 import termRoutes from './src/routes/termRoutes.js';
 
+import authKey from './src/middlewares/authKey.js';
 import { errorHandler, notFoundHandler } from './src/middlewares/errorHandler.js';
 import cors from 'cors';
 
@@ -35,6 +36,7 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE'], 
 }));
 
+app.use(authKey);
 
 app.use(limiter);
 
