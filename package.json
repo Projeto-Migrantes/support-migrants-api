@@ -1,5 +1,5 @@
 {
-  "name": "api-mhelp",
+  "name": "api-ramb",
   "version": "1.0.0",
   "description": "API RESTful para conectar migrantes com organizações comunitárias e instituições",
   "main": "index.js",
@@ -23,8 +23,13 @@
     "migrantes",
     "Supabase"
   ],
-  "author": "Mhelp Time Back-end",
-  "contributors": [],
+  "author": "RAMB Time Back-end",
+  "contributors": [
+    {
+      "name": "Alisson Oliveira",
+      "url": "https://github.com/Alisson-Oliver"
+    }
+  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Projeto-Migrantes/api-mhelp/issues"
