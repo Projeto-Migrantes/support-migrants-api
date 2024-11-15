@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import userService from '../../services/userService.js';
+import userAdminService from '../../services/userAdminService.js';
 
 dotenv.config();
 
@@ -10,7 +10,7 @@ dotenv.config();
 const login = async (req, res) => {
     try {
         const { username, password } = req.body; 
-        const token = await userService.loginService(username, password);
+        const token = await userAdminService.loginService(username, password);
         
         res.setHeader('Authorization', `Bearer ${token}`);
         res.status(200).json({ message: 'Login realizado com sucesso' });

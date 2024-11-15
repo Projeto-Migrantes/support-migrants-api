@@ -1,5 +1,5 @@
 import hashPasswordUtil from "../utils/hashPasswordUtil.js";
-import userService from '../services/userService.js';
+import userAdminService from '../services/userAdminService.js';
 
 /*
 * Function that creates a new user using the provided data
@@ -8,7 +8,7 @@ const createUser = async (req, res) => {
     try {
         const user = req.body;
         user.password = await hashPasswordUtil.createHash(user.password);
-        const newUser = await userService.createUserService(user);
+        const newUser = await userAdminService.createUserService(user);
 
         res.status(201).json({ message: 'Usuário criado com sucesso', user: newUser });
     } catch (error) {
@@ -21,7 +21,7 @@ const createUser = async (req, res) => {
 */
 const getUsers = async (req, res) => {
     try {
-        const users = await userService.findAllUsersService();
+        const users = await userAdminService.findAllUsersService();
 
         if (!users || users.length === 0) {
             return res.status(200).json({ message: 'Nenhum usuário encontrado' });
@@ -39,7 +39,7 @@ const getUsers = async (req, res) => {
 const getUser = async (req, res) => {
     try {
         const { id } = req.params;
-        const user = await userService.findUserByIdService(id);
+        const user = await userAdminService.findUserByIdService(id);
 
         if (!user) {
             return res.status(200).json({ message: 'Usuário não encontrado' });
@@ -58,7 +58,7 @@ const updateUser = async (req, res) => {
     try {
         const  userId  = req.params.id;
         const  newData  = req.body;
-        const [updatedLines] = await userService.updateUser(userId, newData);
+        const [updatedLines] = await userAdminService.updateUser(userId, newData);
         
         if (updatedLines === 0) {
             return res.status(200).json({ message: 'Usuário não encontrado' });
@@ -76,7 +76,7 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
     try {
         const { id } = req.params;
-        const result = await userService.deleteUser(id);
+        const result = await userAdminService.deleteUser(id);
 
         if (!result) {
             return res.status(200).json({ message: 'Usuário não encontrado' });
@@ -95,7 +95,7 @@ const updatePassword = async (req, res) => {
     try {
         const { id } = req.params;
         const password = req.body.password;
-        const updated = await userService.updatePasswordUser(password, id);
+        const updated = await userAdminService.updatePasswordUser(password, id);
 
         if (!updated) {
             return res.status(200).json({ message: 'Usuário não encontrado' });
@@ -112,7 +112,7 @@ const updatePassword = async (req, res) => {
 */
 const countUsers = async (req, res) => {
     try {
-        const count = await userService.countUsers();
+        const count = await userAdminService.countUsers();
 
         return res.status(200).json({ count });
     } catch (error) {
@@ -126,7 +126,7 @@ const countUsers = async (req, res) => {
 const emailExist = async (req, res) => {
     try {
         const { email } = req.body;
-        const emailExist = await userService.findUserByEmailService(email);
+        const emailExist = await userAdminService.findUserByEmailService(email);
 
         if (emailExist) {
             return res.json({ exists: true });
