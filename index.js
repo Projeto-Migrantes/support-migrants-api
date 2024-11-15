@@ -1,7 +1,6 @@
 import express from 'express';
 import limiter from './src/middlewares/rateLimiter.js';
 import connection from './src/config/database.js';
-import createDatabase from './src/createDatabase.js';
 
 import addressRoutes from './src/routes/addressRoutes.js';
 import institutionRoutes from './src/routes/institutionRoutes.js';
@@ -20,9 +19,6 @@ import cors from 'cors';
 
 import dotenv from 'dotenv';
 dotenv.config()
-
-// Create Tables in DB
-createDatabase("migrantes_db_dev");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
