@@ -68,7 +68,7 @@ const findByCategory = async (req, res) => {
             return res.status(400).json({ message: "O ID deve ser um número válido!" });
         };
 
-        if(id === 0){
+        if(id == 0){
             institutions = await institutionService.findAllInstitutions();
         } else{
             institutions = await institutionService.findAllInstitutionsByCategory(req.params.id);
@@ -222,7 +222,7 @@ const destroy = async (req, res) => {
         
         const deletedInstitution = await institutionService.deleteInstitution(id);
 
-        if(deletedInstitution === 0){
+        if(deletedInstitution == 0){
             return res.status(200).json({ message: 'Instituição não encontrada' });
         };
 
