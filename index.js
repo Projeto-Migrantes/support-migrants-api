@@ -20,6 +20,14 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 dotenv.config()
 
+if(!process.env.DB_HOST || !process.env.DB_USER || !process.env.DB_PWD) {
+    console.error(`Error: Missing settings in .env file`);
+    process.exit(1);
+};
+
+console.log(process.cwd);
+
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 

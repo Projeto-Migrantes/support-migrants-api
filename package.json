@@ -1,5 +1,5 @@
 {
-  "name": "api-ramb",
+  "name": "api-rsf",
   "version": "1.0.0",
   "description": "API RESTful para conectar migrantes com organizações comunitárias e instituições",
   "main": "index.js",
@@ -23,7 +23,7 @@
     "migrantes",
     "Supabase"
   ],
-  "author": "RAMB Time Back-end",
+  "author": "RSF Time Back-end",
   "contributors": [
     {
       "name": "Alisson Oliveira",
