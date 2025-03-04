@@ -17,8 +17,13 @@ import authKey from './src/middlewares/authKey.js';
 import { errorHandler, notFoundHandler } from './src/middlewares/errorHandler.js';
 import cors from 'cors';
 
+import createDatabase from './src/createDatabase.js';
+
 import dotenv from 'dotenv';
 dotenv.config()
+
+createDatabase("migrantes_db_dev")
+
 
 if(!process.env.DB_HOST || !process.env.DB_USER || !process.env.DB_PWD) {
     console.error(`Error: Missing settings in .env file`);
