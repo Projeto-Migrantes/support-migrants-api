@@ -11,7 +11,7 @@ const fetchAddressByCEP = async (req, res) => {
         if(address.erro){
             return res.status(404).json({ message: 'CEP inválido' });
         };
-        return res.status(200).json(address);
+        return res.status(200).json({ data: address });
     } catch (error) {
         return res.status(400).json({ error: 'Erro interno do servidor' });
     };

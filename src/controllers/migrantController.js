@@ -14,7 +14,10 @@ const findAll = async (req, res) => {
             return res.status(404).json({ message: "Nenhum migrante foi encontrado" });
         };
 
-        return res.status(200).json({ migrants });
+        return res.status(200).json({ 
+            message: "Migrantes encontrados com sucesso",
+            data: { migrants }
+         });
     } catch (error) {
         return res.status(500).json({ message: "Erro no servidor" });
     };

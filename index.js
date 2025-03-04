@@ -15,14 +15,16 @@ import termRoutes from './src/routes/termRoutes.js';
 
 import authKey from './src/middlewares/authKey.js';
 import { errorHandler, notFoundHandler } from './src/middlewares/errorHandler.js';
+import helmet from 'helmet';
 import cors from 'cors';
 
 import createDatabase from './src/createDatabase.js';
 
 import dotenv from 'dotenv';
-dotenv.config()
+dotenv.config();
 
-createDatabase("migrantes_db_dev")
+createDatabase("migrantes_db_dev");
+
 
 
 if(!process.env.DB_HOST || !process.env.DB_USER || !process.env.DB_PWD) {
@@ -36,6 +38,7 @@ console.log(process.cwd);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(helmet());
 app.use(express.json());
 
 // Configurando o CORS
