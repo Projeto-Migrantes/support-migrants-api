@@ -1,4 +1,4 @@
-import addressService from '../services/addressService.js';
+import addressService from "../services/addressService.js";
 
 /* 
  * Function that fetches the address corresponding to a provided ZIP code (CEP). 
@@ -9,11 +9,14 @@ const fetchAddressByCEP = async (req, res) => {
     try {
         const address = await addressService.findAddressByCEP(cep);
         if(address.erro){
-            return res.status(404).json({ message: 'CEP inválido' });
+            return res.status(404).json({ message: "CEP inválido" });
         };
-        return res.status(200).json({ data: address });
+        return res.status(200).json({ 
+            message: "Endereço encontrado com sucesso",
+            data: { address } 
+        });
     } catch (error) {
-        return res.status(400).json({ error: 'Erro interno do servidor' });
+        return res.status(400).json({ error: "Erro interno do servidor" });
     };
 };
 
@@ -24,9 +27,12 @@ const fetchAddressByCEP = async (req, res) => {
 const create = async (req, res) => {
     try {
         const createdAddress = await addressService.createAddress();
-        return res.status(201).json({ message: 'Endereço criado com sucesso', createdAddress });
+        return res.status(201).json({ 
+            message: "Endereço criado com sucesso", 
+            data: { createdAddress } 
+        });
     } catch (error) {
-        return res.status(500).json({ error: 'Erro interno do servidor' });
+        return res.status(500).json({ error: "Erro interno do servidor" });
     };
 };
 
@@ -36,7 +42,6 @@ const create = async (req, res) => {
  */
 const existAddress = async (req, res) => {
     const cep = req.body.address.cep;
-    
     try {
         const existCEP = await addressService.existsAddress(cep);
         if(!existCEP){
@@ -45,7 +50,7 @@ const existAddress = async (req, res) => {
         };
         return existCEP.id;
     } catch (error) {
-        return res.status(500).json({ error: 'Erro interno do servidor' });
+        return res.status(500).json({ error: "Erro interno do servidor" });
     };
 };
 

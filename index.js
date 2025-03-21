@@ -25,15 +25,12 @@ dotenv.config();
 
 createDatabase("migrantes_db_dev");
 
-
-
 if(!process.env.DB_HOST || !process.env.DB_USER || !process.env.DB_PWD) {
     console.error(`Error: Missing settings in .env file`);
     process.exit(1);
 };
 
 console.log(process.cwd);
-
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -42,13 +39,16 @@ app.use(helmet());
 app.use(express.json());
 
 // Configurando o CORS
+
+app.disable('x-powered-by');
+
 app.use(cors({
     exposedHeaders: ['Authorization'], 
     allowedHeaders: ['Content-Type', 'Authorization'], 
     methods: ['GET', 'POST', 'PUT', 'DELETE'], 
 }));
 
-app.use(authKey);
+//app.use(authKey);
 
 app.use(limiter);
 

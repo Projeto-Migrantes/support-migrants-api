@@ -8,12 +8,15 @@ const findAll = async (req, res) => {
         const forms = await formService.findAllForms();
         
         if(!forms || forms.length === 0){
-            return res.status(200).json({ message: 'Nenhum formulário encontrado' });
+            return res.status(200).json({ message: "Nenhum formulário encontrado" });
         };
 
-        return res.status(200).json({ forms });
+        return res.status(200).json({ 
+            message: "Formulários encontrados com sucesso",
+            data: { forms } 
+        });
     } catch (error) {
-        return res.status(500).json({ error: 'Erro no servidor.' });        
+        return res.status(500).json({ error: "Erro no servidor." });        
     };
 };
 
@@ -25,12 +28,15 @@ const findById = async (req, res) => {
       const form = await formService.findFormById(req.params.id);
 
         if(!form){
-            return res.status(200).json({ message: 'Nenhum formulário encontrado' });
+            return res.status(200).json({ message: "Nenhum formulário encontrado" });
         };
     
-        return res.status(200).json({ form });
+        return res.status(200).json({ 
+            message: "Formulário encontrado com sucesso",
+            data: { form } 
+        });
     } catch (error) {
-        return res.status(500).json({ error: 'Erro no servidor.' });     
+        return res.status(500).json({ error: "Erro no servidor." });     
     };
 };
 
@@ -42,19 +48,22 @@ const findyByStatus = async (req, res) => {
         let forms;
         const status = req.params.status;
 
-        if(status === 'todos'){
+        if(status === "todos"){
             forms = await formService.findAllForms();
         } else {
             forms = await formService.findFormsByStatus(status);
         };
 
         if(!forms || forms.length === 0){
-            return res.status(200).json({ message: 'Nenhum formulário foi encontrado com esse status' });
+            return res.status(200).json({ message: "Nenhum formulário foi encontrado com esse status" });
         };
 
-        return res.status(200).json({ forms });
+        return res.status(200).json({ 
+            message: "Formulários encontrados com sucesso",
+            data: { forms } 
+        });
     } catch (error) {
-        return res.status(500).json({ error: 'Erro no servidor' });
+        return res.status(500).json({ error: "Erro no servidor" });
     };
 };
 
@@ -69,11 +78,11 @@ const update = async (req, res) => {
         const [updatedLines] = await formService.updateForms(id, data);
 
         if (updatedLines === 0) {
-            return res.status(404).json({ message: 'Forms não encontrado' });
+            return res.status(404).json({ message: "Forms não encontrado" });
         }
-        return res.status(200).json({ message: 'Forms atualizado com sucesso' });
+        return res.status(200).json({ message: "Forms atualizado com sucesso" });
     } catch (error) {
-        return res.status(500).json({ message: 'Erro no servidor' });
+        return res.status(500).json({ message: "Erro no servidor" });
     };
 };
 
@@ -85,10 +94,13 @@ const create = async (req, res) => {
         const form = req.body;
         const createdForm = await formService.createForm(form);
        
-        return res.status(201).json({ message: 'Formulário enviado com sucesso', createdForm });
+        return res.status(201).json({ 
+            message: "Formulário enviado com sucesso", 
+            data: { createdForm } 
+        });
 
     } catch (error) {
-        return res.status(500).json({ error: 'Erro interno do servidor ' });
+        return res.status(500).json({ error: "Erro interno do servidor " });
     };
 };
 
@@ -101,13 +113,13 @@ const destroy = async (req, res) => {
         const deletedForm = await formService.deleteForm(id);
 
         if(deletedForm === 0){
-            return res.status(404).json({ message: 'Formulário não encontrada' });
+            return res.status(404).json({ message: "Formulário não encontrado" });
         };
 
         return res.status(204).send();
 
     } catch (error) {
-        return res.status(500).json({ message: 'Erro no servidor' });
+        return res.status(500).json({ message: "Erro no servidor" });
     };
 };
 
@@ -118,9 +130,11 @@ const countUnread = async (req, res) => {
     try {
         const count = await formService.countFormsPedding();
 
-        return res.status(200).json({ count });
+        return res.status(200).json({ 
+            data: { count } 
+        });
     } catch (error) {
-        return res.status(500).json({ message: 'Erro no servidor' });
+        return res.status(500).json({ message: "Erro no servidor" });
     };
 };
 

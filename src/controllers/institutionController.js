@@ -19,7 +19,10 @@ const findAll = async (req, res) => {
             return res.status(200).json({ message: 'Nenhuma instituição encontrada' });
         };
 
-        return res.status(200).json({ institutions });
+        return res.status(200).json({ 
+            message: "Instituições encontradas com sucesso",
+            data: { institutions } 
+        });
     } catch (error) {
         return res.status(500).json({ error: 'Erro no servidor.' });        
     };
@@ -30,23 +33,26 @@ const findAll = async (req, res) => {
 */
 const findById = async (req, res) => {
     try {
+        const id = req.params.id;
 
-        if (!req.params.id) {
+        if (!id) {
             return res.status(400).json({ message: "ID inválido!" });
         };
 
-        const id = req.params.id;
         if (isNaN(id) || id <= 0) { 
             return res.status(400).json({ message: "O ID deve ser um número válido!" });
         };
         
-        const institution = await institutionService.findInstitutionById(req.params.id);
+        const institution = await institutionService.findInstitutionById(id);
 
         if(!institution || institution.length === 0){
             return res.status(200).json({ message: 'Nenhuma instituição encontrada' });
         }; 
 
-        return res.status(200).json({ institution });
+        return res.status(200).json({ 
+            message: "Instituição encontrada com sucesso",
+            data: { institution } 
+        });
     } catch (error) {
         return res.status(500).json({ error: 'Erro no servidor.' });     
     };
@@ -57,28 +63,26 @@ const findById = async (req, res) => {
 */
 const findByCategory = async (req, res) => {
     try {
-        if (!req.params.id) {
-            return res.status(400).json({ message: "ID inválido!" });
+        const id = req.params.id;
+
+        if (!id || isNaN(id)) {
+            return res.status(400).json({ message: "ID inválido ou não numérico!" });
         }
         
-        let institutions;
-        const id = req.params.id;
-        
-        if (isNaN(id)) { 
-            return res.status(400).json({ message: "O ID deve ser um número válido!" });
-        };
+        const institutions = (id == 0)
+            ? await institutionService.findAllInstitutions() 
+            : await institutionService.findAllInstitutionsByCategory(id);
 
-        if(id == 0){
-            institutions = await institutionService.findAllInstitutions();
-        } else{
-            institutions = await institutionService.findAllInstitutionsByCategory(req.params.id);
-        };
 
         if(!institutions || institutions.length === 0){
             return res.status(200).json({ message: 'Nenhuma instituição encontrada com essa categoria' });
         };
 
-        return res.status(200).json({ institutions });
+        return res.status(200).json({ 
+            message: "Instituições encontradas com sucesso",
+            data:  { institutions }
+        });
+        
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: 'Erro no servidor' });        
@@ -97,7 +101,10 @@ const searchInstituions = async (req, res) => {
         };
 
         const institutions = await institutionService.searchInstitutions(query);
-        res.json({ institutions });
+        res.json({ 
+            message: "Instituições encontradas com sucesso",
+            data: { institutions } 
+        });
     } catch (error) {
         res.status(500).json({ message: error.message }); 
     };
@@ -110,7 +117,10 @@ const count = async (req, res) => {
     try {
         const count = await institutionService.countInstitutions();
 
-        return res.status(200).json({ count });
+        return res.status(200).json({ 
+            data: { count } 
+        });
+
     } catch (error) {
         return res.status(500).json({ error: 'Erro no servidor' });        
     };
@@ -124,25 +134,25 @@ const update = async (req, res) => {
         const { institution, ServiceCost, ServicesOffered, RequirementRestriction, 
                 TargetPopulation, ServiceHour, InstitutionDescription, ResponsibleUser } = req.body;
 
-        const { id } = req.params;
+        const institutionId = req.params.id;
 
         const createdAddress = await addressController.existAddress(req, res);
         
         if (!createdAddress) {
             return res.status(200).json({ message: "Endereço não encontrado." });
         };
-        
-        const institutionId = id;
 
-        await serviceCostService.updateServiceCost(ServiceCost, institutionId);
-        await servicesOfferedService.updateServicesOffered(ServicesOffered, institutionId);
-        await requirementRestrictionService.updateRequirementRestriction(RequirementRestriction, institutionId);
-        await targetPopulationService.updateTargetPopulation(TargetPopulation, institutionId);
-        await serviceHoursService.updateServiceHours(ServiceHour, institutionId);
-        await institutionDescriptionsService.updateInstitutionDescriptions(InstitutionDescription, institutionId);
-        const responsible_user_id = await responsibleUserService.createResponsibleUser(ResponsibleUser);
-        
-        const [updatedLines] = await institutionService.updateInstitution(institution, id, createdAddress, responsible_user_id.id); 
+        await Promise.all([
+            serviceCostService.updateServiceCost(ServiceCost, institutionId),
+            servicesOfferedService.updateServicesOffered(ServicesOffered, institutionId),
+            requirementRestrictionService.updateRequirementRestriction(RequirementRestriction, institutionId),
+            targetPopulationService.updateTargetPopulation(TargetPopulation, institutionId),
+            serviceHoursService.updateServiceHours(ServiceHour, institutionId),
+            institutionDescriptionsService.updateInstitutionDescriptions(InstitutionDescription, institutionId),
+        ]);
+         
+        const responsibleUser = await responsibleUserService.createResponsibleUser(ResponsibleUser);
+        const [updatedLines] = await institutionService.updateInstitution(institution, institutionId, createdAddress, responsibleUser.id); 
         
         if (updatedLines === 0) {
             return res.status(200).json({ message: 'Instituição não encontrada' });
@@ -151,7 +161,7 @@ const update = async (req, res) => {
         return res.status(200).json({ message: 'Instituição atualizada com sucesso' });
 
     } catch (error) {
-        return res.status(500).json({ message: 'Erro no servidor' });
+        return res.status(500).json({ message: 'Erro no servidor', error });
     };
 };
 
@@ -190,7 +200,7 @@ const create = async (req, res) => {
             });
 
     } catch (error) {
-        return res.status(500).json( {error: 'Erro interno do servidor '} );
+        return res.status(500).json( {error: 'Erro interno do servidor ' } );
     };
 };
 
