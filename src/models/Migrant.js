@@ -1,11 +1,9 @@
-import { DataTypes } from "sequelize";
-import connection from "../config/database.config.js";
-import Address from "./Address.js";
-import MigrantDocument from "./MigrantDocument.js";
+import { DataTypes } from 'sequelize';
+import connection from '../config/database.config.js';
+import Address from './Address.js';
 
-// Define an migrant template for the database
 const Migrant = connection.define(
-  "Migrant",
+  'Migrant',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -14,114 +12,96 @@ const Migrant = connection.define(
       allowNull: false,
     },
     full_name: {
-      type: DataTypes.STRING(150),
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
-    social_name: {
-      type: DataTypes.STRING(150),
-      allowNull: true,
+    email: {
+      type: DataTypes.STRING(255),
+      unique: true,
+      allowNull: false,
     },
-    date_birth: {
+    date_of_birth: {
       type: DataTypes.DATEONLY,
       allowNull: false,
     },
-    preferred_language: {
-      type: DataTypes.STRING(100),
+    phone_number: {
+      type: DataTypes.STRING(15),
       allowNull: false,
     },
-    entry_date: {
-      type: DataTypes.DATEONLY,
-      allowNull: true,
+    crnm: {
+      type: DataTypes.STRING(9),
+      allowNull: false,
+    },
+    password: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+    registration_data: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    consent: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    },
+    purpose: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
     },
     address_complement: {
-      type: DataTypes.STRING(250),
+      type: DataTypes.STRING(50),
       allowNull: true,
     },
     address_number: {
       type: DataTypes.STRING(10),
       allowNull: true,
     },
-    email: {
-      type: DataTypes.STRING(100),
-      unique: true,
-      allowNull: false,
-    },
-    phone: {
-      type: DataTypes.STRING(40),
-      allowNull: true,
-    },
-    whatsapp_number: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-    },
-    authorized: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-    },
-    migrant_reason: {
+    social_name: {
       type: DataTypes.STRING(255),
-      allowNull: false,
+      allowNull: true,
+    },
+    language_preference: {
+      type: DataTypes.STRING(50),
+      allowNull: true,
+    },
+    entry_into_brazil: {
+      type: DataTypes.DATEONLY,
+      allowNull: true,
+    },
+    migration_reason: {
+      type: DataTypes.STRING(100),
+      allowNull: true,
+    },
+    country_of_origin: {
+      type: DataTypes.STRING(50),
+      allowNull: true,
     },
     gender: {
-      type: DataTypes.STRING(80),
-      allowNull: false,
-    },
-    nationality: {
-      type: DataTypes.STRING(120),
-      allowNull: false,
+      type: DataTypes.STRING(50),
+      allowNull: true,
     },
     marital_status: {
-      type: DataTypes.STRING(120),
-      allowNull: false,
-    },
-    education_level: {
-      type: DataTypes.STRING(120),
+      type: DataTypes.STRING(50),
       allowNull: true,
     },
-    social_program_access: {
-      type: DataTypes.STRING(255),
+    literacy_level: {
+      type: DataTypes.STRING(50),
       allowNull: true,
-    },
-    status_migratory: {
-      type: DataTypes.STRING(255),
-      allowNull: true,
-    },
-    password: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-    },
-    is_pcd: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
     },
   },
   {
-    tableName: "migrants",
+    tableName: 'migrants',
     defaultScope: {
-      attributes: { exclude: ["password"] },
+      attributes: { exclude: ['password'] },
     },
     scopes: {
       withPassword: { attributes: {} },
     },
-  }
+  },
 );
 
-// Migrant has one Document Migrant
-Migrant.hasOne(MigrantDocument, {
-  foreignKey: "migrant_id",
-  onDelete: "CASCADE",
-});
+Migrant.belongsTo(Address, { foreignKey: 'address_id' });
 
-// Document Migrant belongs to Migrant
-MigrantDocument.belongsTo(Migrant, {
-  foreignKey: "migrant_id",
-  onDelete: "CASCADE",
-});
-
-// Migrant has an address
-Migrant.belongsTo(Address, { foreignKey: "address_id" });
-
-// Address has many Migrants
-Address.hasMany(Migrant, { foreignKey: "address_id" });
+Address.hasMany(Migrant, { foreignKey: 'address_id' });
 
 export default Migrant;
