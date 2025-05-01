@@ -1,9 +1,8 @@
-import { DataTypes } from "sequelize";
-import connection from "../config/database.config.js";
+import { DataTypes } from 'sequelize';
+import connection from '../config/database.config.js';
 
-// Define an address template for the database
 const Address = connection.define(
-  "Address",
+  'Address',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -11,31 +10,30 @@ const Address = connection.define(
       primaryKey: true,
       allowNull: false,
     },
-    cep: {
-      type: DataTypes.STRING(20),
-      allowNull: false,
-    },
-    city: {
-      type: DataTypes.STRING(150),
-      allowNull: false,
-    },
-    state: {
-      type: DataTypes.STRING(150),
-      allowNull: false,
-    },
-    neighborhood: {
-      type: DataTypes.STRING(300),
+    postal_code: {
+      type: DataTypes.STRING(10),
       allowNull: false,
     },
     street: {
-      type: DataTypes.STRING(300),
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+    neighborhood: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+    city: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+    state: {
+      type: DataTypes.STRING(50),
       allowNull: false,
     },
   },
   {
-    tableName: "address",
-    timestamps: false,
-  }
+    tableName: 'addresses',
+  },
 );
 
 export default Address;
