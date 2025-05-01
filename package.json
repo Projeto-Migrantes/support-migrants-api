@@ -1,19 +1,20 @@
 {
   "name": "api-ramb",
-  "version": "1.0.0",
-  "description": "API RESTful para conectar migrantes com organizações comunitárias e instituições",
-  "main": "index.js",
+  "version": "2.0.0",
+  "description": "RESTful API to connect migrants with community organizations and institutions",
+  "main": "src/index.js",
   "type": "module",
   "directories": {
     "test": "tests"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Projeto-Migrantes/api-mhelp.git"
+    "url": "git+https://github.com/Projeto-Migrantes/support-migrants-api.git"
   },
   "keywords": [
     "API",
@@ -23,7 +24,7 @@
     "migrantes",
     "Supabase"
   ],
-  "author": "RAMB Time Back-end",
+  "author": "Alisson Oliveira and squad",
   "contributors": [
     {
       "name": "Alisson Oliveira",
@@ -32,9 +33,9 @@
   ],
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Projeto-Migrantes/api-mhelp/issues"
+    "url": "https://github.com/Projeto-Migrantes/support-migrants-api/issues"
   },
-  "homepage": "https://github.com/Projeto-Migrantes/api-mhelp#readme",
+  "homepage": "https://github.com/Projeto-Migrantes/support-migrants-api#readme",
   "dependencies": {
     "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
@@ -43,7 +44,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "express-rate-limit": "^7.4.1",
-    "generate-password": "^1.7.1",
+    "helmet": "^8.1.0",
     "joi": "^17.13.3",
     "js-yaml": "^4.1.0",
     "jsonwebtoken": "^9.0.2",
@@ -52,5 +53,11 @@
     "sequelize": "^6.37.4",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.25.1",
+    "eslint": "^9.25.1",
+    "globals": "^16.0.0",
+    "nodemon": "^3.1.10"
   }
 }
