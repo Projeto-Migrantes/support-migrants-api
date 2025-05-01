@@ -1,9 +1,8 @@
-import { DataTypes } from "sequelize";
-import connection from "../config/database.config.js";
+import { DataTypes } from 'sequelize';
+import connection from '../config/database.config.js';
 
-// Define an form template for the database
 const Form = connection.define(
-  "Form",
+  'Form',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -12,34 +11,34 @@ const Form = connection.define(
       allowNull: false,
     },
     subject: {
-      type: DataTypes.STRING(200),
+      type: DataTypes.STRING(100),
       allowNull: false,
     },
     message: {
-      type: DataTypes.STRING(2000),
+      type: DataTypes.STRING(500),
       allowNull: false,
     },
-    phone: {
-      type: DataTypes.STRING(40),
+    phone_number: {
+      type: DataTypes.STRING(15),
       allowNull: false,
     },
-    name: {
-      type: DataTypes.STRING(100),
+    full_name: {
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
     email: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
     status: {
-      type: DataTypes.ENUM("resolved", "read", "unread"),
+      type: DataTypes.ENUM('resolved', 'read', 'unread'),
       allowNull: true,
-      defaultValue: "unread",
+      defaultValue: 'unread',
     },
   },
   {
-    tableName: "forms",
-  }
+    tableName: 'forms',
+  },
 );
 
 export default Form;
