@@ -1,9 +1,8 @@
-import { DataTypes } from "sequelize";
-import connection from "../config/database.config.js";
+import { DataTypes } from 'sequelize';
+import connection from '../config/database.config.js';
 
-// Define an Institution Description template for the database
 const InstitutionDescriptions = connection.define(
-  "InstitutionDescriptions",
+  'InstitutionDescriptions',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -29,9 +28,9 @@ const InstitutionDescriptions = connection.define(
     },
   },
   {
-    tableName: "institutions_descriptions",
+    tableName: 'institutions_descriptions',
     timestamps: false,
-  }
+  },
 );
 
 export default InstitutionDescriptions;

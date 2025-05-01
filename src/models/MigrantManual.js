@@ -1,9 +1,8 @@
-import { DataTypes } from "sequelize";
-import connection from "../config/database.config.js";
+import { DataTypes } from 'sequelize';
+import connection from '../config/database.config.js';
 
-// Define an pdf template for the database
-const Pdf = connection.define(
-  "Pdf",
+const MigrantManual = connection.define(
+  'MigrantManual',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -16,11 +15,11 @@ const Pdf = connection.define(
       allowNull: false,
     },
     description: {
-      type: DataTypes.STRING(1000),
+      type: DataTypes.STRING(255),
       allowNull: true,
     },
     url: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
     language: {
@@ -29,8 +28,8 @@ const Pdf = connection.define(
     },
   },
   {
-    tableName: "pdfs",
-  }
+    tableName: 'migrant_manuals',
+  },
 );
 
-export default Pdf;
+export default MigrantManual;
