@@ -1,32 +1,36 @@
-import { DataTypes } from 'sequelize';
-import connection from '../config/database.js';
+import { DataTypes } from "sequelize";
+import connection from "../config/database.config.js";
 
 // Define an pdf template for the database
-const Pdf = connection.define('Pdf', {
-    id: { 
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-        allowNull: false
-    }, 
+const Pdf = connection.define(
+  "Pdf",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+    },
     name: {
-        type: DataTypes.STRING(200),
-        allowNull: false
+      type: DataTypes.STRING(200),
+      allowNull: false,
     },
     description: {
-        type: DataTypes.STRING(1000),
-        allowNull: true 
+      type: DataTypes.STRING(1000),
+      allowNull: true,
     },
     url: {
-        type: DataTypes.STRING,
-        allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     language: {
-        type: DataTypes.STRING(50),
-        allowNull: false
-    }
-}, {
-    tableName: 'pdfs',
-});
+      type: DataTypes.STRING(50),
+      allowNull: false,
+    },
+  },
+  {
+    tableName: "pdfs",
+  }
+);
 
 export default Pdf;
