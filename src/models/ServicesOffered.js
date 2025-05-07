@@ -1,9 +1,9 @@
-import { DataTypes } from "sequelize";
-import connection from "../config/database.config.js";
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/database.config.js';
+import Institution from './Institution.js';
 
-// Define a model of services offered to the database
-const ServicesOffered = connection.define(
-  "ServicesOffered",
+const ServicesOffered = sequelize.define(
+  'ServicesOffered',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -12,26 +12,34 @@ const ServicesOffered = connection.define(
       allowNull: false,
     },
     services_offered_pt: {
-      type: DataTypes.STRING(500),
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
     services_offered_fr: {
-      type: DataTypes.STRING(500),
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
     services_offered_es: {
-      type: DataTypes.STRING(500),
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
     services_offered_en: {
-      type: DataTypes.STRING(500),
+      type: DataTypes.STRING(255),
       allowNull: false,
+    },
+    institutions_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: Institution,
+        key: 'id',
+      },
     },
   },
   {
-    tableName: "services_offered",
-    timestamps: false,
-  }
+    tableName: 'services_offered',
+    timestamps: true,
+  },
 );
 
 export default ServicesOffered;
