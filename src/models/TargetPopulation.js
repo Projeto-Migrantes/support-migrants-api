@@ -1,9 +1,9 @@
-import { DataTypes } from "sequelize";
-import connection from "../config/database.config.js";
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/database.config.js';
+import Institution from './Institution.js';
 
-// Define a Target Population model for the database
-const TargetPopulation = connection.define(
-  "TargetPopulation",
+const TargetPopulation = sequelize.define(
+  'TargetPopulation',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -12,26 +12,34 @@ const TargetPopulation = connection.define(
       allowNull: false,
     },
     target_populations_pt: {
-      type: DataTypes.STRING(500),
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
     target_populations_fr: {
-      type: DataTypes.STRING(500),
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
     target_populations_es: {
-      type: DataTypes.STRING(500),
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
     target_populations_en: {
-      type: DataTypes.STRING(500),
+      type: DataTypes.STRING(255),
       allowNull: false,
+    },
+    institutions_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: Institution,
+        key: 'id',
+      },
     },
   },
   {
-    tableName: "targets_populations",
-    timestamps: false,
-  }
+    tableName: 'targets_populations',
+    timestamps: true,
+  },
 );
 
 export default TargetPopulation;
