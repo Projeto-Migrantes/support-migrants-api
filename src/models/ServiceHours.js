@@ -1,6 +1,5 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.config.js';
-import Institution from './Institution.js';
 
 const ServiceHours = sequelize.define(
   'ServiceHours',
@@ -26,14 +25,6 @@ const ServiceHours = sequelize.define(
     service_hours_en: {
       type: DataTypes.STRING(255),
       allowNull: false,
-    },
-    institutions_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: Institution,
-        key: 'id',
-      },
     },
   },
   {

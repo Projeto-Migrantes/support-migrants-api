@@ -1,6 +1,5 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.config.js';
-import Institution from './Institution.js';
 
 const ServicesCost = sequelize.define(
   'ServiceCost',
@@ -26,14 +25,6 @@ const ServicesCost = sequelize.define(
     services_costs_es: {
       type: DataTypes.STRING(255),
       allowNull: false,
-    },
-    institutions_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: Institution,
-        key: 'id',
-      },
     },
   },
   {

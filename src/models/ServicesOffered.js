@@ -1,6 +1,5 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.config.js';
-import Institution from './Institution.js';
 
 const ServicesOffered = sequelize.define(
   'ServicesOffered',
@@ -26,14 +25,6 @@ const ServicesOffered = sequelize.define(
     services_offered_en: {
       type: DataTypes.STRING(255),
       allowNull: false,
-    },
-    institutions_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: Institution,
-        key: 'id',
-      },
     },
   },
   {
