@@ -2,7 +2,6 @@ import { DataTypes } from 'sequelize';
 import connection from '../config/database.config.js';
 import Address from './Address.js';
 import Category from './Category.js';
-import ResponsibleUser from './ResponsibleUser.js';
 import InstitutionDescriptions from './InstitutionDescriptions.js';
 import ServiceHours from '../models/ServiceHours.js';
 import TargetPopulation from './TargetPopulation.js';
@@ -43,6 +42,22 @@ const Institution = connection.define(
       allowNull: true,
       unique: true,
     },
+    addresses_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: Address,
+        key: 'id',
+      },
+    },
+    categories_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: Category,
+        key: 'id',
+      },
+    },
     address_complement: {
       type: DataTypes.STRING(50),
       allowNull: true,
@@ -75,82 +90,94 @@ const Institution = connection.define(
       type: DataTypes.STRING(255),
       allowNull: true,
     },
+    responsible_user_name: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+    responsible_user_position: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+    },
+    responsible_user_sector: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+    },
+    responsible_user_role: {
+      type: DataTypes.STRING(50),
+      allowNull: false,
+    },
   },
   {
     tableName: 'institutions',
-    timestamps: false,
+    timestamps: true,
   },
 );
 
-Institution.belongsTo(Category, { foreignKey: 'category_id' });
+Institution.belongsTo(Category, { foreignKey: 'categories_id' });
 
-Category.hasMany(Institution, { foreignKey: 'category_id' });
+Category.hasMany(Institution, { foreignKey: 'categories_id' });
 
-Institution.belongsTo(Address, { foreignKey: 'address_id' });
+Institution.belongsTo(Address, { foreignKey: 'addresses_id' });
 
-Address.hasMany(Institution, { foreignKey: 'address_id' });
-
-Institution.belongsTo(ResponsibleUser, { foreignKey: 'responsible_user_id' });
-
-ResponsibleUser.hasMany(Institution, { foreignKey: 'responsible_user_id' });
+Address.hasMany(Institution, { foreignKey: 'addresses_id' });
 
 InstitutionDescriptions.belongsTo(Institution, {
-  foreignKey: 'institution_id',
+  foreignKey: 'institutions_id',
   onDelete: 'CASCADE',
 });
 
 Institution.hasOne(InstitutionDescriptions, {
-  foreignKey: 'institution_id',
+  foreignKey: 'institutions_id',
   onDelete: 'CASCADE',
 });
 
 ServiceHours.belongsTo(Institution, {
-  foreignKey: 'institution_id',
+  foreignKey: 'institutions_id',
   onDelete: 'CASCADE',
 });
 
 Institution.hasOne(ServiceHours, {
-  foreignKey: 'institution_id',
+  foreignKey: 'institutions_id',
   onDelete: 'CASCADE',
 });
 
 TargetPopulation.belongsTo(Institution, {
-  foreignKey: 'institution_id',
+  foreignKey: 'institutions_id',
   onDelete: 'CASCADE',
 });
 
 Institution.hasOne(TargetPopulation, {
-  foreignKey: 'institution_id',
+  foreignKey: 'institutions_id',
   onDelete: 'CASCADE',
 });
 
 RequirementRestriction.belongsTo(Institution, {
-  foreignKey: 'institution_id',
+  foreignKey: 'institutions_id',
   onDelete: 'CASCADE',
 });
 
 Institution.hasOne(RequirementRestriction, {
-  foreignKey: 'institution_id',
+  foreignKey: 'institutions_id',
   onDelete: 'CASCADE',
 });
 
 ServicesOfferred.belongsTo(Institution, {
-  foreignKey: 'institution_id',
+  foreignKey: 'institutions_id',
   onDelete: 'CASCADE',
 });
 
 Institution.hasOne(ServicesOfferred, {
-  foreignKey: 'institution_id',
+  foreignKey: 'institutions_id',
   onDelete: 'CASCADE',
 });
 
 ServiceCosts.belongsTo(Institution, {
-  foreignKey: 'institution_id',
+  foreignKey: 'institutions_id',
   onDelete: 'CASCADE',
 });
 
 Institution.hasOne(ServiceCosts, {
-  foreignKey: 'institution_id',
+  foreignKey: 'institutions_id',
   onDelete: 'CASCADE',
 });
 
