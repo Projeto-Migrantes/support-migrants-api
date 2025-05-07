@@ -1,9 +1,8 @@
-import { DataTypes } from "sequelize";
-import connection from "../config/database.config.js";
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/database.config.js';
 
-// Define an category template for the database
-const Category = connection.define(
-  "Category",
+const Category = sequelize.define(
+  'Category',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -29,9 +28,9 @@ const Category = connection.define(
     },
   },
   {
-    tableName: "categories",
-    timestamps: false,
-  }
+    tableName: 'categories',
+    timestamps: true,
+  },
 );
 
 export default Category;
