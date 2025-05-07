@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import connection from '../config/database.config.js';
+import Migrant from './Migrant.js';
 
 const Form = connection.define(
   'Form',
@@ -30,14 +31,23 @@ const Form = connection.define(
       type: DataTypes.STRING(255),
       allowNull: false,
     },
+    migrants_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: Migrant,
+        key: 'id',
+      },
+    },
     status: {
       type: DataTypes.ENUM('resolved', 'read', 'unread'),
-      allowNull: true,
+      allowNull: false,
       defaultValue: 'unread',
     },
   },
   {
     tableName: 'forms',
+    timestamps: true,
   },
 );
 
