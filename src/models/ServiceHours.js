@@ -1,9 +1,9 @@
-import { DataTypes } from "sequelize";
-import connection from "../config/database.config.js";
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/database.config.js';
+import Institution from './Institution.js';
 
-// Define a Service Hours template for the database
-const ServiceHours = connection.define(
-  "ServiceHours",
+const ServiceHours = sequelize.define(
+  'ServiceHours',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -12,26 +12,34 @@ const ServiceHours = connection.define(
       allowNull: false,
     },
     service_hours_pt: {
-      type: DataTypes.STRING(500),
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
     service_hours_fr: {
-      type: DataTypes.STRING(500),
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
     service_hours_es: {
-      type: DataTypes.STRING(500),
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
     service_hours_en: {
-      type: DataTypes.STRING(500),
+      type: DataTypes.STRING(255),
       allowNull: false,
+    },
+    institutions_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: Institution,
+        key: 'id',
+      },
     },
   },
   {
-    tableName: "services_hours",
-    timestamps: false,
-  }
+    tableName: 'services_hours',
+    timestamps: true,
+  },
 );
 
 export default ServiceHours;
