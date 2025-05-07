@@ -1,14 +1,13 @@
+import sequelize from '../config/database.config.js';
 import { DataTypes } from 'sequelize';
-import connection from '../config/database.config.js';
 
-const Address = connection.define(
+const Address = sequelize.define(
   'Address',
   {
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
-      allowNull: false,
+      autoIncrement: true,
     },
     postal_code: {
       type: DataTypes.STRING(10),
@@ -33,6 +32,7 @@ const Address = connection.define(
   },
   {
     tableName: 'addresses',
+    timestamps: true,
   },
 );
 
