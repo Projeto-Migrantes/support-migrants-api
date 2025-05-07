@@ -1,8 +1,8 @@
 import { DataTypes } from 'sequelize';
-import connection from '../config/database.config.js';
+import sequelize from '../config/database.config.js';
 import Address from './Address.js';
 
-const Migrant = connection.define(
+const Migrant = sequelize.define(
   'Migrant',
   {
     id: {
@@ -17,19 +17,21 @@ const Migrant = connection.define(
     },
     email: {
       type: DataTypes.STRING(255),
-      unique: true,
       allowNull: false,
+      unique: true,
     },
     date_of_birth: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.DATE,
       allowNull: false,
     },
     phone_number: {
       type: DataTypes.STRING(15),
-      allowNull: false,
+      allowNull: true,
+      unique: true,
     },
     crnm: {
       type: DataTypes.STRING(9),
+      unique: true,
       allowNull: false,
     },
     password: {
@@ -38,6 +40,7 @@ const Migrant = connection.define(
     },
     registration_data: {
       type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
       allowNull: false,
     },
     consent: {
@@ -47,6 +50,14 @@ const Migrant = connection.define(
     purpose: {
       type: DataTypes.STRING(255),
       allowNull: false,
+    },
+    addresses_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: Address,
+        key: 'id',
+      },
     },
     address_complement: {
       type: DataTypes.STRING(50),
@@ -65,7 +76,7 @@ const Migrant = connection.define(
       allowNull: true,
     },
     entry_into_brazil: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.DATE,
       allowNull: true,
     },
     migration_reason: {
@@ -97,11 +108,12 @@ const Migrant = connection.define(
     scopes: {
       withPassword: { attributes: {} },
     },
+    timestamps: true,
   },
 );
 
-Migrant.belongsTo(Address, { foreignKey: 'address_id' });
+Migrant.belongsTo(Address, { foreignKey: 'addresses_id' });
 
-Address.hasMany(Migrant, { foreignKey: 'address_id' });
+Address.hasMany(Migrant, { foreignKey: 'addresses_id' });
 
 export default Migrant;
