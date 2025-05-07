@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
-import connection from '../config/database.config.js';
+import sequelize from '../config/database.config.js';
 
-const MigrantManual = connection.define(
+const MigrantManual = sequelize.define(
   'MigrantManual',
   {
     id: {
@@ -11,7 +11,7 @@ const MigrantManual = connection.define(
       allowNull: false,
     },
     name: {
-      type: DataTypes.STRING(200),
+      type: DataTypes.STRING(255),
       allowNull: false,
     },
     description: {
@@ -29,6 +29,7 @@ const MigrantManual = connection.define(
   },
   {
     tableName: 'migrant_manuals',
+    timestamps: true,
   },
 );
 
