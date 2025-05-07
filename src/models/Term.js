@@ -1,9 +1,8 @@
-import { DataTypes } from "sequelize";
-import connection from "../config/database.config.js";
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/database.config.js';
 
-// Define an Term template for the database
-const Term = connection.define(
-  "Term",
+const Term = sequelize.define(
+  'Term',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -11,19 +10,31 @@ const Term = connection.define(
       primaryKey: true,
       allowNull: false,
     },
-    content: {
+    term_condition_pt: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    term_condition_fr: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    term_condition_es: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    term_condition_en: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
     type: {
-      type: DataTypes.ENUM("migrante", "instituicao"),
+      type: DataTypes.ENUM('migrant', 'institution'),
       allowNull: false,
     },
   },
   {
     timestamps: true,
-    tableName: "terms_conditions",
-  }
+    tableName: 'terms_conditions',
+  },
 );
 
 export default Term;
