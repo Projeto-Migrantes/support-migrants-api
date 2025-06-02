@@ -1,0 +1,138 @@
+import logger from '../../config/logger.config.js';
+
+export const up = async (queryInterface, Sequelize) => {
+  const [results] = await queryInterface.sequelize.query(
+    `SELECT COUNT(*) as total FROM institutions`,
+  );
+
+  if (parseInt(results[0].total) >= 5) {
+    logger.warn(
+      'There are already 5 or more institutions. No entries have been made.',
+    );
+    return;
+  }
+
+  const now = new Date();
+
+  await queryInterface.bulkInsert('institutions', [
+    {
+      name: 'Instituto Saber',
+      cnpj: '00.000.000/0001-00',
+      email: 'contato@saber.org',
+      main_phone: '(71)99999-0001',
+      secondary_phone: '(71)98888-0001',
+      address_id: 1,
+      category_id: 1,
+      address_complement: 'Sala 101',
+      address_number: '123',
+      registration_data: now,
+      website: 'https://saber.org',
+      consent: true,
+      purpose: 'Educação e inclusão social',
+      instagram: '@institutosaber',
+      link_maps: 'https://maps.google.com/example1',
+      responsible_user_name: 'Ana Souza',
+      responsible_user_position: 'Diretora',
+      responsible_user_sector: 'Administração',
+      responsible_user_role: 'Responsável Legal',
+      created_at: now,
+      updated_at: now,
+    },
+    {
+      name: 'Cultura Viva',
+      cnpj: '00.000.000/0002-00',
+      email: 'contato@culturaviva.org',
+      main_phone: '(71)99999-0002',
+      secondary_phone: '(71)98888-0002',
+      address_id: 2,
+      category_id: 2,
+      address_complement: 'Andar Térreo',
+      address_number: '456',
+      registration_data: now,
+      website: 'https://culturaviva.org',
+      consent: true,
+      purpose: 'Promoção cultural',
+      instagram: '@culturaviva',
+      link_maps: 'https://maps.google.com/example2',
+      responsible_user_name: 'Bruno Lima',
+      responsible_user_position: 'Presidente',
+      responsible_user_sector: 'Cultural',
+      responsible_user_role: 'Gestor Geral',
+      created_at: now,
+      updated_at: now,
+    },
+    {
+      name: 'Ação Social Bahia',
+      cnpj: '00.000.000/0003-00',
+      email: 'social@asabahia.org',
+      main_phone: '(71)99999-0003',
+      secondary_phone: null,
+      address_id: 3,
+      category_id: 1,
+      address_complement: 'Prédio 2',
+      address_number: '789',
+      registration_data: now,
+      website: null,
+      consent: true,
+      purpose: 'Assistência social a migrantes',
+      instagram: null,
+      link_maps: null,
+      responsible_user_name: 'Carlos Menezes',
+      responsible_user_position: 'Coordenador',
+      responsible_user_sector: 'Social',
+      responsible_user_role: 'Responsável Técnico',
+      created_at: now,
+      updated_at: now,
+    },
+    {
+      name: 'EducaMais Salvador',
+      cnpj: '00.000.000/0004-00',
+      email: 'contato@educamais.org',
+      main_phone: '(71)99999-0004',
+      secondary_phone: null,
+      address_id: 4,
+      category_id: 2,
+      address_complement: null,
+      address_number: '321',
+      registration_data: now,
+      website: 'https://educamais.org',
+      consent: true,
+      purpose: 'Educação complementar',
+      instagram: '@educamaissalvador',
+      link_maps: 'https://maps.google.com/example3',
+      responsible_user_name: 'Daniela Rocha',
+      responsible_user_position: 'Fundadora',
+      responsible_user_sector: 'Pedagógico',
+      responsible_user_role: 'Diretora Técnica',
+      created_at: now,
+      updated_at: now,
+    },
+    {
+      name: 'Rede de Apoio Migrante',
+      cnpj: '00.000.000/0005-00',
+      email: 'contato@redeapoio.org',
+      main_phone: '(71)99999-0005',
+      secondary_phone: '(71)98888-0005',
+      address_id: 5,
+      category_id: 3,
+      address_complement: 'Sala 12',
+      address_number: '654',
+      registration_data: now,
+      website: 'https://redeapoio.org',
+      consent: true,
+      purpose: 'Suporte a migrantes e refugiados',
+      instagram: '@redeapoio',
+      link_maps: 'https://maps.google.com/example4',
+      responsible_user_name: 'Fernanda Dias',
+      responsible_user_position: 'Gestora',
+      responsible_user_sector: 'Projetos',
+      responsible_user_role: 'Coordenadora Geral',
+      created_at: now,
+      updated_at: now,
+    },
+  ]);
+};
+
+export const down = async (queryInterface) => {
+  await queryInterface.bulkDelete('institutions', null, {});
+};
