@@ -9,5 +9,6 @@ import { createFormSchema } from '../schemas/form.schema.js';
 const router = Router();
 
 router.get('/', verifyAdmin, formController.findAll);
+router.get('/count-unread', verifyAdmin, formController.countPedding);
 
 export default router;
