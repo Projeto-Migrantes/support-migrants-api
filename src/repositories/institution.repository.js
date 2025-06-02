@@ -26,6 +26,10 @@ class InstitutionRepository {
       include: models.all,
     });
   }
+
+  async create(data, transaction) {
+    return await Institution.create(data, { transaction });
+  }
 }
 
 const models = {
