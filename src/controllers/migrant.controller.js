@@ -79,6 +79,23 @@ class MigrantController {
       });
     }
   }
+
+  async create(req, res) {
+    try {
+      const migrant = await migrantService.create(req.body);
+
+      return res.status(201).json({ data: migrant });
+    } catch (error) {
+      if (error.cause === 'conflict') {
+        return res.status(409).json({ error: error.message });
+      }
+
+      return res.status(500).json({
+        message: 'server error',
+        error: error.message,
+      });
+    }
+  }
 }
 
 export default new MigrantController();
