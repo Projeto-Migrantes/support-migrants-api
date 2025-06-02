@@ -20,6 +20,12 @@ class InstitutionRepository {
   async count() {
     return await Institution.count();
   }
+
+  async findById(id) {
+    return await Institution.findByPk(id, {
+      include: models.all,
+    });
+  }
 }
 
 const models = {
