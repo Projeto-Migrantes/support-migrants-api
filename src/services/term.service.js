@@ -25,6 +25,14 @@ class TermService {
     }
     return term;
   }
+
+  async delete(type) {
+    const term = await termRepository.delete(type);
+    if (term === 0) {
+      throw new Error('term not found');
+    }
+    return term;
+  }
 }
 
 export default new TermService();
