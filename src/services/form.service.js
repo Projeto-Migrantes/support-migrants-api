@@ -47,6 +47,10 @@ class FormService {
   async create(data) {
     return await formRepository.create(data);
   }
+
+  async countPedding() {
+    return await formRepository.countPedding();
+  }
 }
 
 export default new FormService();
