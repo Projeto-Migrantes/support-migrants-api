@@ -70,6 +70,10 @@ class InstitutionRepository {
       raw: true,
     });
   }
+
+  async findByEmail(email) {
+    return await Institution.findOne({ where: { email } });
+  }
 }
 
 const models = {
