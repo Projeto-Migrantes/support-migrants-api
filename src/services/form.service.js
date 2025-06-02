@@ -13,6 +13,15 @@ class FormService {
     }
     return form;
   }
+
+  async update(data, id) {
+    const form = await formRepository.update(data, id);
+
+    if (form == 0) {
+      throw new Error('form not found');
+    }
+    return form;
+  }
 }
 
 export default new FormService();
