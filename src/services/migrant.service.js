@@ -127,6 +127,15 @@ class MigrantService {
     }
     return migrant;
   }
+
+  async findByEmail(email) {
+    const migrant = await migrantRepository.findByEmail(email);
+    if (!migrant) {
+      throw new Error('migrant not found');
+    }
+
+    return migrant;
+  }
 }
 
 export default new MigrantService();
