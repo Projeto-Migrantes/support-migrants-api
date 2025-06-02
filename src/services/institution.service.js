@@ -12,6 +12,10 @@ class InstitutionService {
   async findAll() {
     return await institutionRepository.findAll();
   }
+
+  async count() {
+    return await institutionRepository.count();
+  }
 }
 
 export default new InstitutionService();
