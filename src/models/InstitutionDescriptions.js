@@ -10,19 +10,19 @@ const InstitutionDescriptions = connection.define(
       primaryKey: true,
       allowNull: false,
     },
-    description_pt: {
+    institution_description_pt: {
       type: DataTypes.STRING(255),
       allowNull: false,
     },
-    description_fr: {
+    institution_description_fr: {
       type: DataTypes.STRING(255),
       allowNull: false,
     },
-    description_es: {
+    institution_description_es: {
       type: DataTypes.STRING(255),
       allowNull: false,
     },
-    description_en: {
+    institution_description_en: {
       type: DataTypes.STRING(255),
       allowNull: false,
     },
@@ -30,6 +30,8 @@ const InstitutionDescriptions = connection.define(
   {
     tableName: 'institutions_descriptions',
     timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
   },
 );
 
