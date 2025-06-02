@@ -12,5 +12,6 @@ import { verifyAdmin } from '../middlewares/auth/admin.auth.js';
 const router = Router();
 
 router.get('/profile/:id', verifyRole, migrantController.profile);
+router.post('/check-email', verifyAdmin, migrantController.emailExist);
 
 export default router;
