@@ -16,6 +16,14 @@ class InstitutionService {
   async count() {
     return await institutionRepository.count();
   }
+
+  async findById(id) {
+    const institution = await institutionRepository.findById(id);
+    if (!institution) {
+      throw new Error('institutions not found');
+    }
+    return institution;
+  }
 }
 
 export default new InstitutionService();
