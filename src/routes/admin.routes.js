@@ -10,5 +10,6 @@ const router = Router();
 // router.patch('/change-password/:id', verifyAdmin, adminController.update);
 // router.get('/:id', validateID, verifyAdmin, adminController.findById);
 // router.post('/', validateRequest(), verifyAdmin, adminController.create);
+// router.delete('/:id', validateID, verifyAdmin, adminController.delete);
 
 export default router;
