@@ -1,8 +1,8 @@
 import { DataTypes } from 'sequelize';
 import connection from '../config/database.config.js';
 
-const Administrator = connection.define(
-  'Administrator',
+const Admin = connection.define(
+  'Admin',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -31,7 +31,9 @@ const Administrator = connection.define(
   },
   {
     timestamps: true,
-    tableName: 'administrators',
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
+    tableName: 'admins',
     defaultScope: {
       attributes: { exclude: ['password'] },
     },
@@ -41,4 +43,4 @@ const Administrator = connection.define(
   },
 );
 
-export default Administrator;
+export default Admin;
