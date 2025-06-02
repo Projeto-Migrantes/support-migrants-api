@@ -8,6 +8,15 @@ class MigrantManualRepository {
   async findAll() {
     return await MigrantManual.findAll({ order: [['id', 'DESC']] });
   }
+
+  async update(data, id) {
+    return await MigrantManual.update(
+      { ...data },
+      {
+        where: { id },
+      },
+    );
+  }
 }
 
 export default new MigrantManualRepository();
