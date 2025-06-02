@@ -37,6 +37,10 @@ class InstitutionRepository {
       include: models.all,
     });
   }
+
+  async delete(id) {
+    return await Institution.destroy({ where: { id } });
+  }
 }
 
 const models = {
