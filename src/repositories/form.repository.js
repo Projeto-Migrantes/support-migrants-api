@@ -16,6 +16,13 @@ class FormRepository {
       where: { id },
     });
   }
+
+  async findByStatus(status) {
+    return await Form.findAll({
+      order: [['id', 'DESC']],
+      where: { status },
+    });
+  }
 }
 
 export default new FormRepository();
