@@ -16,6 +16,10 @@ class TermRepository {
   async update(data, type) {
     return await Term.update(data, { where: { type } });
   }
+
+  async delete(type) {
+    return await Term.destroy({ where: { type } });
+  }
 }
 
 export default new TermRepository();
