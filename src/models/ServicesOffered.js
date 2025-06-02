@@ -30,6 +30,8 @@ const ServicesOffered = sequelize.define(
   {
     tableName: 'services_offered',
     timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
   },
 );
 
