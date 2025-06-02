@@ -30,6 +30,8 @@ const MigrantManual = sequelize.define(
   {
     tableName: 'migrant_manuals',
     timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
   },
 );
 
