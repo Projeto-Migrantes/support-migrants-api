@@ -68,6 +68,33 @@ class MigrantRepository {
   validateQuery(query) {
     return typeof query === 'string' && query.trim().length > 0;
   }
+
+  async checkIfDataExists({ email, phone_number, crnm }) {
+    const conditions = [];
+
+    if (email) {
+      conditions.push({ email });
+    }
+
+    if (phone_number) {
+      conditions.push({ phone_number });
+    }
+
+    if (crnm) {
+      conditions.push({ crnm });
+    }
+
+    if (conditions.length === 0) {
+      return null;
+    }
+
+    return await Migrant.findOne({
+      where: {
+        [Op.or]: conditions,
+      },
+      raw: true,
+    });
+  }
 }
 
 export default new MigrantRepository();
