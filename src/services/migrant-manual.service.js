@@ -26,6 +26,14 @@ class MigrantManualService {
     }
     return migrantManual;
   }
+
+  async delete(id) {
+    const migrantManual = await migrantManualRepository.delete(id);
+    if (migrantManual === 0) {
+      throw new Error('migrant manual not found');
+    }
+    return migrantManual;
+  }
 }
 
 export default new MigrantManualService();
