@@ -61,6 +61,15 @@ class InstitutionRepository {
       },
     });
   }
+
+  async checkIfDataExists({ cnpj, email, main_phone, secondary_phone }) {
+    return await Institution.findOne({
+      where: {
+        [Op.or]: [{ cnpj }, { email }, { main_phone }, { secondary_phone }],
+      },
+      raw: true,
+    });
+  }
 }
 
 const models = {
