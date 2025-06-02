@@ -137,6 +137,21 @@ class InstitutionController {
       });
     }
   }
+
+  async delete(req, res) {
+    try {
+      await institutionService.delete(req.params.id);
+      return res.status(204).json();
+    } catch (error) {
+      if (error.message === 'institution not found') {
+        return res.status(404).json({ error: 'institution not found' });
+      }
+      return res.status(500).json({
+        message: 'server error',
+        error: error.message,
+      });
+    }
+  }
 }
 
 export default new InstitutionController();
