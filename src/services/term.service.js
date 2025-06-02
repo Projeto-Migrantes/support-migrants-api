@@ -5,6 +5,14 @@ class TermService {
   async findAll() {
     return await Term.findAll();
   }
+
+  async findByType(type) {
+    const term = await Term.findById({ where: { type } });
+    if (term === 0) {
+      throw new Error('term not found');
+    }
+    return term;
+  }
 }
 
 export default new TermService();
