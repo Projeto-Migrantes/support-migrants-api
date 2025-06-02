@@ -61,6 +61,44 @@ class MigrantService {
       throw error;
     }
   }
+
+  async update(data, id) {
+    const t = await sequelize.transaction();
+    try {
+      const migrantExists = await migrantRepository.findById(id);
+      if (!migrantExists) {
+        throw new Error('migrant not found');
+      }
+
+      let address = null;
+      if (data.address) {
+        address = await addressService.exists(data.address.postal_code, t);
+        data.migrant.address_id = address.id;
+      }
+
+      if (data.password) {
+        data.password = createHash(data.password);
+      }
+
+      const migrant = await migrantRepository.update(data.migrant, id, t);
+
+      await t.commit();
+
+      if (migrant && migrant.dataValues) {
+        delete migrant.dataValues.password;
+      }
+
+      return {
+        migrant,
+        address,
+      };
+    } catch (error) {
+      if (!t.finished) {
+        await t.rollback();
+      }
+      throw error;
+    }
+  }
 }
 
 export default new MigrantService();
