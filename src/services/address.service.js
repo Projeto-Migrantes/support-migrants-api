@@ -16,6 +16,10 @@ class AddressService {
 
     return address;
   }
+
+  async create(data, transaction) {
+    return await addressRepository.create(data, { transaction });
+  }
 }
 
 export default new AddressService();
