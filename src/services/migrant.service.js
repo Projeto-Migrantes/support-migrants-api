@@ -7,6 +7,16 @@ class MigrantService {
   async findAll() {
     return migrantRepository.findAll();
   }
+
+  async findById(id) {
+    const migrant = await migrantRepository.findById(id);
+
+    if (!migrant) {
+      throw new Error('migrant not found');
+    }
+
+    return migrant;
+  }
 }
 
 export default new MigrantService();
