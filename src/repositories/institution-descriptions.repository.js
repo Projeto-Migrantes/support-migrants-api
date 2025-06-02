@@ -16,6 +16,13 @@ class InstitutionDescriptionsRepository {
       },
     );
   }
+
+  async update(data, institutionId, transaction) {
+    return await InstitutionDescriptions.update(data, {
+      where: { institution_id: institutionId },
+      transaction,
+    });
+  }
 }
 
 export default new InstitutionDescriptionsRepository();
