@@ -23,6 +23,10 @@ class MigrantManualRepository {
       where: { language: language },
     });
   }
+
+  async delete(id) {
+    return await MigrantManual.destroy({ where: { id } });
+  }
 }
 
 export default new MigrantManualRepository();
