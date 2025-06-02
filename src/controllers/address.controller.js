@@ -17,6 +17,18 @@ class AddressController {
       });
     }
   }
+
+  async exists(req, res) {
+    try {
+      const cep = req.body.address.cep;
+      return await addressService.exists(cep);
+    } catch (error) {
+      return res.status(500).json({
+        message: 'server error',
+        error: error.message,
+      });
+    }
+  }
 }
 
 export default new AddressController();
