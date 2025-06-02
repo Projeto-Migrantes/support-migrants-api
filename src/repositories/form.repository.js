@@ -31,6 +31,10 @@ class FormRepository {
   async countPedding() {
     return await Form.count({ where: { status: 'unread' } });
   }
+
+  async delete(id) {
+    return await Form.destroy({ where: { id } });
+  }
 }
 
 export default new FormRepository();
