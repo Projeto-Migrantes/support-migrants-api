@@ -33,6 +33,8 @@ const Term = sequelize.define(
   },
   {
     timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     tableName: 'terms_conditions',
   },
 );
