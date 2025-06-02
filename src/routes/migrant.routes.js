@@ -16,5 +16,6 @@ router.post('/check-email', verifyAdmin, migrantController.emailExist);
 router.get('/count', verifyAdmin, migrantController.count);
 router.get('/search', verifyAdmin, migrantController.search);
 router.get('/', verifyAdmin, migrantController.findAll);
+router.get('/:id', validateID, verifyAdmin, migrantController.findById);
 
 export default router;
