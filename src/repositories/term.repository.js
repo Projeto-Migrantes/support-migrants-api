@@ -12,6 +12,10 @@ class TermRepository {
   async findByType(type) {
     return await Term.findOne({ where: { type } });
   }
+
+  async update(data, type) {
+    return await Term.update(data, { where: { type } });
+  }
 }
 
 export default new TermRepository();
