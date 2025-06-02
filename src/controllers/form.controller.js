@@ -53,6 +53,19 @@ class FormController {
       });
     }
   }
+
+  async create(req, res) {
+    try {
+      const form = await formService.create(req.body);
+
+      return res.status(201).json(form);
+    } catch (error) {
+      return res.status(500).json({
+        message: 'server error',
+        error: error.message,
+      });
+    }
+  }
 }
 
 export default new FormController();
