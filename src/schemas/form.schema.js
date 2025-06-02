@@ -34,7 +34,7 @@ const messages = {
   },
 };
 
-const formSchema = Joi.object({
+export const createFormSchema = Joi.object({
   subject: Joi.string().min(1).max(100).required().messages(messages.subject),
   message: Joi.string().min(1).max(500).required().messages(messages.message),
   phone_number: Joi.string()
@@ -44,5 +44,3 @@ const formSchema = Joi.object({
   full_name: Joi.string().min(1).max(255).required().messages(messages.name),
   email: Joi.string().email().max(255).required().messages(messages.email),
 });
-
-export default formSchema;
