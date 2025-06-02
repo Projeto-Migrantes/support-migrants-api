@@ -22,13 +22,14 @@ export const up = async (queryInterface, Sequelize) => {
       type: Sequelize.STRING(255),
       allowNull: false,
     },
-    institutions_id: {
+    institution_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
         model: 'institutions',
         key: 'id',
       },
+      onDelete: 'CASCADE',
     },
     created_at: {
       type: Sequelize.DATE,
