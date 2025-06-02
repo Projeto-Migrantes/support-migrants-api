@@ -66,6 +66,18 @@ class FormController {
       });
     }
   }
+
+  async countPedding(req, res) {
+    try {
+      const count = await formService.countPedding();
+      return res.status(200).json({ count });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'server error',
+        error: error.message,
+      });
+    }
+  }
 }
 
 export default new FormController();
