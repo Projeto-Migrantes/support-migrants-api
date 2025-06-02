@@ -10,5 +10,6 @@ const router = Router();
 
 router.get('/', verifyRole, institutionController.findAll);
 router.get('/search', verifyAdmin, institutionController.search);
+router.get('/count', verifyAdmin, institutionController.count);
 
 export default router;
