@@ -42,7 +42,7 @@ const Institution = connection.define(
       allowNull: true,
       unique: true,
     },
-    addresses_id: {
+    address_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
@@ -50,7 +50,7 @@ const Institution = connection.define(
         key: 'id',
       },
     },
-    categories_id: {
+    category_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
@@ -110,74 +110,84 @@ const Institution = connection.define(
   {
     tableName: 'institutions',
     timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
   },
 );
 
-Institution.belongsTo(Category, { foreignKey: 'categories_id' });
-
-Category.hasMany(Institution, { foreignKey: 'categories_id' });
-
-Institution.belongsTo(Address, { foreignKey: 'addresses_id' });
-
-Address.hasMany(Institution, { foreignKey: 'addresses_id' });
-
-InstitutionDescriptions.belongsTo(Institution, {
-  foreignKey: 'institutions_id',
-  onDelete: 'CASCADE',
+Institution.belongsTo(Category, { foreignKey: 'category_id', as: 'category' });
+Category.hasMany(Institution, {
+  foreignKey: 'category_id',
+  as: 'institutions',
 });
+
+Institution.belongsTo(Address, { foreignKey: 'address_id', as: 'address' });
+Address.hasMany(Institution, { foreignKey: 'address_id', as: 'institutions' });
 
 Institution.hasOne(InstitutionDescriptions, {
-  foreignKey: 'institutions_id',
+  foreignKey: 'institution_id',
+  as: 'institution_descriptions',
   onDelete: 'CASCADE',
 });
 
-ServiceHours.belongsTo(Institution, {
-  foreignKey: 'institutions_id',
+InstitutionDescriptions.belongsTo(Institution, {
+  foreignKey: 'institution_id',
+  as: 'institution',
   onDelete: 'CASCADE',
 });
 
 Institution.hasOne(ServiceHours, {
-  foreignKey: 'institutions_id',
+  foreignKey: 'institution_id',
+  as: 'service_hours',
   onDelete: 'CASCADE',
 });
-
-TargetPopulation.belongsTo(Institution, {
-  foreignKey: 'institutions_id',
+ServiceHours.belongsTo(Institution, {
+  foreignKey: 'institution_id',
+  as: 'institution',
   onDelete: 'CASCADE',
 });
 
 Institution.hasOne(TargetPopulation, {
-  foreignKey: 'institutions_id',
+  foreignKey: 'institution_id',
+  as: 'target_populations',
   onDelete: 'CASCADE',
 });
-
-RequirementRestriction.belongsTo(Institution, {
-  foreignKey: 'institutions_id',
+TargetPopulation.belongsTo(Institution, {
+  foreignKey: 'institution_id',
+  as: 'institution',
   onDelete: 'CASCADE',
 });
 
 Institution.hasOne(RequirementRestriction, {
-  foreignKey: 'institutions_id',
+  foreignKey: 'institution_id',
+  as: 'requirement_restriction',
   onDelete: 'CASCADE',
 });
-
-ServicesOfferred.belongsTo(Institution, {
-  foreignKey: 'institutions_id',
+RequirementRestriction.belongsTo(Institution, {
+  foreignKey: 'institution_id',
+  as: 'institution',
   onDelete: 'CASCADE',
 });
 
 Institution.hasOne(ServicesOfferred, {
-  foreignKey: 'institutions_id',
+  foreignKey: 'institution_id',
+  as: 'services_offered',
   onDelete: 'CASCADE',
 });
-
-ServiceCosts.belongsTo(Institution, {
-  foreignKey: 'institutions_id',
+ServicesOfferred.belongsTo(Institution, {
+  foreignKey: 'institution_id',
+  as: 'institution',
   onDelete: 'CASCADE',
 });
 
 Institution.hasOne(ServiceCosts, {
-  foreignKey: 'institutions_id',
+  foreignKey: 'institution_id',
+  as: 'service_cost',
+  onDelete: 'CASCADE',
+});
+ServiceCosts.belongsTo(Institution, {
+  foreignKey: 'institution_id',
+  as: 'institution',
   onDelete: 'CASCADE',
 });
 
