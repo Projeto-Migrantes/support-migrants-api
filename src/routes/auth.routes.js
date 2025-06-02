@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import authenticationMigrant from '../middlewares/auth/authenticationMigrant.js';
-import authenticationUser from '../middlewares/auth/authenticationUser.js';
+import { loginMigrant } from '../middlewares/auth/migrant.auth.js';
+import { loginAdmin } from '../middlewares/auth/admin.auth.js';
 
 const router = Router();
 
-router.post('/migrant/login', authenticationMigrant.login);
-router.post('/login', authenticationUser.login);
+router.post('/migrants/login', loginMigrant);
+router.post('/admins/login', loginAdmin);
 
 export default router;
