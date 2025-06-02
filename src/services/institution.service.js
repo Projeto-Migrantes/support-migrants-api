@@ -190,6 +190,14 @@ class InstitutionService {
       throw error;
     }
   }
+
+  async search(query) {
+    const institution = await institutionRepository.search(query);
+    if (institution.length === 0) {
+      throw new Error('institutions not found');
+    }
+    return institution;
+  }
 }
 
 export default new InstitutionService();
