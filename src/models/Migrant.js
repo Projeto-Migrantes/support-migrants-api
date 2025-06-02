@@ -19,6 +19,11 @@ const Migrant = sequelize.define(
       type: DataTypes.STRING(255),
       allowNull: false,
       unique: true,
+      validate: {
+        isEmail: {
+          msg: 'Email must be a valid email address',
+        },
+      },
     },
     date_of_birth: {
       type: DataTypes.DATE,
@@ -43,6 +48,7 @@ const Migrant = sequelize.define(
       defaultValue: DataTypes.NOW,
       allowNull: false,
     },
+    /*
     consent: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
@@ -51,13 +57,17 @@ const Migrant = sequelize.define(
       type: DataTypes.STRING(255),
       allowNull: false,
     },
-    addresses_id: {
+
+    */
+    address_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
         model: Address,
         key: 'id',
       },
+      onDelete: 'SET NULL',
+      onUpdate: 'CASCADE',
     },
     address_complement: {
       type: DataTypes.STRING(50),
@@ -109,11 +119,12 @@ const Migrant = sequelize.define(
       withPassword: { attributes: {} },
     },
     timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
   },
 );
 
-Migrant.belongsTo(Address, { foreignKey: 'addresses_id' });
-
-Address.hasMany(Migrant, { foreignKey: 'addresses_id' });
+Migrant.belongsTo(Address, { foreignKey: 'address_id', as: 'address' });
+Address.hasMany(Migrant, { foreignKey: 'address_id', as: 'address' });
 
 export default Migrant;
