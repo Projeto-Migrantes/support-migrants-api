@@ -41,6 +41,18 @@ class MigrantManualController {
       });
     }
   }
+
+  async delete(req, res) {
+    try {
+      await manualService.delete(req.params.id);
+      return res.status(204).json();
+    } catch (error) {
+      return res.status(500).json({
+        message: 'server error',
+        error: error.message,
+      });
+    }
+  }
 }
 
 export default new MigrantManualController();
