@@ -96,6 +96,14 @@ class InstitutionService {
       throw error;
     }
   }
+
+  async findAllByCategory(id) {
+    const institutions = await institutionRepository.findAllByCategory(id);
+    if (!institutions) {
+      throw new Error('institutions not found with this category');
+    }
+    return institutions;
+  }
 }
 
 export default new InstitutionService();
