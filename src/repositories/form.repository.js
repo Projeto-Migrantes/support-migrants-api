@@ -10,6 +10,12 @@ class FormRepository {
   async findById(id) {
     return await Form.findByPk(id);
   }
+
+  async update(data, id) {
+    return await Form.update(data, {
+      where: { id },
+    });
+  }
 }
 
 export default new FormRepository();
