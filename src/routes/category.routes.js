@@ -1,8 +1,9 @@
 import { Router } from 'express';
-import categoryController from '../controllers/categoryController.js';
+import categoryController from '../controllers/category.controller.js';
+import { verifyRole } from '../middlewares/auth/role.auth.js';
 
 const router = Router();
 
-router.get('/', categoryController.findAll);
+router.get('/', verifyRole, categoryController.findAll);
 
 export default router;
