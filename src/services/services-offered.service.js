@@ -4,6 +4,10 @@ class ServicesOfferedService {
   async findAll() {
     return await servicesOfferedRepository.findAll();
   }
+
+  async create(data, id, transaction) {
+    return await servicesOfferedRepository.create(data, id, transaction);
+  }
 }
 
 export default new ServicesOfferedService();
