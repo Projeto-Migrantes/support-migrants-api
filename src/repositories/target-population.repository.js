@@ -14,6 +14,13 @@ class TargetPopulationRepository {
       { transaction },
     );
   }
+
+  async update(data, id, transaction) {
+    return await TargetPopulation.update(data, {
+      where: { institution_id: id },
+      transaction,
+    });
+  }
 }
 
 export default new TargetPopulationRepository();
