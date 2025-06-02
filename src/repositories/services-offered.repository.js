@@ -14,6 +14,13 @@ class ServicesOfferedRepository {
       { transaction },
     );
   }
+
+  async update(data, id, transaction) {
+    return await ServicesOffered.update(data, {
+      where: { institution_id: id },
+      transaction,
+    });
+  }
 }
 
 export default new ServicesOfferedRepository();
