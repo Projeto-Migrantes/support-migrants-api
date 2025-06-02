@@ -8,5 +8,6 @@ const router = Router();
 
 // router.get('/', verifyAdmin, adminController.findAll);
 // router.patch('/change-password/:id', verifyAdmin, adminController.update);
+// router.get('/:id', validateID, verifyAdmin, adminController.findById);
 
 export default router;
