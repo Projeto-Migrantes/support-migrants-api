@@ -6,29 +6,30 @@ export const up = async (queryInterface, Sequelize) => {
       primaryKey: true,
       allowNull: false,
     },
-    description_pt: {
+    institution_description_pt: {
       type: Sequelize.STRING(255),
       allowNull: false,
     },
-    description_fr: {
+    institution_description_fr: {
       type: Sequelize.STRING(255),
       allowNull: false,
     },
-    description_es: {
+    institution_description_es: {
       type: Sequelize.STRING(255),
       allowNull: false,
     },
-    description_en: {
+    institution_description_en: {
       type: Sequelize.STRING(255),
       allowNull: false,
     },
-    institutions_id: {
+    institution_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
         model: 'institutions',
         key: 'id',
       },
+      onDelete: 'CASCADE',
     },
     created_at: {
       type: Sequelize.DATE,
