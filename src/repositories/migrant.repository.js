@@ -41,6 +41,29 @@ class MigrantRepository {
   async count() {
     return await Migrant.count();
   }
+
+  async search(query) {
+    if (!validateQuery(query)) {
+      throw new Error('Invalid query');
+    }
+
+    return await Migrant.findAll({
+      where: {
+        [Sequelize.Op.or]: [
+          { email: { [Sequelize.Op.iLike]: `%${query}%` } },
+          { phone_number: { [Sequelize.Op.iLike]: `%${query}%` } },
+          { full_name: { [Sequelize.Op.iLike]: `%${query}%` } },
+          { crnm: { [Sequelize.Op.iLike]: `%${query}%` } },
+        ],
+      },
+      include: [
+        {
+          model: Address,
+          required: false,
+        },
+      ],
+    });
+  }
 }
 
 export default new MigrantRepository();
