@@ -19,6 +19,13 @@ class MigrantRepository {
   async create(data, transaction) {
     return await Migrant.create(data, { transaction });
   }
+
+  async findByEmail(email) {
+    return await Migrant.scope('withPassword').findOne({
+      raw: true,
+      where: { email },
+    });
+  }
 }
 
 export default new MigrantRepository();
