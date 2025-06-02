@@ -30,10 +30,10 @@ const swaggerDocument = YAML.load(
   path.join(process.cwd(), 'src/docs', 'api-docs.yaml'),
 );
 
-app.use('/api/v2/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+// app.use('/api/v2/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get('/api/v2', (req, res) => {
-  const baseUrl = `${req.protocol}://${req.get('host')}`;
+  // const baseUrl = `${req.protocol}://${req.get('host')}`;
 
   res.status(200).json({
     message: 'Welcome to the support-migrants api',
@@ -42,7 +42,7 @@ app.get('/api/v2', (req, res) => {
     uptime: `${process.uptime().toFixed(0)}s`,
     environment: process.env.NODE_ENV || 'development',
     current_time: new Date().toISOString(),
-    documentation_url: `${baseUrl}/api/v2/api-docs`,
+    documentation_url: `https://app.swaggerhub.com/apis-docs/projetomigrants-7a9/APIRestful/v2`,
   });
 });
 
