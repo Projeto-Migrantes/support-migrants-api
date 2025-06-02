@@ -30,7 +30,7 @@ export const up = async (queryInterface, Sequelize) => {
       allowNull: true,
       unique: true,
     },
-    addresses_id: {
+    address_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
@@ -38,7 +38,7 @@ export const up = async (queryInterface, Sequelize) => {
         key: 'id',
       },
     },
-    categories_id: {
+    category_id: {
       type: Sequelize.INTEGER,
       allowNull: true,
       references: {
