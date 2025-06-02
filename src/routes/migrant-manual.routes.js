@@ -18,5 +18,12 @@ router.post(
   migrantManualController.create,
 );
 router.get('/', verifyRole, migrantManualController.findAll);
+router.patch(
+  '/:id',
+  validateID,
+  verifyAdmin,
+  validateRequest(updateMigrantManual),
+  migrantManualController.update,
+);
 
 export default router;
