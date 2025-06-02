@@ -11,6 +11,10 @@ import {
   notFoundHandler,
 } from '../middlewares/error-handler.middleware.js';
 
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
+import path from 'path';
+
 const app = express();
 
 app.use(express.json());
@@ -21,6 +25,12 @@ app.use(limiter);
 
 app.use(authKey);
 app.use('/api/v2', routes);
+
+const swaggerDocument = YAML.load(
+  path.join(process.cwd(), 'src/docs', 'api-docs.yaml'),
+);
+
+app.use('/api/v2/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get('/api/v2', (req, res) => {
   res.status(200).json({

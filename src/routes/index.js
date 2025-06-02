@@ -11,7 +11,7 @@ import adminRoutes from './admin.routes.js';
 
 const router = Router();
 
-router.use('/address', addressRoutes);
+router.use('/addresses', addressRoutes);
 router.use('/auth', authRoutes);
 router.use('/categories', categoryRoutes);
 router.use('/forms', formRoutes);

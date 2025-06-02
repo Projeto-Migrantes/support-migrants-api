@@ -1,0 +1,2224 @@
+openapi: 3.0.0
+info:
+  title: Support Migrants API
+  version: v2
+  description: |
+    The Support Migrants API connects migrants with organizations and institutions.
+    This RESTful API provides endpoints to manage migrant and institutional data,
+    making it easier to integrate and support migrant communities.
+  license:
+    name: Proprietary - Terms of Use
+    url: https://github.com/Projeto-Migrantes/support-migrants-api/blob/main/LICENSE
+
+servers:
+  - url: http://localhost:3000/api/v2
+    description: Local Development Server
+  - url: https://support-migrants-api.vercel.app/api/v2
+    description: Local Production Server
+
+tags:
+  - name: Authentication
+    description: Authentication operations for migrants and administrators.
+  - name: Address
+    description: Operations related to addresses, utilizing an external postal code lookup service.
+  - name: Categories
+    description: Operations related to institution categories.
+  - name: Migrants
+    description: Operations related to migrant users.
+  - name: Institutions
+    description: Operations related to institutions.
+  - name: Migrant Manuals
+    description: Operations related to migrant manuals.
+  - name: Forms
+    description: Operations related to contact forms.
+  - name: Terms
+    description: Operations related to terms and conditions.
+
+components:
+  schemas:
+    # --- Generic Schemas ---
+    ErrorResponse400:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Validation error
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+                example: email
+              message:
+                type: string
+                example: email must be a valid email address
+    ErrorResponse401:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Unauthorized - API key missing or invalid / JWT token missing, invalid, or expired
+    ErrorResponse403:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Forbidden - Insufficient permissions
+    ErrorResponse404:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Resource not found
+    ErrorResponse409:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Conflict - Data already exists (e.g., email already in use)
+    ErrorResponse500:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Generic server error message.
+          example: server error
+        error:
+          type: string
+          description: Error details (may be present in development environment).
+          example: Specific error detail from the application
+
+    SuccessDeleteResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Resource deleted successfully
+
+    # --- Authentication Schemas ---
+    LoginCredentials:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          description: "User's email."
+          example: user@example.com
+        password:
+          type: string
+          format: password
+          description: "User's password."
+          example: stringPassword123
+    LoginSuccessResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          description: 'JWT token for authentication in subsequent requests.'
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+
+    # --- Address Schemas ---
+    AddressBase:
+      type: object
+      properties:
+        postal_code:
+          type: string
+          description: 'Postal code (CEP).'
+          example: '01001-000'
+        street:
+          type: string
+          description: 'Street name.'
+          example: 'Praça da Sé'
+        neighborhood:
+          type: string
+          description: 'Neighborhood name.'
+          example: 'Sé'
+        city:
+          type: string
+          description: 'City name.'
+          example: 'São Paulo'
+        state:
+          type: string
+          description: 'State (Federative Unit), e.g., SP, RJ.'
+          example: 'SP'
+    AddressResponse:
+      allOf:
+        - $ref: '#/components/schemas/AddressBase'
+        - type: object
+          properties:
+            id:
+              type: integer
+              description: 'Address ID.'
+              example: 1
+            created_at:
+              type: string
+              format: date-time
+              description: 'Creation timestamp.'
+            updated_at:
+              type: string
+              format: date-time
+              description: 'Last update timestamp.'
+    AddressCreateInput: # Based on createAddressSchema
+      type: object
+      required:
+        - postal_code
+        - city
+        - state
+        - neighborhood
+        - street
+      properties:
+        postal_code:
+          type: string
+          pattern: "^\\d{5}-?\\d{3}$"
+          example: '01001000'
+        city:
+          type: string
+          minLength: 3
+          maxLength: 150
+          example: 'São Paulo'
+        state:
+          type: string
+          minLength: 2 # Adjusted from Joi min(3) for common state codes like 'SP'
+          maxLength: 150
+          example: 'SP'
+        neighborhood:
+          type: string
+          minLength: 3
+          maxLength: 300
+          example: 'Sé'
+        street:
+          type: string
+          minLength: 2
+          maxLength: 300
+          example: 'Praça da Sé'
+    AddressUpdateInput: # Based on updateAddressSchema, all optional
+      type: object
+      properties:
+        postal_code:
+          type: string
+          pattern: "^\\d{5}-?\\d{3}$"
+        city:
+          type: string
+          minLength: 3
+          maxLength: 150
+        state:
+          type: string
+          minLength: 2
+          maxLength: 150
+        neighborhood:
+          type: string
+          minLength: 3
+          maxLength: 300
+        street:
+          type: string
+          minLength: 2
+          maxLength: 300
+    AddressNotFoundResponse: # ViaCEP specific
+      type: object
+      description: Indicates that the postal code was not found by the external service.
+      properties:
+        message:
+          type: string
+          example: 'Postal Code not found'
+    AddressExternalErrorResponse: # ViaCEP specific
+      type: object
+      description: Indicates an error occurred while trying to fetch data from the external address service.
+      properties:
+        message:
+          type: string
+          example: 'Error when searching for address'
+        error:
+          type: object
+          description: 'Details of the error from the external service call.'
+    ErrorResponse404AddressController: # Controller's specific 404
+      type: object
+      properties:
+        message:
+          type: string
+          example: 'Invalid Postal Code'
+
+    # --- Category Schemas ---
+    Category: # Based on src/models/Category.js
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        category_pt:
+          type: string
+          example: 'Agência Governamental'
+        category_fr:
+          type: string
+          example: 'Agence gouvernementale'
+        category_es:
+          type: string
+          example: 'Agencia Gubernamental'
+        category_en:
+          type: string
+          example: 'Government Agency'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    CategoryResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+
+    # --- Migrant Schemas ---
+    MigrantBaseProperties: # Common properties for Migrant input/output, excluding password and id
+      type: object
+      properties:
+        full_name:
+          type: string
+          minLength: 3
+          maxLength: 255
+          example: 'Carlos Henrique Silva'
+        email:
+          type: string
+          format: email
+          example: 'carlos.silva@example.com'
+        date_of_birth:
+          type: string
+          format: date
+          example: '1990-05-10'
+        phone_number:
+          type: string
+          pattern: "^\\+?[0-9]{10,15}$"
+          example: '+5571999999991'
+          nullable: true
+        crnm:
+          type: string
+          pattern: "^[A-Z]\\d{6}-\\d$" # Joi: /^[A-Z]\d{6}-\d$/
+          example: 'A123456-7'
+        address_complement:
+          type: string
+          maxLength: 50
+          nullable: true
+          example: 'Apto 101'
+        address_number:
+          type: string
+          maxLength: 10
+          nullable: true
+          example: '500'
+        social_name:
+          type: string
+          maxLength: 255
+          nullable: true
+          example: 'Carol Silva'
+        language_preference:
+          type: string
+          maxLength: 50
+          nullable: true
+          example: 'Português'
+        entry_into_brazil:
+          type: string
+          format: date
+          nullable: true
+          example: '2021-01-15'
+        migration_reason:
+          type: string
+          maxLength: 100
+          nullable: true
+          example: 'Trabalho'
+        country_of_origin:
+          type: string
+          maxLength: 50
+          nullable: true
+          example: 'Venezuela'
+        gender:
+          type: string
+          maxLength: 50
+          nullable: true
+          example: 'Masculino'
+        marital_status:
+          type: string
+          maxLength: 50
+          nullable: true
+          example: 'Solteiro'
+        literacy_level:
+          type: string
+          maxLength: 50
+          nullable: true
+          example: 'Superior Completo'
+        # registration_data, consent, purpose are handled in specific schemas if needed for input
+        # address_id is for internal linking, not direct input in combined schema
+
+    MigrantCreateInput: # Based on createMigrantSchema
+      allOf:
+        - $ref: '#/components/schemas/MigrantBaseProperties'
+        - type: object
+          required:
+            - full_name
+            - email
+            - date_of_birth
+            - crnm
+            - password
+          properties:
+            password:
+              type: string
+              format: password
+              minLength: 8
+              example: 'securePassword123'
+            consent: # Optional in Joi schema, but can be required by business logic
+              type: boolean
+              example: true
+            purpose: # Optional in Joi schema
+              type: string
+              example: 'Busca de emprego'
+
+    MigrantUpdateInput: # Based on updateMigrantSchema, all optional
+      allOf:
+        - $ref: '#/components/schemas/MigrantBaseProperties'
+        - type: object
+          properties: # All fields from MigrantBaseProperties are implicitly optional
+            # password can be updated via a dedicated endpoint if needed, usually not in a general update
+            consent:
+              type: boolean
+            purpose:
+              type: string
+    MigrantRegistrationRequest: # For POST /migrants/register and POST /migrants
+      type: object
+      required: # 'migrant' is required based on Joi schema
+        - migrant
+      properties:
+        migrant:
+          $ref: '#/components/schemas/MigrantCreateInput'
+        address: # Optional based on Joi schema
+          $ref: '#/components/schemas/AddressCreateInput'
+    MigrantUpdateRequest: # For PATCH /migrants/:id
+      type: object
+      properties:
+        migrant:
+          $ref: '#/components/schemas/MigrantUpdateInput'
+        address:
+          $ref: '#/components/schemas/AddressUpdateInput'
+
+    MigrantResponse:
+      allOf:
+        - $ref: '#/components/schemas/MigrantBaseProperties'
+        - type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            registration_data:
+              type: string
+              format: date-time
+            address: # Embedded address object
+              $ref: '#/components/schemas/AddressResponse'
+            created_at:
+              type: string
+              format: date-time
+            updated_at:
+              type: string
+              format: date-time
+    MigrantResponseWrapper: # For single migrant response, as per controller
+      type: object
+      properties:
+        data: # Some endpoints wrap in 'data', others don't. Standardizing.
+          $ref: '#/components/schemas/MigrantResponse'
+    MigrantArrayResponse: # For lists of migrants, as per controller
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/MigrantResponse'
+
+    CountResponse:
+      type: object
+      properties:
+        count:
+          type: integer
+          example: 42
+    EmailCheckRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          format: email
+          example: 'test@example.com'
+    EmailCheckResponse:
+      type: object
+      properties:
+        exists:
+          type: boolean
+          example: true
+
+    # --- Institution Schemas (complex due to nesting and multiple parts) ---
+    InstitutionBase: # Core fields of an Institution from model and schema
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 2
+          maxLength: 255
+          example: 'Instituto Saber'
+        cnpj:
+          type: string
+          pattern: "^\\d{2}\\.?\\d{3}\\.?\\d{3}\\/?\\d{4}-?\\d{2}$"
+          example: '00.000.000/0001-00'
+        email:
+          type: string
+          format: email
+          maxLength: 255
+          example: 'contato@saber.org'
+        main_phone:
+          type: string
+          pattern: "^\\(?\\d{2}\\)? ?\\d{4,5}-?\\d{4}$"
+          maxLength: 15
+          example: '(71)99999-0001'
+        secondary_phone:
+          type: string
+          pattern: "^\\(?\\d{2}\\)? ?\\d{4,5}-?\\d{4}$"
+          maxLength: 15
+          nullable: true
+          example: '(71)98888-0001'
+        address_complement:
+          type: string
+          maxLength: 50
+          nullable: true
+          example: 'Sala 101'
+        address_number:
+          type: string
+          maxLength: 10
+          example: '123'
+        website:
+          type: string
+          maxLength: 255
+          nullable: true
+          example: 'https://saber.org'
+        consent:
+          type: boolean
+          example: true
+        purpose:
+          type: string
+          maxLength: 255
+          example: 'Educação e inclusão social'
+        instagram:
+          type: string
+          pattern: '^@[a-zA-Z0-9._]{2,50}$'
+          maxLength: 50
+          nullable: true
+          example: '@institutosaber'
+        link_maps:
+          type: string
+          maxLength: 255
+          nullable: true
+          example: 'http://maps.google.com/link'
+        responsible_user_name:
+          type: string
+          maxLength: 255
+          example: 'Ana Souza'
+        responsible_user_position:
+          type: string
+          maxLength: 50
+          example: 'Diretora'
+        responsible_user_sector:
+          type: string
+          maxLength: 50
+          example: 'Administração'
+        responsible_user_role:
+          type: string
+          maxLength: 50
+          example: 'Responsável Legal'
+        registration_data: # In Joi schema, it's required. In model, it's not null.
+          type: string
+          format: date # Joi uses date(), model uses DATE
+          example: '2024-01-15'
+        # category_id and address_id are for relations, handled in request/response structures.
+
+    InstitutionDescriptionsInput: # Based on Joi schema
+      type: object
+      required:
+        [
+          institution_description_pt,
+          institution_description_en,
+          institution_description_es,
+          institution_description_fr,
+        ]
+      properties:
+        institution_description_pt:
+          { type: string, minLength: 3, maxLength: 1000 }
+        institution_description_en:
+          { type: string, minLength: 3, maxLength: 1000 }
+        institution_description_es:
+          { type: string, minLength: 3, maxLength: 1000 }
+        institution_description_fr:
+          { type: string, minLength: 3, maxLength: 1000 }
+    InstitutionDescriptionsResponse: # Based on model
+      allOf:
+        - $ref: '#/components/schemas/InstitutionDescriptionsInput'
+        - type: object
+          properties:
+            id: { type: integer }
+            # institution_id is implicit in the parent InstitutionResponse
+
+    ServiceHoursInput: # Based on Joi schema
+      type: object
+      required:
+        [service_hours_pt, service_hours_en, service_hours_es, service_hours_fr]
+      properties:
+        service_hours_pt: { type: string, minLength: 3, maxLength: 500 }
+        service_hours_en: { type: string, minLength: 3, maxLength: 500 }
+        service_hours_es: { type: string, minLength: 3, maxLength: 500 }
+        service_hours_fr: { type: string, minLength: 3, maxLength: 500 }
+    ServiceHoursResponse: # Based on model
+      allOf:
+        - $ref: '#/components/schemas/ServiceHoursInput'
+        - type: object
+          properties:
+            id: { type: integer }
+
+    TargetPopulationInput: # Based on Joi schema
+      type: object
+      required:
+        [
+          target_populations_pt,
+          target_populations_en,
+          target_populations_es,
+          target_populations_fr,
+        ]
+      properties:
+        target_populations_pt: { type: string, minLength: 3, maxLength: 500 }
+        target_populations_en: { type: string, minLength: 3, maxLength: 500 }
+        target_populations_es: { type: string, minLength: 3, maxLength: 500 }
+        target_populations_fr: { type: string, minLength: 3, maxLength: 500 }
+    TargetPopulationResponse: # Based on model
+      allOf:
+        - $ref: '#/components/schemas/TargetPopulationInput'
+        - type: object
+          properties:
+            id: { type: integer }
+
+    RequirementRestrictionInput: # Based on Joi schema, all optional
+      type: object
+      properties: # All optional
+        requirements_restrictions_pt:
+          { type: string, minLength: 3, maxLength: 500 }
+        requirements_restrictions_en:
+          { type: string, minLength: 3, maxLength: 500 }
+        requirements_restrictions_es:
+          { type: string, minLength: 3, maxLength: 500 }
+        requirements_restrictions_fr:
+          { type: string, minLength: 3, maxLength: 500 }
+    RequirementRestrictionResponse: # Based on model
+      allOf:
+        - $ref: '#/components/schemas/RequirementRestrictionInput' # Effectively, as all fields are nullable in response if not provided
+        - type: object
+          properties:
+            id: { type: integer }
+
+    ServicesOfferedInput: # Based on Joi schema
+      type: object
+      required:
+        [
+          services_offered_pt,
+          services_offered_en,
+          services_offered_es,
+          services_offered_fr,
+        ]
+      properties:
+        services_offered_pt: { type: string, minLength: 3, maxLength: 500 }
+        services_offered_en: { type: string, minLength: 3, maxLength: 500 }
+        services_offered_es: { type: string, minLength: 3, maxLength: 500 }
+        services_offered_fr: { type: string, minLength: 3, maxLength: 500 }
+    ServicesOfferedResponse: # Based on model
+      allOf:
+        - $ref: '#/components/schemas/ServicesOfferedInput'
+        - type: object
+          properties:
+            id: { type: integer }
+
+    ServiceCostInput: # Based on Joi schema
+      type: object
+      required:
+        [
+          services_costs_pt,
+          services_costs_en,
+          services_costs_es,
+          services_costs_fr,
+        ]
+      properties:
+        services_costs_pt: { type: string, minLength: 3, maxLength: 500 }
+        services_costs_en: { type: string, minLength: 3, maxLength: 500 }
+        services_costs_es: { type: string, minLength: 3, maxLength: 500 }
+        services_costs_fr: { type: string, minLength: 3, maxLength: 500 }
+    ServiceCostResponse: # Based on model
+      allOf:
+        - $ref: '#/components/schemas/ServiceCostInput'
+        - type: object
+          properties:
+            id: { type: integer }
+
+    InstitutionCreateRequest: # Based on institution-main.schema.js
+      type: object
+      required:
+        - institution
+        - address
+        - target_populations
+        - institution_descriptions
+        - services_offered
+        - service_cost
+        - service_hours
+      properties:
+        institution:
+          $ref: '#/components/schemas/InstitutionBase' # Joi has category_id here, not in model directly
+        address:
+          $ref: '#/components/schemas/AddressCreateInput'
+        target_populations:
+          $ref: '#/components/schemas/TargetPopulationInput'
+        institution_descriptions:
+          $ref: '#/components/schemas/InstitutionDescriptionsInput'
+        requirements_restrictions: # Optional in Joi schema
+          $ref: '#/components/schemas/RequirementRestrictionInput'
+        services_offered:
+          $ref: '#/components/schemas/ServicesOfferedInput'
+        service_cost:
+          $ref: '#/components/schemas/ServiceCostInput'
+        service_hours:
+          $ref: '#/components/schemas/ServiceHoursInput'
+        category_id: # Added category_id directly as it's part of institution in Joi, but separate in model relation
+          type: integer
+          description: 'ID of the category for the institution.'
+          example: 2
+          nullable: true
+
+    InstitutionUpdateRequest: # Similar to CreateRequest, but all top-level and nested fields are optional for PATCH
+      type: object
+      properties:
+        institution:
+          # All fields from InstitutionBase would be optional here
+          type: object
+          properties: # Example subset
+            name: { type: string, minLength: 2, maxLength: 255 }
+            email: { type: string, format: email, maxLength: 255 }
+            # ... all other fields from InstitutionBase, optional
+            category_id: { type: integer, nullable: true }
+        address:
+          $ref: '#/components/schemas/AddressUpdateInput' # Joi uses createAddressSchema, so it implies some required fields if address object is present
+        target_populations:
+          $ref: '#/components/schemas/TargetPopulationInput' # Make fields inside optional for PATCH
+        institution_descriptions:
+          $ref: '#/components/schemas/InstitutionDescriptionsInput' # Make fields inside optional for PATCH
+        requirements_restrictions:
+          $ref: '#/components/schemas/RequirementRestrictionInput' # Already optional
+        services_offered:
+          $ref: '#/components/schemas/ServicesOfferedInput' # Make fields inside optional for PATCH
+        service_cost:
+          $ref: '#/components/schemas/ServiceCostInput' # Make fields inside optional for PATCH
+        service_hours:
+          $ref: '#/components/schemas/ServiceHoursInput' # Make fields inside optional for PATCH
+
+    InstitutionResponse: # Detailed response for a single institution
+      allOf:
+        - $ref: '#/components/schemas/InstitutionBase'
+        - type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            address:
+              $ref: '#/components/schemas/AddressResponse'
+            category:
+              $ref: '#/components/schemas/Category'
+            institution_descriptions:
+              $ref: '#/components/schemas/InstitutionDescriptionsResponse'
+            service_hours:
+              $ref: '#/components/schemas/ServiceHoursResponse'
+            target_populations:
+              $ref: '#/components/schemas/TargetPopulationResponse'
+            requirement_restriction:
+              $ref: '#/components/schemas/RequirementRestrictionResponse'
+              nullable: true
+            services_offered:
+              $ref: '#/components/schemas/ServicesOfferedResponse'
+            service_cost:
+              $ref: '#/components/schemas/ServiceCostResponse'
+            created_at:
+              type: string
+              format: date-time
+            updated_at:
+              type: string
+              format: date-time
+    InstitutionResponseWrapper: # As per controller create/findById methods
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/InstitutionResponse'
+    InstitutionArrayResponse: # As per controller findAll/findByCategory/search methods
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstitutionResponse'
+
+    # --- Migrant Manual Schemas ---
+    MigrantManualBase: # Based on model and Joi schemas
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 255
+          example: 'Manual del Migrante en Español'
+        description:
+          type: string
+          maxLength: 255
+          nullable: true
+          example: 'Este PDF es un manual para migrantes en Español.'
+        url:
+          type: string
+          minLength: 1
+          maxLength: 255
+          example: 'https://drive.google.com/file/d/1ur5LPuhLYP8Vf4kDFcx9drLi66D4p4Xj/view?usp=sharing'
+        language:
+          type: string
+          enum: [en, es, fr, pt]
+          example: 'es'
+    MigrantManualCreateInput: # Based on createMigrantManual Joi schema
+      allOf:
+        - $ref: '#/components/schemas/MigrantManualBase'
+        - type: object
+          required:
+            - name
+            - url
+            - language
+    MigrantManualUpdateInput: # Based on updateMigrantManual Joi schema, all optional
+      allOf:
+        - $ref: '#/components/schemas/MigrantManualBase' # Fields become optional
+    MigrantManualResponse:
+      allOf:
+        - $ref: '#/components/schemas/MigrantManualBase'
+        - type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            created_at:
+              type: string
+              format: date-time
+            updated_at:
+              type: string
+              format: date-time
+    MigrantManualArrayResponse: # As per controller
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/MigrantManualResponse'
+
+    # --- Form Schemas ---
+    FormBase: # Based on model and Joi schema
+      type: object
+      properties:
+        subject:
+          type: string
+          minLength: 1
+          maxLength: 100
+          example: 'Dúvida sobre documentação'
+        message:
+          type: string
+          minLength: 1
+          maxLength: 500
+          example: 'Gostaria de saber quais documentos preciso para solicitar ajuda.'
+        phone_number:
+          type: string
+          pattern: "^\\(?\\d{2}\\)? ?\\d{4,5}-?\\d{4}$"
+          example: '71999990001'
+        full_name:
+          type: string
+          minLength: 1
+          maxLength: 255
+          example: 'Carlos Pereira'
+        email:
+          type: string
+          format: email
+          maxLength: 255
+          example: 'carlos@example.com'
+    FormCreateInput: # Based on createFormSchema Joi
+      allOf:
+        - $ref: '#/components/schemas/FormBase'
+        - type: object
+          required:
+            - subject
+            - message
+            - phone_number
+            - full_name
+            - email
+    FormUpdateInput: # For PATCH /forms/:id - primarily 'status' based on common usage
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [resolved, read, unread]
+          example: 'read'
+        subject: # Making other fields updatable too
+          type: string
+          minLength: 1
+          maxLength: 100
+        message:
+          type: string
+          minLength: 1
+          maxLength: 500
+        phone_number:
+          type: string
+          pattern: "^\\(?\\d{2}\\)? ?\\d{4,5}-?\\d{4}$"
+        full_name:
+          type: string
+          minLength: 1
+          maxLength: 255
+        email:
+          type: string
+          format: email
+          maxLength: 255
+    FormResponse:
+      allOf:
+        - $ref: '#/components/schemas/FormBase'
+        - type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            status:
+              type: string
+              enum: [resolved, read, unread]
+              example: 'unread'
+            created_at:
+              type: string
+              format: date-time
+            updated_at:
+              type: string
+              format: date-time
+    FormArrayResponse: # As per controller
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormResponse'
+
+    # --- Term Schemas ---
+    TermBase: # Based on model
+      type: object
+      properties:
+        term_condition_pt:
+          type: string
+          format: text # Using string, as 'text' is not a standard OpenAPI format
+          example: 'Texto dos termos em Português...'
+        term_condition_fr:
+          type: string
+          example: 'Texte des termes en Français...'
+        term_condition_es:
+          type: string
+          example: 'Texto de los términos en Español...'
+        term_condition_en:
+          type: string
+          example: 'Text of the terms in English...'
+        type:
+          type: string
+          enum: [migrant, institution]
+          example: 'migrant'
+    TermCreateInput:
+      allOf:
+        - $ref: '#/components/schemas/TermBase'
+        - type: object
+          required:
+            - term_condition_pt
+            - term_condition_fr
+            - term_condition_es
+            - term_condition_en
+            - type
+    TermUpdateInput: # For PUT /terms/:type - all fields of TermBase are expected
+      allOf:
+        - $ref: '#/components/schemas/TermBase'
+        # Type is in path, so not in body for update
+        - type: object
+          properties: # Example, specific fields allowed for update
+            term_condition_pt: { type: string }
+            term_condition_fr: { type: string }
+            term_condition_es: { type: string }
+            term_condition_en: { type: string }
+
+    TermResponse:
+      allOf:
+        - $ref: '#/components/schemas/TermBase'
+        - type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            created_at:
+              type: string
+              format: date-time
+            updated_at:
+              type: string
+              format: date-time
+    TermArrayResponse: # As per controller
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TermResponse'
+
+  securitySchemes:
+    BearerAuth: # JWT
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        JWT Token-based authentication.
+        To authenticate, enter 'Bearer ' followed by your token in the 'Authorization' header.
+    ApiKeyAuth: # For x-private-key
+      type: apiKey
+      in: header
+      name: x-private-key
+      description: API Private Key for server-to-server authentication. Required for all API calls.
+
+security: # Global security requirement
+  - ApiKeyAuth: []
+
+paths:
+  # --- Authentication Paths ---
+  /auth/migrants/login:
+    post:
+      tags:
+        - Authentication
+      summary: Migrant Login
+      description: Authenticates a migrant user and returns a JWT token upon success.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginCredentials'
+      responses:
+        '200':
+          description: Login successful. Returns the JWT token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginSuccessResponse'
+        '403':
+          description: Invalid credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403' # Using generic 403, example "invalid credentials"
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+  /auth/admins/login:
+    post:
+      tags:
+        - Authentication
+      summary: Admin Login
+      description: Authenticates an admin user and returns a JWT token upon success.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginCredentials'
+      responses:
+        '200':
+          description: Login successful. Returns the JWT token.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginSuccessResponse'
+        '403':
+          description: Invalid credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+
+  # --- Address Paths ---
+  /addresses/{postal_code}:
+    get:
+      tags:
+        - Address
+      summary: Find Address by Postal Code
+      description: |
+        Retrieves address information from an external service (ViaCEP) based on the provided postal code.
+        Requires authentication (role-based).
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # Requires JWT (verifyRole)
+      parameters:
+        - name: postal_code
+          in: path
+          required: true
+          description: The postal code (CEP) to search for (e.g., "01001000").
+          schema:
+            type: string
+            example: '01001000'
+      responses:
+        '200':
+          description: Successfully retrieved address information, or a message indicating the postal code was not found/error during search.
+          content:
+            application/json:
+              schema: # ViaCEP can return success with an error field, or the address
+                oneOf:
+                  - $ref: '#/components/schemas/AddressBase' # if found by ViaCEP and transformed
+                  - $ref: '#/components/schemas/AddressNotFoundResponse' # if ViaCEP returns {erro: true}
+                  - $ref: '#/components/schemas/AddressExternalErrorResponse' # if axios fails
+        '401':
+          description: Unauthorized (API Key or JWT missing/invalid).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+        '403':
+          description: Forbidden (insufficient role).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+        '404':
+          description: Invalid Postal Code (specific controller check `if (address.erro)`).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404AddressController'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+
+  # --- Category Paths ---
+  /categories:
+    get:
+      tags:
+        - Categories
+      summary: Get All Categories
+      description: Retrieves a list of all institution categories. Requires authentication (role-based).
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # verifyRole
+      responses:
+        '200':
+          description: A list of categories.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryResponse'
+        '401':
+          description: Unauthorized.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+        '403':
+          description: Forbidden.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+
+  # --- Migrant Paths ---
+  /migrants/profile/{id}:
+    get:
+      tags:
+        - Migrants
+      summary: Get Migrant Profile by ID
+      description: Retrieves the profile of a specific migrant. Migrants can view their own profile, Admins can view any. Requires JWT.
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # verifyRole
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Migrant ID.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Migrant profile data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MigrantResponse' # Direct response, no 'data' wrapper in controller
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError' # if migrant not found
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /migrants/check-email:
+    post: # Changed from GET based on common practice for sending data and controller uses req.body
+      tags:
+        - Migrants
+      summary: Check if Migrant Email Exists
+      description: Checks if a migrant's email already exists in the database. Admin role required.
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # verifyAdmin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailCheckRequest'
+      responses:
+        '200':
+          description: Email check result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailCheckResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError' # If email is not provided or invalid format
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /migrants/count:
+    get:
+      tags:
+        - Migrants
+      summary: Count All Migrants
+      description: Retrieves the total number of registered migrants. Admin role required.
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # verifyAdmin
+      responses:
+        '200':
+          description: Total count of migrants.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /migrants/search:
+    get:
+      tags:
+        - Migrants
+      summary: Search Migrants
+      description: Searches for migrants based on a query string (e.g., email, phone, name, CRNM). Admin role required.
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # verifyAdmin
+      parameters:
+        - name: q
+          in: query
+          required: true
+          description: Search query.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of matching migrants.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MigrantArrayResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError' # if q is missing
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError' # if no migrants found for query
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /migrants:
+    get:
+      tags:
+        - Migrants
+      summary: Get All Migrants
+      description: Retrieves a list of all migrants. Admin role required.
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # verifyAdmin
+      responses:
+        '200':
+          description: A list of all migrants.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MigrantArrayResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags:
+        - Migrants
+      summary: Create New Migrant (Admin)
+      description: Allows an admin to create a new migrant profile.
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # verifyAdmin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MigrantRegistrationRequest' # Uses createMigrantMainSchema
+      responses:
+        '201':
+          description: Migrant created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MigrantResponseWrapper' # Controller returns { data: migrant }
+        '400':
+          $ref: '#/components/responses/BadRequestError' # Validation error from schema
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '409':
+          $ref: '#/components/responses/ConflictError' # e.g., email/crnm exists
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /migrants/register:
+    post:
+      tags:
+        - Migrants
+      summary: Register New Migrant (Public)
+      description: Allows a new migrant to register. No prior JWT required, only API Key.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MigrantRegistrationRequest' # Uses createMigrantMainSchema
+      responses:
+        '201':
+          description: Migrant registered successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MigrantResponseWrapper' # Controller returns { data: migrant }
+        '400':
+          $ref: '#/components/responses/BadRequestError' # Validation error
+        '401':
+          $ref: '#/components/responses/ApiKeyError' # Only ApiKeyAuth is active for this endpoint by default
+        '409':
+          $ref: '#/components/responses/ConflictError' # e.g., email/crnm exists
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /migrants/{id}:
+    get:
+      tags:
+        - Migrants
+      summary: Get Migrant by ID (Admin)
+      description: Retrieves a specific migrant by their ID. Admin role required.
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # validateID, verifyAdmin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Migrant ID.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Migrant data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MigrantResponse' # Direct object, no 'data' wrapper
+        '400':
+          $ref: '#/components/responses/InvalidIdError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    patch:
+      tags:
+        - Migrants
+      summary: Update Migrant by ID (Admin)
+      description: Updates a migrant's details. Admin role required.
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # validateID, validateRequest(updateMigrantMainSchema), verifyAdmin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Migrant ID.
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MigrantUpdateRequest'
+      responses:
+        '204':
+          description: Migrant updated successfully. No content.
+        '400':
+          $ref: '#/components/responses/BadRequestError' # Validation or Invalid ID
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError' # Migrant not found
+        '409':
+          $ref: '#/components/responses/ConflictError' # e.g., updated email conflicts
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Migrants
+      summary: Delete Migrant by ID (Admin)
+      description: Deletes a migrant's profile. Admin role required.
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # validateID, verifyAdmin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Migrant ID.
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Migrant deleted successfully. No content.
+        '400':
+          $ref: '#/components/responses/InvalidIdError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError' # Migrant not found
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # --- Institution Paths ---
+  /institutions:
+    get:
+      tags:
+        - Institutions
+      summary: Get All Institutions
+      description: Retrieves a list of all institutions. Requires authentication (role-based).
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # verifyRole
+      responses:
+        '200':
+          description: A list of institutions with their details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstitutionArrayResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags:
+        - Institutions
+      summary: Create New Institution (Admin)
+      description: Creates a new institution with all its related information. Admin role required.
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # verifyAdmin, validateRequest(mainSchema)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InstitutionCreateRequest'
+      responses:
+        '201':
+          description: Institution created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstitutionResponseWrapper' # Controller returns { data: { institution, address, ... } }
+        '400':
+          $ref: '#/components/responses/BadRequestError' # Validation error
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '409':
+          $ref: '#/components/responses/ConflictError' # e.g., CNPJ/email exists
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /institutions/search:
+    get:
+      tags:
+        - Institutions
+      summary: Search Institutions (Admin)
+      description: Searches for institutions based on a query string (e.g., email, phone, CNPJ). Admin role required.
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # verifyAdmin
+      parameters:
+        - name: q
+          in: query
+          required: true
+          description: Search query.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of matching institutions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstitutionArrayResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError' # if q is missing
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError' # if no institutions found
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /institutions/count:
+    get:
+      tags:
+        - Institutions
+      summary: Count All Institutions (Admin)
+      description: Retrieves the total number of registered institutions. Admin role required.
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # verifyAdmin
+      responses:
+        '200':
+          description: Total count of institutions.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /institutions/check-email:
+    get: # Route is GET, controller uses req.body.email. Documenting as GET with query param.
+      tags:
+        - Institutions
+      summary: Check if Institution Email Exists (Admin)
+      description: Checks if an institution's email already exists. Admin role required. Note controller expects email in body, but route is GET.
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # verifyAdmin
+      parameters:
+        - name: email
+          in: query
+          required: true
+          description: Email to check.
+          schema:
+            type: string
+            format: email
+      responses:
+        '200':
+          description: Email check result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailCheckResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError' # If email param is missing
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /institutions/{id}:
+    get:
+      tags:
+        - Institutions
+      summary: Get Institution by ID
+      description: Retrieves a specific institution by its ID. Requires authentication (role-based).
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # validateID, verifyRole
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Institution ID.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Institution details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstitutionResponseWrapper' # Controller returns { data: institution }
+        '400':
+          $ref: '#/components/responses/InvalidIdError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    patch:
+      tags:
+        - Institutions
+      summary: Update Institution by ID (Admin)
+      description: Updates an institution's details. Admin role required.
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # validateID, verifyAdmin. No validateRequest in route, but controller uses req.body.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Institution ID.
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InstitutionUpdateRequest' # Schema for update, fields optional
+      responses:
+        '204':
+          description: Institution updated successfully. No content.
+        '400':
+          $ref: '#/components/responses/BadRequestError' # Validation or Invalid ID
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '409':
+          $ref: '#/components/responses/ConflictError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Institutions
+      summary: Delete Institution by ID (Admin)
+      description: Deletes an institution. Admin role required.
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # verifyAdmin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Institution ID.
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Institution deleted successfully. No content.
+        '400':
+          $ref: '#/components/responses/InvalidIdError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /institutions/category/{id}:
+    get:
+      tags:
+        - Institutions
+      summary: Get Institutions by Category ID
+      description: Retrieves a list of institutions belonging to a specific category. Requires authentication (role-based).
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # validateID, verifyRole
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Category ID.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of institutions in the specified category.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstitutionArrayResponse'
+        '400':
+          $ref: '#/components/responses/InvalidIdError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError' # Institutions not found with this category
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # --- Migrant Manual Paths ---
+  /migrant-manuals:
+    get:
+      tags:
+        - Migrant Manuals
+      summary: Get All Migrant Manuals
+      description: Retrieves a list of all migrant manuals, optionally filtered by language. Requires authentication (role-based).
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # verifyRole
+      parameters:
+        - name: language
+          in: query
+          required: false
+          description: Filter manuals by language (e.g., 'pt', 'en', 'es', 'fr').
+          schema:
+            type: string
+            enum: [pt, en, es, fr]
+      responses:
+        '200':
+          description: A list of migrant manuals.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MigrantManualArrayResponse' # Controller wraps in {data: manuals}
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags:
+        - Migrant Manuals
+      summary: Create New Migrant Manual (Admin)
+      description: Creates a new migrant manual. Admin role required.
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # verifyAdmin, validateRequest(createMigrantManual)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MigrantManualCreateInput'
+      responses:
+        '201':
+          description: Migrant manual created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MigrantManualResponse' # Controller returns manual directly
+        '400':
+          $ref: '#/components/responses/BadRequestError' # Validation error
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /migrant-manuals/{id}:
+    patch:
+      tags:
+        - Migrant Manuals
+      summary: Update Migrant Manual (Admin)
+      description: Updates an existing migrant manual. Admin role required.
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # validateID, verifyAdmin, validateRequest(updateMigrantManual)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Migrant Manual ID.
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MigrantManualUpdateInput'
+      responses:
+        '204':
+          description: Migrant manual updated successfully. No content.
+        '400':
+          $ref: '#/components/responses/BadRequestError' # Validation or Invalid ID
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError' # Manual not found
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Migrant Manuals
+      summary: Delete Migrant Manual (Admin)
+      description: Deletes a migrant manual. Admin role required.
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # verifyAdmin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Migrant Manual ID.
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Migrant manual deleted successfully. No content.
+        '400':
+          $ref: '#/components/responses/InvalidIdError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError' # Manual not found
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+  # --- Form Paths ---
+  /forms:
+    get:
+      tags:
+        - Forms
+      summary: Get All Forms (Admin)
+      description: Retrieves a list of all contact forms, optionally filtered by status. Admin role required.
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # verifyAdmin
+      parameters:
+        - name: status
+          in: query
+          required: false
+          description: Filter forms by status.
+          schema:
+            type: string
+            enum: [resolved, read, unread, all] # 'all' is handled by service
+      responses:
+        '200':
+          description: A list of forms.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormArrayResponse' # Controller returns { data: forms }
+        '400':
+          $ref: '#/components/responses/BadRequestError' # Invalid enum for status
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    post:
+      tags:
+        - Forms
+      summary: Create New Form (Migrant)
+      description: Allows a migrant to submit a new contact form. Migrant authentication required.
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # validateRequest(createFormSchema), verifyMigrant
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FormCreateInput'
+      responses:
+        '201':
+          description: Form submitted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormResponse' # Controller returns form directly
+        '400':
+          $ref: '#/components/responses/BadRequestError' # Validation error
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /forms/count-unread:
+    get:
+      tags:
+        - Forms
+      summary: Count Unread Forms (Admin)
+      description: Retrieves the count of unread contact forms. Admin role required.
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # verifyAdmin
+      responses:
+        '200':
+          description: Count of unread forms.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountResponse' # Controller returns { count }
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /forms/{id}:
+    get:
+      tags:
+        - Forms
+      summary: Get Form by ID (Admin)
+      description: Retrieves a specific contact form by its ID. Admin role required.
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # validateID, verifyAdmin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Form ID.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Form details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FormResponse' # Controller returns form directly
+        '400':
+          $ref: '#/components/responses/InvalidIdError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError' # Form not found
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    patch:
+      tags:
+        - Forms
+      summary: Update Form Status (Admin)
+      description: Updates the status or other details of a contact form. Admin role required.
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # validateID, verifyAdmin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Form ID.
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FormUpdateInput' # Controller uses req.body
+      responses:
+        '204':
+          description: Form updated successfully. No content.
+        '400':
+          $ref: '#/components/responses/BadRequestError' # Invalid ID or invalid status/data
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError' # Form not found
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    delete:
+      tags:
+        - Forms
+      summary: Delete Form (Admin)
+      description: Deletes a contact form. Admin role required.
+      security:
+        - ApiKeyAuth: []
+          BearerAuth: [] # validateID, verifyAdmin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Form ID.
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Form deleted successfully. No content.
+        '400':
+          $ref: '#/components/responses/InvalidIdError'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '404':
+          $ref: '#/components/responses/NotFoundError' # Form not found
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+
+    # --- Term Paths ---
+    /terms:
+      get:
+        tags:
+          - Terms
+        summary: Get All Terms and Conditions (Admin)
+        description: Retrieves all types of terms and conditions (migrant, institution). Admin role required.
+        security:
+          - ApiKeyAuth: []
+            BearerAuth: [] # verifyAdmin
+        responses:
+          '200':
+            description: A list of all terms and conditions.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/TermArrayResponse'
+          '401':
+            $ref: '#/components/responses/UnauthorizedError'
+          '403':
+            $ref: '#/components/responses/ForbiddenError'
+          '500':
+            $ref: '#/components/responses/InternalServerError'
+      post:
+        tags:
+          - Terms
+        summary: Create Terms and Conditions (Admin)
+        description: Creates new terms and conditions for a specific type (migrant or institution). Admin role required.
+        security:
+          - ApiKeyAuth: []
+            BearerAuth: [] # verifyAdmin
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TermCreateInput' # Controller uses req.body
+        responses:
+          '201':
+            description: Terms and conditions created successfully.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/TermResponse' # Controller returns term directly
+          '400':
+            $ref: '#/components/responses/BadRequestError' # Validation error
+          '401':
+            $ref: '#/components/responses/UnauthorizedError'
+          '403':
+            $ref: '#/components/responses/ForbiddenError'
+          '500':
+            $ref: '#/components/responses/InternalServerError'
+    /terms/{type}:
+      get:
+        tags:
+          - Terms
+        summary: Get Terms and Conditions by Type (Admin)
+        description: Retrieves terms and conditions for a specific type (migrant or institution). Admin role required.
+        security:
+          - ApiKeyAuth: []
+            BearerAuth: [] # verifyAdmin
+        parameters:
+          - name: type
+            in: path
+            required: true
+            description: Type of terms ('migrant' or 'institution').
+            schema:
+              type: string
+              enum: [migrant, institution]
+        responses:
+          '200':
+            description: Terms and conditions for the specified type.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/TermResponse' # Controller returns term directly
+          '401':
+            $ref: '#/components/responses/UnauthorizedError'
+          '403':
+            $ref: '#/components/responses/ForbiddenError'
+          '404':
+            $ref: '#/components/responses/NotFoundError' # Term type not found
+          '500':
+            $ref: '#/components/responses/InternalServerError'
+      put:
+        tags:
+          - Terms
+        summary: Update Terms and Conditions by Type (Admin)
+        description: Updates terms and conditions for a specific type. Admin role required.
+        security:
+          - ApiKeyAuth: []
+            BearerAuth: [] # verifyAdmin
+        parameters:
+          - name: type
+            in: path
+            required: true
+            description: Type of terms to update ('migrant' or 'institution').
+            schema:
+              type: string
+              enum: [migrant, institution]
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TermUpdateInput' # Controller uses req.body, type is from path
+        responses:
+          '204':
+            description: Terms and conditions updated successfully. No content.
+          '400':
+            $ref: '#/components/responses/BadRequestError' # Validation error
+          '401':
+            $ref: '#/components/responses/UnauthorizedError'
+          '403':
+            $ref: '#/components/responses/ForbiddenError'
+          '404':
+            $ref: '#/components/responses/NotFoundError' # Term type not found
+          '500':
+            $ref: '#/components/responses/InternalServerError'
+      delete:
+        tags:
+          - Terms
+        summary: Delete Terms and Conditions by Type (Admin)
+        description: Deletes terms and conditions for a specific type. Admin role required.
+        security:
+          - ApiKeyAuth: []
+            BearerAuth: [] # verifyAdmin
+        parameters:
+          - name: type
+            in: path
+            required: true
+            description: Type of terms to delete ('migrant' or 'institution').
+            schema:
+              type: string
+              enum: [migrant, institution]
+        responses:
+          '204':
+            description: Terms and conditions deleted successfully. No content.
+          '401':
+            $ref: '#/components/responses/UnauthorizedError'
+          '403':
+            $ref: '#/components/responses/ForbiddenError'
+          '404':
+            $ref: '#/components/responses/NotFoundError' # Term type not found
+          '500':
+            $ref: '#/components/responses/InternalServerError'
+
+  components:
+    responses:
+      UnauthorizedError:
+        description: Unauthorized - API Key or JWT issue.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse401'
+      ApiKeyError:
+        description: Unauthorized - API Key missing or invalid.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse401' # Example "error consuming API"
+      ForbiddenError:
+        description: Forbidden - Insufficient permissions or role.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse403'
+      NotFoundError:
+        description: Resource not found.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse404'
+      InvalidIdError:
+        description: Invalid ID provided in path.
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error:
+                  type: string
+                  example: ID must be a valid number!
+      BadRequestError:
+        description: Bad Request - Invalid input, validation error, or missing parameters.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse400'
+      ConflictError:
+        description: Conflict - The request could not be completed due to a conflict with the current state of the target resource.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse409'
+      InternalServerError:
+        description: Internal Server Error.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse500'
