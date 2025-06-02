@@ -64,6 +64,10 @@ class MigrantRepository {
       ],
     });
   }
+
+  validateQuery(query) {
+    return typeof query === 'string' && query.trim().length > 0;
+  }
 }
 
 export default new MigrantRepository();
