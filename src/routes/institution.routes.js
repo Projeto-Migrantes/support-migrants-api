@@ -1,17 +1,13 @@
 import { Router } from 'express';
-import institutionController from '../controllers/institutionController.js';
-import validateOrganization from '../middlewares/validation/validateInstitution.js';
+import institutionController from '../controllers/institution.controller.js';
+import { validateID } from '../middlewares/validation/validateID.js';
+import validateRequest from '../middlewares/validation/validateRequest.js';
+import mainSchema from '../schemas/institutions/institution-main.schema.js';
+import { verifyRole } from '../middlewares/auth/role.auth.js';
+import { verifyAdmin } from '../middlewares/auth/admin.auth.js';
 
 const router = Router();
 
-router.get('/', institutionController.findAll);
-router.post('/check-email', institutionController.emailExist);
-router.get('/search', institutionController.searchInstituions);
-router.get('/count', institutionController.count);
-router.get('/:id', institutionController.findById);
-router.get('/category/:id', institutionController.findByCategory);
-router.post('/', validateOrganization, institutionController.create);
-router.put('/:id', institutionController.update);
-router.delete('/:id', institutionController.destroy);
+router.get('/', verifyRole, institutionController.findAll);
 
 export default router;
