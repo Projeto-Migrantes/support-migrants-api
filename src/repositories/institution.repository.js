@@ -16,6 +16,10 @@ class InstitutionRepository {
       include: models.all,
     });
   }
+
+  async count() {
+    return await Institution.count();
+  }
 }
 
 const models = {
