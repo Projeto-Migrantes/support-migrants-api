@@ -29,6 +29,18 @@ class MigrantManualController {
       });
     }
   }
+
+  async update(req, res) {
+    try {
+      await manualService.update(req.body, req.params.id);
+      return res.status(204).json();
+    } catch (error) {
+      return res.status(500).json({
+        message: 'server error',
+        error: error.message,
+      });
+    }
+  }
 }
 
 export default new MigrantManualController();
