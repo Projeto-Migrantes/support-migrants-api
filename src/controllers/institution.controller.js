@@ -90,6 +90,23 @@ class InstitutionController {
       });
     }
   }
+
+  async create(req, res) {
+    try {
+      const instituion = await institutionService.create(req.body);
+
+      return res.status(201).json({ data: instituion });
+    } catch (error) {
+      if (error.cause === 'conflict') {
+        return res.status(409).json({ error: error.message });
+      }
+
+      return res.status(500).json({
+        message: 'server error',
+        error: error.message,
+      });
+    }
+  }
 }
 
 export default new InstitutionController();
