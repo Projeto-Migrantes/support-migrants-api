@@ -15,6 +15,10 @@ class MigrantRepository {
       include: [{ model: Address, as: 'address' }],
     });
   }
+
+  async create(data, transaction) {
+    return await Migrant.create(data, { transaction });
+  }
 }
 
 export default new MigrantRepository();
