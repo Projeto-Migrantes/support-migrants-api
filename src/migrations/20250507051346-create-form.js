@@ -31,7 +31,7 @@ export const up = async (queryInterface, Sequelize) => {
       allowNull: false,
       defaultValue: 'unread',
     },
-    migrants_id: {
+    /* migrants_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
       references: {
@@ -39,6 +39,7 @@ export const up = async (queryInterface, Sequelize) => {
         key: 'id',
       },
     },
+    */
     created_at: {
       type: Sequelize.DATE,
       allowNull: false,
