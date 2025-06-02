@@ -17,5 +17,6 @@ router.post(
   validateRequest(createMigrantManual),
   migrantManualController.create,
 );
+router.get('/', verifyRole, migrantManualController.findAll);
 
 export default router;
