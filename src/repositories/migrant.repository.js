@@ -33,6 +33,10 @@ class MigrantRepository {
       transaction,
     });
   }
+
+  async delete(id) {
+    return await Migrant.destroy({ where: { id } });
+  }
 }
 
 export default new MigrantRepository();
