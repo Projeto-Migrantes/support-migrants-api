@@ -99,6 +99,26 @@ class MigrantService {
       throw error;
     }
   }
+
+  async checkIfDataExists(data) {
+    const existingMigrant = await migrantRepository.checkIfDataExists(data);
+
+    const { email, phone_number, crnm } = data;
+
+    if (existingMigrant) {
+      if (existingMigrant.email === email) {
+        throw new Error('email already exists', { cause: 'conflict' });
+      }
+      if (existingMigrant.phone_number === phone_number) {
+        throw new Error('phone number already exists', { cause: 'conflict' });
+      }
+      if (existingMigrant.crnm === crnm) {
+        throw new Error('crnm already exists', {
+          cause: 'conflict',
+        });
+      }
+    }
+  }
 }
 
 export default new MigrantService();
