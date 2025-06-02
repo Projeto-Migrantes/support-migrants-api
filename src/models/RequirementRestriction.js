@@ -30,6 +30,8 @@ const RequirementRestriction = sequelize.define(
   {
     tableName: 'requirements_restrictions',
     timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
   },
 );
 
