@@ -16,6 +16,13 @@ class ServiceHoursRepository {
       },
     );
   }
+
+  async update(data, id, transaction) {
+    return await ServiceHours.update(data, {
+      where: { institution_id: id },
+      transaction,
+    });
+  }
 }
 
 export default new ServiceHoursRepository();
