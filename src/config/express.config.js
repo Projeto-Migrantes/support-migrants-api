@@ -5,8 +5,11 @@ import cors from 'cors';
 import { corsOptions } from './cors.config.js';
 import limiter from '../middlewares/rateLimiter.js';
 import routes from '../routes/index.js';
-import authKey from '../middlewares/authKey.js';
-import { errorHandler, notFoundHandler } from '../middlewares/errorHandler.js';
+import authKey from '../middlewares/auth-api.middleware.js';
+import {
+  errorHandler,
+  notFoundHandler,
+} from '../middlewares/error-handler.middleware.js';
 
 const app = express();
 
@@ -17,7 +20,6 @@ app.use(helmet());
 app.use(limiter);
 
 app.use(authKey);
-
 app.use('/api/v2', routes);
 
 app.get('/api/v2', (req, res) => {
