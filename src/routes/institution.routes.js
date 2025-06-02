@@ -24,5 +24,6 @@ router.post(
   validateRequest(mainSchema),
   institutionController.create,
 );
+router.patch('/:id', validateID, verifyAdmin, institutionController.update);
 
 export default router;
