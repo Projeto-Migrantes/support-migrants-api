@@ -43,6 +43,10 @@ class FormService {
 
     return forms;
   }
+
+  async create(data) {
+    return await formRepository.create(data);
+  }
 }
 
 export default new FormService();
