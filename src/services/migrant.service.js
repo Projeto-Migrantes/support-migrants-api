@@ -119,6 +119,14 @@ class MigrantService {
       }
     }
   }
+
+  async delete(id) {
+    const migrant = await migrantRepository.delete(id);
+    if (migrant === 0) {
+      throw new Error('migrant not found');
+    }
+    return migrant;
+  }
 }
 
 export default new MigrantService();
