@@ -51,6 +51,15 @@ class FormService {
   async countPedding() {
     return await formRepository.countPedding();
   }
+
+  async delete(id) {
+    const form = await formRepository.delete(id);
+
+    if (form == 0) {
+      throw new Error('form not found');
+    }
+    return form;
+  }
 }
 
 export default new FormService();
