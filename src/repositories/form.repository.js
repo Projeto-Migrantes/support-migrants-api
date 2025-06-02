@@ -6,6 +6,10 @@ class FormRepository {
       order: [['id', 'DESC']],
     });
   }
+
+  async findById(id) {
+    return await Form.findByPk(id);
+  }
 }
 
 export default new FormRepository();
