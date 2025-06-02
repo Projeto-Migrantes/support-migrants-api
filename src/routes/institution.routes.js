@@ -12,5 +12,11 @@ router.get('/', verifyRole, institutionController.findAll);
 router.get('/search', verifyAdmin, institutionController.search);
 router.get('/count', verifyAdmin, institutionController.count);
 router.get('/:id', validateID, verifyRole, institutionController.findById);
+router.get(
+  '/category/:id',
+  validateID,
+  verifyRole,
+  institutionController.findByCategory,
+);
 
 export default router;
