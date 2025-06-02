@@ -13,5 +13,6 @@ const router = Router();
 
 router.get('/profile/:id', verifyRole, migrantController.profile);
 router.post('/check-email', verifyAdmin, migrantController.emailExist);
+router.get('/count', verifyAdmin, migrantController.count);
 
 export default router;
