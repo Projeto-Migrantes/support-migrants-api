@@ -40,6 +40,7 @@ app.get('/api/v2', (req, res) => {
     uptime: `${process.uptime().toFixed(0)}s`,
     environment: process.env.NODE_ENV || 'development',
     current_time: new Date().toISOString(),
+    documentation_url: `${baseUrl}/api/v2/api-docs`,
   });
 });
 
