@@ -78,6 +78,21 @@ class FormController {
       });
     }
   }
+
+  async delete(req, res) {
+    try {
+      await formService.delete(req.params.id);
+      return res.status(204).json();
+    } catch (error) {
+      if (error.message === 'form not found') {
+        return res.status(404).json({ error: error.message });
+      }
+      return res.status(500).json({
+        message: 'server error',
+        error: error.message,
+      });
+    }
+  }
 }
 
 export default new FormController();
