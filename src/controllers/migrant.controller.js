@@ -111,6 +111,21 @@ class MigrantController {
       });
     }
   }
+
+  async emailExist(req, res) {
+    try {
+      const emailExist = await migrantService.findByEmail(req.body.email);
+      if (emailExist) {
+        return res.json({ exists: true });
+      }
+      return res.json({ exists: false });
+    } catch (error) {
+      return res.status(500).json({
+        message: 'server error',
+        error: error.message,
+      });
+    }
+  }
 }
 
 export default new MigrantController();
