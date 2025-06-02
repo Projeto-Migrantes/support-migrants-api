@@ -30,6 +30,37 @@ class MigrantService {
 
     return migrant;
   }
+
+  async create(data) {
+    const t = await sequelize.transaction();
+    try {
+      await this.checkIfDataExists(data.migrant);
+
+      let address = null;
+
+      if (data.address) {
+        address = await addressService.exists(data.address.postal_code, t);
+        data.migrant.address_id = address.id;
+      }
+
+      data.migrant.password = await createHash(data.migrant.password);
+
+      const migrant = await migrantRepository.create(data.migrant, t);
+
+      await t.commit();
+
+      delete migrant.dataValues.password;
+
+      return {
+        migrant,
+        address,
+      };
+    } catch (error) {
+      console.log(error);
+      await t.rollback();
+      throw error;
+    }
+  }
 }
 
 export default new MigrantService();
