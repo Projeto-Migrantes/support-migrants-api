@@ -202,6 +202,31 @@ class InstitutionService {
   async findByEmail(email) {
     return await institutionRepository.findByEmail(email);
   }
+
+  async checkIfDataExists(data) {
+    const existingInstitution = await institutionRepository.checkIfDataExists(
+      data,
+    );
+
+    const { cnpj, email, main_phone, secondary_phone } = data;
+
+    if (existingInstitution) {
+      if (existingInstitution.cnpj === cnpj) {
+        throw new Error('CNPJ already exists', { cause: 'conflict' });
+      }
+      if (existingInstitution.email === email) {
+        throw new Error('email already exists', { cause: 'conflict' });
+      }
+      if (existingInstitution.main_phone === main_phone) {
+        throw new Error('main phone already exists', { cause: 'conflict' });
+      }
+      if (existingInstitution.secondary_phone === secondary_phone) {
+        throw new Error('secondary phone already exists', {
+          cause: 'conflict',
+        });
+      }
+    }
+  }
 }
 
 export default new InstitutionService();
