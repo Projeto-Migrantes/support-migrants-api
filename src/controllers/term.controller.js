@@ -55,6 +55,21 @@ class TermController {
       });
     }
   }
+
+  async delete(req, res) {
+    try {
+      await termService.delete(req.params.type);
+      return res.status(204).json();
+    } catch (error) {
+      if (error.message === 'term not found') {
+        return res.status(404).json({ error: 'term not found' });
+      }
+      return res.status(500).json({
+        message: 'server error',
+        error: error.message,
+      });
+    }
+  }
 }
 
 export default new TermController();
