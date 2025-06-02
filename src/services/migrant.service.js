@@ -21,6 +21,15 @@ class MigrantService {
   async count() {
     return await migrantRepository.count();
   }
+
+  async search(query) {
+    const migrant = await migrantRepository.search(query);
+    if (migrant.length === 0) {
+      throw new Error('migrant not found');
+    }
+
+    return migrant;
+  }
 }
 
 export default new MigrantService();
