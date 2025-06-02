@@ -16,6 +16,13 @@ class ServiceCostRepository {
       },
     );
   }
+
+  async update(data, id, transaction) {
+    return await ServiceCost.update(data, {
+      where: { institution_id: id },
+      transaction,
+    });
+  }
 }
 
 export default new ServiceCostRepository();
