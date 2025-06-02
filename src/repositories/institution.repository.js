@@ -48,6 +48,19 @@ class InstitutionRepository {
       transaction,
     });
   }
+
+  async search(query) {
+    return await Institution.findAll({
+      where: {
+        [Sequelize.Op.or]: [
+          { email: { [Sequelize.Op.iLike]: `%${query}%` } },
+          { main_phone: { [Sequelize.Op.iLike]: `%${query}%` } },
+          { secondary_phone: { [Sequelize.Op.iLike]: `%${query}%` } },
+          { cnpj: { [Sequelize.Op.iLike]: `%${query}%` } },
+        ],
+      },
+    });
+  }
 }
 
 const models = {
