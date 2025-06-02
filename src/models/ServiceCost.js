@@ -30,6 +30,8 @@ const ServicesCost = sequelize.define(
   {
     tableName: 'services_costs',
     timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
   },
 );
 
