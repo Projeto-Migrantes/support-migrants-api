@@ -9,6 +9,12 @@ class MigrantRepository {
       include: [{ model: Address, as: 'address' }],
     });
   }
+
+  async findById(id) {
+    return await Migrant.findByPk(id, {
+      include: [{ model: Address, as: 'address' }],
+    });
+  }
 }
 
 export default new MigrantRepository();
