@@ -25,5 +25,6 @@ router.patch(
   validateRequest(updateMigrantManual),
   migrantManualController.update,
 );
+router.delete('/:id', verifyAdmin, migrantManualController.delete);
 
 export default router;
