@@ -28,5 +28,12 @@ router.post(
   validateRequest(createMigrantMainSchema),
   migrantController.create,
 );
+router.patch(
+  '/:id',
+  validateID,
+  validateRequest(updateMigrantMainSchema),
+  verifyAdmin,
+  migrantController.update,
+);
 
 export default router;
