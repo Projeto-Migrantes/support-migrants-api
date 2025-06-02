@@ -27,6 +27,10 @@ class FormRepository {
   async create(form) {
     return await Form.create(form);
   }
+
+  async countPedding() {
+    return await Form.count({ where: { status: 'unread' } });
+  }
 }
 
 export default new FormRepository();
