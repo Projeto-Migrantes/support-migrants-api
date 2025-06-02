@@ -17,6 +17,10 @@ class MigrantService {
 
     return migrant;
   }
+
+  async count() {
+    return await migrantRepository.count();
+  }
 }
 
 export default new MigrantService();
