@@ -31,7 +31,7 @@ const Form = connection.define(
       type: DataTypes.STRING(255),
       allowNull: false,
     },
-    migrants_id: {
+    /* migrants_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -39,6 +39,7 @@ const Form = connection.define(
         key: 'id',
       },
     },
+    */
     status: {
       type: DataTypes.ENUM('resolved', 'read', 'unread'),
       allowNull: false,
@@ -48,6 +49,8 @@ const Form = connection.define(
   {
     tableName: 'forms',
     timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
   },
 );
 
