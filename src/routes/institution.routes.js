@@ -25,5 +25,6 @@ router.post(
   institutionController.create,
 );
 router.patch('/:id', validateID, verifyAdmin, institutionController.update);
+router.get('/check-email', verifyAdmin, institutionController.emailExist);
 
 export default router;
