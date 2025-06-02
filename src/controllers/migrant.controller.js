@@ -55,6 +55,30 @@ class MigrantController {
       });
     }
   }
+
+  async search(req, res) {
+    try {
+      const query = req.query.q;
+
+      if (!query) {
+        return res
+          .status(400)
+          .json({ message: 'query string (q) is required' });
+      }
+
+      const migrants = await migrantService.search(query);
+
+      return res.status(200).json({ data: migrants });
+    } catch (error) {
+      if (error.message === 'migrant not found') {
+        return res.status(404).json({ error: 'migrant not found' });
+      }
+      return res.status(500).json({
+        message: 'server error',
+        error: error.message,
+      });
+    }
+  }
 }
 
 export default new MigrantController();
