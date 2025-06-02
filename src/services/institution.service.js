@@ -198,6 +198,10 @@ class InstitutionService {
     }
     return institution;
   }
+
+  async findByEmail(email) {
+    return await institutionRepository.findByEmail(email);
+  }
 }
 
 export default new InstitutionService();
