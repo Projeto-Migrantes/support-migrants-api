@@ -33,6 +33,8 @@ const Address = sequelize.define(
   {
     tableName: 'addresses',
     timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
   },
 );
 
