@@ -16,6 +16,16 @@ class MigrantManualService {
     }
     return migrantManual;
   }
+
+  async findByLanguage(language) {
+    const migrantManual = await migrantManualRepository.findByLanguage(
+      language,
+    );
+    if (!migrantManual) {
+      throw new Error('migrant manual not found');
+    }
+    return migrantManual;
+  }
 }
 
 export default new MigrantManualService();
