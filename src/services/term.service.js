@@ -13,6 +13,10 @@ class TermService {
     }
     return term;
   }
+
+  async create(data) {
+    return await Term.create(data);
+  }
 }
 
 export default new TermService();
