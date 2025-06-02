@@ -9,5 +9,6 @@ import { verifyAdmin } from '../middlewares/auth/admin.auth.js';
 const router = Router();
 
 router.get('/', verifyRole, institutionController.findAll);
+router.get('/search', verifyAdmin, institutionController.search);
 
 export default router;
