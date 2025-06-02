@@ -30,6 +30,10 @@ class AdminRepository {
     return await Admin.destroy({ where: { id } });
   }
 
+  async count() {
+    return await Admin.count();
+  }
+
   async findByEmail(email) {
     return await Admin.scope('withPassword').findOne({
       raw: true,
