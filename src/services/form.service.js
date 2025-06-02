@@ -22,6 +22,27 @@ class FormService {
     }
     return form;
   }
+
+  async findByStatus(status) {
+    let forms;
+
+    const enumStatus = ['resolved', 'read', 'unread', 'all'];
+
+    if (!enumStatus.includes(status)) {
+      throw new Error(
+        "invalid enum. use 'resolved', 'read', 'unread' or 'all'",
+        { cause: 'invalid enum' },
+      );
+    }
+
+    if (status === 'all') {
+      return await formRepository.findAll();
+    } else {
+      forms = await formRepository.findByStatus(status);
+    }
+
+    return forms;
+  }
 }
 
 export default new FormService();
