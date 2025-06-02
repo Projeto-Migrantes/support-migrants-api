@@ -41,3 +41,25 @@ export const loginAdmin = async (req, res) => {
     });
   }
 };
+
+export const verifyAdmin = (req, res, next) => {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) {
+    return res.status(403).json({ message: 'unauthorized' });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (error, admin) => {
+    if (error) {
+      return res.status(403).json({ message: 'unauthorized' });
+    }
+
+    if (admin.role !== 'admin') {
+      return res.status(403).json({ message: 'unauthorized' });
+    }
+
+    req.admin = admin;
+    next();
+  });
+};
