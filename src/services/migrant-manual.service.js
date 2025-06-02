@@ -8,6 +8,14 @@ class MigrantManualService {
   async findAll() {
     return await migrantManualRepository.findAll();
   }
+
+  async update(data, id) {
+    const migrantManual = await migrantManualRepository.update(data, id);
+    if (migrantManual === 0) {
+      throw new Error('migrant manual not found');
+    }
+    return migrantManual;
+  }
 }
 
 export default new MigrantManualService();
