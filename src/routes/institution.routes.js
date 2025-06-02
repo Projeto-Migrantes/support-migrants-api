@@ -26,5 +26,6 @@ router.post(
 );
 router.patch('/:id', validateID, verifyAdmin, institutionController.update);
 router.get('/check-email', verifyAdmin, institutionController.emailExist);
+router.delete('/:id', verifyAdmin, institutionController.delete);
 
 export default router;
