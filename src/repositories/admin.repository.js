@@ -11,6 +11,10 @@ class AdminRepository {
     });
   }
 
+  async findById(id) {
+    return await Admin.findByPk(id);
+  }
+
   async findByEmail(email) {
     return await Admin.scope('withPassword').findOne({
       raw: true,
