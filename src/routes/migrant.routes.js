@@ -22,5 +22,11 @@ router.post(
   validateRequest(createMigrantMainSchema),
   migrantController.create,
 );
+router.post(
+  '/',
+  verifyAdmin,
+  validateRequest(createMigrantMainSchema),
+  migrantController.create,
+);
 
 export default router;
