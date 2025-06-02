@@ -26,6 +26,13 @@ class MigrantRepository {
       where: { email },
     });
   }
+
+  async update(data, id, transaction) {
+    return await Migrant.update(data, {
+      where: { id },
+      transaction,
+    });
+  }
 }
 
 export default new MigrantRepository();
