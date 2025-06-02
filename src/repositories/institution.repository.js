@@ -30,6 +30,13 @@ class InstitutionRepository {
   async create(data, transaction) {
     return await Institution.create(data, { transaction });
   }
+
+  async findAllByCategory(categoryId) {
+    return await Institution.findAll({
+      where: { category_id: categoryId },
+      include: models.all,
+    });
+  }
 }
 
 const models = {
