@@ -1,117 +1,130 @@
 import { DataTypes } from 'sequelize';
-import connection from '../config/database.js';
+import sequelize from '../config/database.config.js';
 import Address from './Address.js';
-import MigrantDocument from './MigrantDocument.js';
 
-// Define an migrant template for the database
-const Migrant = connection.define('Migrant', { 
-      id: { 
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-        allowNull: false
-      }, 
-      full_name: {
-        type: DataTypes.STRING(150),
-        allowNull: false
+const Migrant = sequelize.define(
+  'Migrant',
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+    },
+    full_name: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: {
+          msg: 'Email must be a valid email address',
+        },
       },
-      social_name: {
-        type: DataTypes.STRING(150),
-        allowNull: true
+    },
+    date_of_birth: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    phone_number: {
+      type: DataTypes.STRING(15),
+      allowNull: true,
+      unique: true,
+    },
+    crnm: {
+      type: DataTypes.STRING(9),
+      unique: true,
+      allowNull: false,
+    },
+    password: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+    registration_data: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+      allowNull: false,
+    },
+    /*
+    consent: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    },
+    purpose: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+
+    */
+    address_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: Address,
+        key: 'id',
       },
-      date_birth: {
-        type: DataTypes.DATEONLY,
-        allowNull: false
-      },
-      preferred_language: {
-        type: DataTypes.STRING(100),
-        allowNull: false
-      },
-      entry_date: {
-        type: DataTypes.DATEONLY,
-        allowNull: true
-      },
-      address_complement: {
-        type: DataTypes.STRING(250),
-        allowNull: true
-      },
-      address_number: {
-        type: DataTypes.STRING(10),
-        allowNull: true
-      },
-      email: {
-        type: DataTypes.STRING(100),
-        unique: true,
-        allowNull: false
-      },
-      phone: {
-        type: DataTypes.STRING(40),
-        allowNull: true,
-      },
-      whatsapp_number: {
-        type: DataTypes.BOOLEAN,
-        allowNull: true
-      },
-      authorized: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false
-      },
-      migrant_reason: {
-        type: DataTypes.STRING(255),
-        allowNull: false
-      },
-      gender: {
-        type: DataTypes.STRING(80),
-        allowNull: false
-      },
-      nationality: {
-        type: DataTypes.STRING(120),
-        allowNull: false
-      },
-      marital_status: {
-        type: DataTypes.STRING(120),
-        allowNull: false
-      },
-      education_level: {
-        type: DataTypes.STRING(120),
-        allowNull: true
-      },
-      social_program_access: {
-        type: DataTypes.STRING(255),
-        allowNull: true
-      },
-      status_migratory: {
-        type: DataTypes.STRING(255),
-        allowNull: true
-      },
-      password: {
-        type: DataTypes.STRING(255),
-        allowNull: false
-      },
-     is_pcd: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false
-     }
-}, {
+      onDelete: 'SET NULL',
+      onUpdate: 'CASCADE',
+    },
+    address_complement: {
+      type: DataTypes.STRING(50),
+      allowNull: true,
+    },
+    address_number: {
+      type: DataTypes.STRING(10),
+      allowNull: true,
+    },
+    social_name: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
+    language_preference: {
+      type: DataTypes.STRING(50),
+      allowNull: true,
+    },
+    entry_into_brazil: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    migration_reason: {
+      type: DataTypes.STRING(100),
+      allowNull: true,
+    },
+    country_of_origin: {
+      type: DataTypes.STRING(50),
+      allowNull: true,
+    },
+    gender: {
+      type: DataTypes.STRING(50),
+      allowNull: true,
+    },
+    marital_status: {
+      type: DataTypes.STRING(50),
+      allowNull: true,
+    },
+    literacy_level: {
+      type: DataTypes.STRING(50),
+      allowNull: true,
+    },
+  },
+  {
     tableName: 'migrants',
     defaultScope: {
-      attributes: { exclude: ['password'] }
+      attributes: { exclude: ['password'] },
     },
     scopes: {
-      withPassword: { attributes: {} }
-    }
-}); 
+      withPassword: { attributes: {} },
+    },
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
+  },
+);
 
-// Migrant has one Document Migrant
-Migrant.hasOne(MigrantDocument, { foreignKey: 'migrant_id', onDelete: 'CASCADE' });
-
-// Document Migrant belongs to Migrant
-MigrantDocument.belongsTo(Migrant, { foreignKey: 'migrant_id', onDelete: 'CASCADE' });
-
-// Migrant has an address
-Migrant.belongsTo(Address, { foreignKey: 'address_id' }); 
-
-// Address has many Migrants 
-Address.hasMany(Migrant, { foreignKey: 'address_id' }); 
+Migrant.belongsTo(Address, { foreignKey: 'address_id', as: 'address' });
+Address.hasMany(Migrant, { foreignKey: 'address_id', as: 'address' });
 
 export default Migrant;

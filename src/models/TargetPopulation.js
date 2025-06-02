@@ -1,34 +1,38 @@
-import { DataTypes } from "sequelize";
-import connection from "../config/database.js";
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/database.config.js';
 
-// Define a Target Population model for the database
-const TargetPopulation = connection.define('TargetPopulation', {
+const TargetPopulation = sequelize.define(
+  'TargetPopulation',
+  {
     id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-        allowNull: false
-    }, 
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+    },
     target_populations_pt: {
-        type: DataTypes.STRING(500),
-        allowNull: false
-    }, 
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
     target_populations_fr: {
-        type: DataTypes.STRING(500),
-        allowNull: false
-    }, 
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
     target_populations_es: {
-        type: DataTypes.STRING(500),
-        allowNull: false
-    }, 
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
     target_populations_en: {
-        type: DataTypes.STRING(500),
-        allowNull: false
-    }
-},
-{
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+  },
+  {
     tableName: 'targets_populations',
-    timestamps: false,
-});
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
+  },
+);
 
 export default TargetPopulation;

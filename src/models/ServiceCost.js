@@ -1,33 +1,38 @@
-import { DataTypes } from "sequelize";
-import connection from "../config/database.js";
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/database.config.js';
 
-// Define a service cost model for the database
-const ServicesCost = connection.define('ServiceCost', {
+const ServicesCost = sequelize.define(
+  'ServiceCost',
+  {
     id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-        allowNull: false
-    }, 
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+    },
     services_costs_pt: {
-        type: DataTypes.STRING(500),
-        allowNull: false
-    }, 
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
     services_costs_fr: {
-        type: DataTypes.STRING(500),
-        allowNull: false
-    }, 
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
     services_costs_en: {
-        type: DataTypes.STRING(500),
-        allowNull: false
-    }, 
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
     services_costs_es: {
-        type: DataTypes.STRING(500),
-        allowNull: false
-    }
-}, {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+  },
+  {
     tableName: 'services_costs',
-    timestamps: false,
-});
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
+  },
+);
 
 export default ServicesCost;

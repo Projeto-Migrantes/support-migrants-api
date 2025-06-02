@@ -1,33 +1,38 @@
-import { DataTypes } from "sequelize";
-import connection from "../config/database.js";
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/database.config.js';
 
-// Define a Requirement and Restriction template for the database
-const RequirementRestriction = connection.define('RequirementRestriction', {
+const RequirementRestriction = sequelize.define(
+  'RequirementRestriction',
+  {
     id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-        allowNull: false
-    }, 
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      allowNull: false,
+    },
     requirements_restrictions_pt: {
-        type: DataTypes.STRING(500),
-        allowNull: false
-    }, 
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
     requirements_restrictions_fr: {
-        type: DataTypes.STRING(500),
-        allowNull: false
-    }, 
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
     requirements_restrictions_es: {
-        type: DataTypes.STRING(500),
-        allowNull: false
-    }, 
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
     requirements_restrictions_en: {
-        type: DataTypes.STRING(500),
-        allowNull: false
-    }
-}, {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+  },
+  {
     tableName: 'requirements_restrictions',
-    timestamps: false,
-});
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
+  },
+);
 
 export default RequirementRestriction;
