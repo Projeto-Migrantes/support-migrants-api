@@ -28,6 +28,31 @@ class InstitutionController {
       });
     }
   }
+
+  async findByCategory(req, res) {
+    try {
+      let institutions;
+      const id = req.params.id;
+
+      if (!id) {
+        institutions = await institutionService.findAll();
+      } else {
+        institutions = await institutionService.findAllByCategory(id);
+      }
+
+      return res.status(200).json({ data: institutions });
+    } catch (error) {
+      if (error.error === 'institutions not found with this category') {
+        return res
+          .status(404)
+          .json({ error: 'institutions not found with this category' });
+      }
+      return res.status(500).json({
+        message: 'server error',
+        error: error.message,
+      });
+    }
+  }
 }
 
 export default new InstitutionController();
