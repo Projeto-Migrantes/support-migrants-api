@@ -14,6 +14,13 @@ class RequirementRestrictionRepository {
       { transaction },
     );
   }
+
+  async update(data, id) {
+    return await RequirementRestriction.uupdate(data, {
+      where: { institution_id: id },
+      transaction,
+    });
+  }
 }
 
 export default new RequirementRestrictionRepository();
