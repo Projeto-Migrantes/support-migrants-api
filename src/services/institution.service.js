@@ -104,6 +104,14 @@ class InstitutionService {
     }
     return institutions;
   }
+
+  async delete(id) {
+    const institution = await institutionRepository.delete(id);
+    if (institution === 0) {
+      throw new Error('institution not found');
+    }
+    return institution;
+  }
 }
 
 export default new InstitutionService();
