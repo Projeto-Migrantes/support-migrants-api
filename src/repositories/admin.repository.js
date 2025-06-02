@@ -15,6 +15,17 @@ class AdminRepository {
     return await Admin.findByPk(id);
   }
 
+  async update(id, data) {
+    return await Admin.update(
+      {
+        data,
+      },
+      {
+        where: { id },
+      },
+    );
+  }
+
   async findByEmail(email) {
     return await Admin.scope('withPassword').findOne({
       raw: true,
