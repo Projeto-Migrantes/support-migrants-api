@@ -13,6 +13,10 @@ class RequirementRestrictionService {
       transaction,
     );
   }
+
+  async update(data, id, transaction) {
+    return await requirementRestrictionRepository.update(data, id, transaction);
+  }
 }
 
 export default new RequirementRestrictionService();
