@@ -1,12 +1,13 @@
 import { Router } from 'express';
-import termController from '../controllers/termController.js';
+import termController from '../controllers/term.controller.js';
+import { verifyAdmin } from '../middlewares/auth/admin.auth.js';
 
 const router = Router();
 
-router.post('/', termController.createTerm);
-router.get('/', termController.getTerms);
-router.get('/:type', termController.getTerm);
-router.put('/', termController.updateTerm);
-router.delete('/:type', termController.deleteTerm);
+router.post('/', verifyAdmin, termController.create);
+router.get('/', verifyAdmin, termController.findAll);
+router.get('/:type', verifyAdmin, termController.findByType);
+router.put('/:type', verifyAdmin, termController.update);
+router.delete('/:type', verifyAdmin, termController.delete);
 
 export default router;
