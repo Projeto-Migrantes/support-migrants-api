@@ -41,6 +41,13 @@ class InstitutionRepository {
   async delete(id) {
     return await Institution.destroy({ where: { id } });
   }
+
+  async update(data, id, transaction) {
+    return await Institution.update(data, {
+      where: { id },
+      transaction,
+    });
+  }
 }
 
 const models = {
