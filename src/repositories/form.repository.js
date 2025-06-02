@@ -23,6 +23,10 @@ class FormRepository {
       where: { status },
     });
   }
+
+  async create(form) {
+    return await Form.create(form);
+  }
 }
 
 export default new FormRepository();
