@@ -33,6 +33,8 @@ const swaggerDocument = YAML.load(
 app.use('/api/v2/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get('/api/v2', (req, res) => {
+  const baseUrl = `${req.protocol}://${req.get('host')}`;
+
   res.status(200).json({
     message: 'Welcome to the support-migrants api',
     status: 'online',
