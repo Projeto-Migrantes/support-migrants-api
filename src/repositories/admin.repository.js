@@ -5,6 +5,12 @@ class AdminRepository {
     return await Admin.create(data);
   }
 
+  async findAll() {
+    return await Admin.findAll({
+      order: [['id', 'DESC']],
+    });
+  }
+
   async findByEmail(email) {
     return await Admin.scope('withPassword').findOne({
       raw: true,
