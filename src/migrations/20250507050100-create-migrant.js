@@ -38,6 +38,7 @@ export const up = async (queryInterface, Sequelize) => {
       defaultValue: Sequelize.NOW,
       allowNull: false,
     },
+    /*
     consent: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
@@ -46,7 +47,8 @@ export const up = async (queryInterface, Sequelize) => {
       type: Sequelize.STRING(255),
       allowNull: false,
     },
-    addresses_id: {
+    */
+    address_id: {
       type: Sequelize.INTEGER,
       allowNull: true,
       references: {
@@ -94,7 +96,6 @@ export const up = async (queryInterface, Sequelize) => {
       type: Sequelize.STRING(50),
       allowNull: true,
     },
-
     created_at: {
       type: Sequelize.DATE,
       allowNull: false,
