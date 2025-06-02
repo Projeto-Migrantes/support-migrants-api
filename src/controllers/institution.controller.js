@@ -53,6 +53,30 @@ class InstitutionController {
       });
     }
   }
+
+  async search(req, res) {
+    try {
+      const query = req.query.q;
+
+      if (!query) {
+        return res
+          .status(400)
+          .json({ message: 'query string (q) is required' });
+      }
+
+      const institutions = await institutionService.search(query);
+
+      return res.status(200).json({ data: institutions });
+    } catch (error) {
+      if (error.message === 'institutions not found') {
+        return res.status(404).json({ error: 'institutions not found' });
+      }
+      return res.status(500).json({
+        message: 'server error',
+        error: error.message,
+      });
+    }
+  }
 }
 
 export default new InstitutionController();
