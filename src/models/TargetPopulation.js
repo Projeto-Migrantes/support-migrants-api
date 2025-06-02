@@ -30,6 +30,8 @@ const TargetPopulation = sequelize.define(
   {
     tableName: 'targets_populations',
     timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
   },
 );
 
