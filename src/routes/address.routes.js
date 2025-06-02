@@ -1,13 +1,8 @@
 import { Router } from 'express';
-import addressController from '../controllers/addressController.js';
-import validateAddress from '../middlewares/validation/validateAddress.js';
+import addressController from '../controllers/address.controller.js';
 
 const router = Router();
 
-router.get(
-  '/:cep',
-  validateAddress.validateCEP,
-  addressController.fetchAddressByCEP,
-);
+router.get('/:postal_code', addressController.findByPostalCode);
 
 export default router;
