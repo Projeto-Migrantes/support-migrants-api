@@ -10,5 +10,6 @@ const router = Router();
 
 router.get('/', verifyAdmin, formController.findAll);
 router.get('/count-unread', verifyAdmin, formController.countPedding);
+router.patch('/:id', validateID, verifyAdmin, formController.update);
 
 export default router;
