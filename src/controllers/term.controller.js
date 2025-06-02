@@ -28,6 +28,18 @@ class TermController {
       });
     }
   }
+
+  async create(req, res) {
+    try {
+      const term = await termService.create(req.body);
+      res.status(201).json(term);
+    } catch (error) {
+      return res.status(500).json({
+        message: 'server error',
+        error: error.message,
+      });
+    }
+  }
 }
 
 export default new TermController();
