@@ -18,5 +18,11 @@ router.get(
   verifyRole,
   institutionController.findByCategory,
 );
+router.post(
+  '/',
+  verifyAdmin,
+  validateRequest(mainSchema),
+  institutionController.create,
+);
 
 export default router;
