@@ -13,6 +13,23 @@ class MigrantController {
       });
     }
   }
+
+  async profile(req, res) {
+    try {
+      const migrant = await migrantService.findById(req.params.id);
+
+      if (migrant.id !== req.user.sub && req.user.role !== 'admin') {
+        return res.status(403).json({ message: 'unauthorized' });
+      }
+
+      return res.status(200).json(migrant);
+    } catch (error) {
+      return res.status(500).json({
+        message: 'server error',
+        error: error.message,
+      });
+    }
+  }
 }
 
 export default new MigrantController();
