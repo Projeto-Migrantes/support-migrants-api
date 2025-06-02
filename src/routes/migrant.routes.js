@@ -17,5 +17,10 @@ router.get('/count', verifyAdmin, migrantController.count);
 router.get('/search', verifyAdmin, migrantController.search);
 router.get('/', verifyAdmin, migrantController.findAll);
 router.get('/:id', validateID, verifyAdmin, migrantController.findById);
+router.post(
+  '/register',
+  validateRequest(createMigrantMainSchema),
+  migrantController.create,
+);
 
 export default router;
