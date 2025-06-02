@@ -37,6 +37,10 @@ class MigrantRepository {
   async delete(id) {
     return await Migrant.destroy({ where: { id } });
   }
+
+  async count() {
+    return await Migrant.count();
+  }
 }
 
 export default new MigrantRepository();
