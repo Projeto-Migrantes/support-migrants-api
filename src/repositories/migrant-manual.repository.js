@@ -17,6 +17,12 @@ class MigrantManualRepository {
       },
     );
   }
+
+  async findByLanguage(language) {
+    return await MigrantManual.findOne({
+      where: { language: language },
+    });
+  }
 }
 
 export default new MigrantManualRepository();
