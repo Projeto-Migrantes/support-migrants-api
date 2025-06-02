@@ -35,5 +35,6 @@ router.patch(
   verifyAdmin,
   migrantController.update,
 );
+router.delete('/:id', validateID, verifyAdmin, migrantController.delete);
 
 export default router;
