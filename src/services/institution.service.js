@@ -24,6 +24,78 @@ class InstitutionService {
     }
     return institution;
   }
+
+  async create(data) {
+    const t = await sequelize.transaction();
+    try {
+      await this.checkIfDataExists(data.institution);
+
+      const address = await addressService.exists(data.address.postal_code, t);
+      data.institution.address_id = address.id;
+
+      const institution = await institutionRepository.create(
+        data.institution,
+        t,
+      );
+      const institution_id = institution.id;
+
+      const institution_descriptions =
+        await institutionDescriptionsService.create(
+          data.institution_descriptions,
+          institution_id,
+          t,
+        );
+
+      let requirements_restrictions;
+      if (data.requirements_restrictions) {
+        requirements_restrictions = await requirementRestrictionService.create(
+          data.requirements_restrictions,
+          institution_id,
+          t,
+        );
+      }
+
+      const service_cost = await serviceCostService.create(
+        data.service_cost,
+        institution_id,
+        t,
+      );
+
+      const service_hours = await serviceHoursService.create(
+        data.service_hours,
+        institution_id,
+        t,
+      );
+
+      const services_offered = await servicesOfferedService.create(
+        data.services_offered,
+        institution_id,
+        t,
+      );
+
+      const target_populations = await targetPopulationService.create(
+        data.target_populations,
+        institution_id,
+        t,
+      );
+
+      await t.commit();
+
+      return {
+        institution,
+        address,
+        institution_descriptions,
+        requirements_restrictions,
+        service_cost,
+        service_hours,
+        services_offered,
+        target_populations,
+      };
+    } catch (error) {
+      await t.rollback();
+      throw error;
+    }
+  }
 }
 
 export default new InstitutionService();
