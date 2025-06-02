@@ -126,6 +126,21 @@ class MigrantController {
       });
     }
   }
+
+  async delete(req, res) {
+    try {
+      await migrantService.delete(req.params.id);
+      return res.status(204).json();
+    } catch (error) {
+      if (error.message === 'migrant not found') {
+        return res.status(404).json({ error: 'migrant not found' });
+      }
+      return res.status(500).json({
+        message: 'server error',
+        error: error.message,
+      });
+    }
+  }
 }
 
 export default new MigrantController();
