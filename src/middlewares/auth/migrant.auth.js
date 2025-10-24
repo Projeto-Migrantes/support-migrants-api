@@ -23,7 +23,7 @@ export const loginMigrant = async (req, res) => {
         sub: migrant.id,
         email: migrant.email,
         full_name: migrant.full_name,
-        role: 'migrant',
+        role: 'migrant'
       },
       process.env.JWT_SECRET,
     );
