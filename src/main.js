@@ -5,14 +5,15 @@ import app from './config/express.config.js';
 
 const initializeDatabase = async () => {
   try {
-    await sequelize.authenticate;
-    logger.info('Database connection established successfully.', {
-      context: 'Database',
+    await sequelize.authenticate().then(() => {
+      logger.info('Database connection established successfully.', { context: 'Database' })
     });
+    
   } catch (error) {
     logger.error('Error establishing database connection', {
       context: 'Database',
     });
+    logger.error(error)
     process.exit(1);
   }
 };
