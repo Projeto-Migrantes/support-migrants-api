@@ -25,7 +25,7 @@ app.use(cors(corsOptions));
 app.use(helmet());
 app.use(limiter);
 
-app.use(authKey);
+// app.use(authKey);
 app.use('/api/v2', routes);
 
 const swaggerDocument = YAML.load(
