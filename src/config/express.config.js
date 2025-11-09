@@ -25,15 +25,6 @@ app.use(cors(corsOptions));
 app.use(helmet());
 app.use(limiter);
 
-app.use(authKey);
-app.use('/api/v2', routes);
-
-const swaggerDocument = YAML.load(
-  path.join(process.cwd(), 'src/docs', 'api-docs.yaml'),
-);
-
-// app.use('/api/v2/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
 app.get('/api/v2', (req, res) => {
   // const baseUrl = `${req.protocol}://${req.get('host')}`;
 
@@ -47,6 +38,15 @@ app.get('/api/v2', (req, res) => {
     documentation_url: `https://app.swaggerhub.com/apis-docs/projetomigrants-7a9/APIRestful/v2`,
   });
 });
+
+app.use(authKey);
+app.use('/api/v2', routes);
+
+const swaggerDocument = YAML.load(
+  path.join(process.cwd(), 'src/docs', 'api-docs.yaml'),
+);
+
+// app.use('/api/v2/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(errorHandler);
 app.use(notFoundHandler);
