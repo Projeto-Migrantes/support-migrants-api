@@ -11,6 +11,7 @@ const router = Router();
 router.get('/', verifyRole, institutionController.findAll);
 router.get('/search', verifyAdmin, institutionController.search);
 router.get('/count', verifyAdmin, institutionController.count);
+router.get('/check-email', verifyAdmin, institutionController.emailExist);
 router.get('/:id', validateID, verifyRole, institutionController.findById);
 router.get(
   '/category/:id',
@@ -25,7 +26,6 @@ router.post(
   institutionController.create,
 );
 router.patch('/:id', validateID, verifyAdmin, institutionController.update);
-router.get('/check-email', verifyAdmin, institutionController.emailExist);
 router.delete('/:id', verifyAdmin, institutionController.delete);
 
 export default router;

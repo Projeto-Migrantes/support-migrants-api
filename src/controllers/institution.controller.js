@@ -125,18 +125,22 @@ class InstitutionController {
 
   async emailExist(req, res) {
     try {
-      const emailExist = await institutionService.findByEmail(req.body.email);
-      if (emailExist) {
-        return res.json({ exists: true });
+      const { email } = req.query;
+      if (!email) {
+        return res.status(400).json({ message: "Email é obrigatório" });
       }
-      return res.json({ exists: false });
+
+      const emailExist = await institutionService.findByEmail(email);
+      return res.json({ exists: !!emailExist });
     } catch (error) {
+      console.error(error);
       return res.status(500).json({
-        message: 'server error',
+        message: "Erro interno no servidor",
         error: error.message,
       });
     }
   }
+
 
   async delete(req, res) {
     try {

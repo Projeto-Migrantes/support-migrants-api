@@ -95,6 +95,10 @@ class MigrantRepository {
       raw: true,
     });
   }
+
+  async existsEmail(email){
+    return await Migrant.findOne({ where: { email } });
+  }
 }
 
 export default new MigrantRepository();

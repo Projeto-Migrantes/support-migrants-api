@@ -22,22 +22,8 @@ export const createMigrantSchema = Joi.object({
     'any.required': 'date_of_birth is required',
   }),
 
-  phone_number: Joi.string()
-    .pattern(/^\+?[0-9]{10,15}$/)
-    .messages({
-      'string.pattern.base': 'phone_number must be a valid phone number',
-    })
-    .optional(),
-
-  crnm: Joi.string()
-    .pattern(/^[A-Z]\d{6}-\d$/)
-    .required()
-    .messages({
-      'string.base': 'crnm must be a string',
-      'string.pattern.base': 'crnm must be valid. Ex: A123456-7',
-      'string.empty': 'crnm is required',
-      'any.required': 'crnm is required',
-    }),
+  phone_number: Joi.string(),
+  crnm: Joi.string().length(9),
 
   password: Joi.string().min(8).required().messages({
     'string.base': 'password must be a string',
@@ -74,9 +60,7 @@ export const updateMigrantSchema = Joi.object({
   full_name: Joi.string().min(3).max(255),
   email: Joi.string().email(),
   date_of_birth: Joi.date().max('now'),
-  phone_number: Joi.string()
-    .pattern(/^\+?[0-9]{10,15}$/)
-    .allow(null, ''),
+  phone_number: Joi.string(),
   crnm: Joi.string().length(9),
   consent: Joi.boolean(),
   purpose: Joi.string(),

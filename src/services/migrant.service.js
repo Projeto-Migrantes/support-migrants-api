@@ -100,6 +100,29 @@ class MigrantService {
     }
   }
 
+  async updatePassword(password, id) {
+    const t = await sequelize.transaction();
+    try {
+      const migrantExists = await migrantRepository.findById(id);
+      if (!migrantExists) {
+        throw new Error('migrant not found');
+      }
+
+      const hashed = await createHash(password);
+
+      await migrantRepository.update({ password: hashed }, id, t);
+
+      await t.commit();
+
+      return true;
+    } catch (error) {
+      if (!t.finished) {
+        await t.rollback();
+      }
+      throw error;
+    }
+  }
+
   async checkIfDataExists(data) {
     const existingMigrant = await migrantRepository.checkIfDataExists(data);
 
@@ -135,6 +158,10 @@ class MigrantService {
     }
 
     return migrant;
+  }
+
+  async existsEmail(email){
+    return await migrantRepository.existsEmail(email);
   }
 }
 

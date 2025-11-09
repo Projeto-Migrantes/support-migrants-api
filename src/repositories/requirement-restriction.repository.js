@@ -15,8 +15,8 @@ class RequirementRestrictionRepository {
     );
   }
 
-  async update(data, id) {
-    return await RequirementRestriction.uupdate(data, {
+  async update(data, id, transaction) {
+    return await RequirementRestriction.update(data, {
       where: { institution_id: id },
       transaction,
     });

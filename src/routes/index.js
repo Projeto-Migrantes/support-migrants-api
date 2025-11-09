@@ -8,6 +8,7 @@ import formRoutes from './form.routes.js';
 import migrantManualRoutes from './migrant-manual.routes.js';
 import termRoutes from './term.routes.js';
 import adminRoutes from './admin.routes.js';
+import userRoutes from './user.routes.js';
 
 const router = Router();
 
@@ -20,5 +21,6 @@ router.use('/migrants', migrantRoutes);
 router.use('/migrant-manuals', migrantManualRoutes);
 router.use('/terms', termRoutes);
 router.use('/admins', adminRoutes);
+router.use('/users', userRoutes);
 
 export default router;

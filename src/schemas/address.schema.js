@@ -38,7 +38,7 @@ export const createAddressSchema = Joi.object({
     .required()
     .messages(messages.postal_code),
   city: Joi.string().min(3).max(150).required().messages(messages.city),
-  state: Joi.string().min(3).max(150).required().messages(messages.state),
+  state: Joi.string().min(2).max(150).required().messages(messages.state),
   neighborhood: Joi.string()
     .min(3)
     .max(300)
@@ -53,7 +53,7 @@ export const updateAddressSchema = Joi.object({
     .optional()
     .messages(messages.postal_code),
   city: Joi.string().min(3).max(150).optional().messages(messages.city),
-  state: Joi.string().min(3).max(150).optional().messages(messages.state),
+  state: Joi.string().min(2).max(150).optional().messages(messages.state),
   neighborhood: Joi.string()
     .min(3)
     .max(300)
