@@ -25,6 +25,10 @@ app.use(cors(corsOptions));
 app.use(helmet());
 app.use(limiter);
 
+app.get('/', (req, res) => {
+  res.redirect('/api/v2');
+});
+
 app.get('/api/v2', (req, res) => {
   // const baseUrl = `${req.protocol}://${req.get('host')}`;
 
