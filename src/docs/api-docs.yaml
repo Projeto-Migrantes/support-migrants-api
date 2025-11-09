@@ -1151,35 +1151,31 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse500'
 
   # --- Migrant Paths ---
-  /migrants/profile/{id}:
+  /migrants/profile:
     get:
       tags:
         - Migrants
-      summary: Get Migrant Profile by ID
-      description: Retrieves the profile of a specific migrant. Migrants can view their own profile, Admins can view any. Requires JWT.
+      summary: Get Migrant Profile (from token)
+      description: >
+        Retrieves the profile of the currently authenticated migrant.
+        The migrant ID is extracted from the JWT token in the Authorization header.
+        Admins can still use this endpoint to view their own authenticated profile.
       security:
-        - ApiKeyAuth: []
-          BearerAuth: [] # verifyRole
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: Migrant ID.
-          schema:
-            type: integer
+        - BearerAuth: []  # JWT token required
+      parameters: []
       responses:
         '200':
           description: Migrant profile data.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MigrantResponse' # Direct response, no 'data' wrapper in controller
+                $ref: '#/components/schemas/MigrantResponse'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         '403':
           $ref: '#/components/responses/ForbiddenError'
         '404':
-          $ref: '#/components/responses/NotFoundError' # if migrant not found
+          $ref: '#/components/responses/NotFoundError'
         '500':
           $ref: '#/components/responses/InternalServerError'
   /migrants/check-email:

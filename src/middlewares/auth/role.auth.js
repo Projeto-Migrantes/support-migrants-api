@@ -13,7 +13,7 @@ export const verifyRole = (req, res, next) => {
       return res.status(403).json({ message: 'unauthorized' });
     }
 
-    if (user.role !== 'migrant' && user.role !== 'admin') {
+    if (user.role !== 'migrant'&& user.role !== 'admin') {
       return res.status(403).json({ message: 'unauthorized' });
     }
 

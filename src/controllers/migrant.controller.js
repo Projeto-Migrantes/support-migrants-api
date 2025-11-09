@@ -16,7 +16,7 @@ class MigrantController {
 
   async profile(req, res) {
     try {
-      const migrant = await migrantService.findById(req.params.id);
+      const migrant = await migrantService.findById(req.user.sub);
 
       if (migrant.id !== req.user.sub && req.user.role !== 'admin') {
         return res.status(403).json({ message: 'unauthorized' });

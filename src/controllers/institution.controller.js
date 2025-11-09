@@ -32,9 +32,9 @@ class InstitutionController {
   async findByCategory(req, res) {
     try {
       let institutions;
-      const id = req.params.id;
+      const id = parseInt(req.params.id);
 
-      if (!id) {
+      if (id === 0 || !id) { 
         institutions = await institutionService.findAll();
       } else {
         institutions = await institutionService.findAllByCategory(id);
@@ -42,7 +42,7 @@ class InstitutionController {
 
       return res.status(200).json({ data: institutions });
     } catch (error) {
-      if (error.error === 'institutions not found with this category') {
+      if (error.message === 'institutions not found with this category') {
         return res
           .status(404)
           .json({ error: 'institutions not found with this category' });
